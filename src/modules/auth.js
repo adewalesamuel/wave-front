@@ -13,8 +13,13 @@ const setSessionToken = token => {
     localStorage.setItem('sessionToken', token)
 }
 
+const removeSessionToken = () => {
+    localStorage.removeItem('sessionToken');
+}
+
 export const Auth = {
     isLoggedIn,
     getSessionToken,
-    setSessionToken
+    setSessionToken,
+    removeSessionToken
 }

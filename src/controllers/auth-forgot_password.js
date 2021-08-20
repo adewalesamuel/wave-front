@@ -34,6 +34,10 @@ export class ForgotPassword extends React.Component {
         });
     }
 
+    resetEmailInput = () => {
+        this.setState({email: ""});
+    }
+
     setFormDisabled = (event, val=true) => {
         event.target.disabled = val;
         this.setState({formDisabled: val})
@@ -84,6 +88,7 @@ export class ForgotPassword extends React.Component {
             this.setFormDisabled(event, false);
             this.setForgotPasswordSuccess(`A mail was sent to the address 
             ${this.state.email}. Check your email to reset your password.`);
+            this.resetEmailInput();
         })
         .catch(response => {
             this.handleforgotPasswordError(response);

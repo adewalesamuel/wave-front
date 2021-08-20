@@ -1,3 +1,5 @@
+import './../../app-assets/css/pages/authentication.css';
+
 export function Auth(props) {
     return (
         <div className="app-content content">

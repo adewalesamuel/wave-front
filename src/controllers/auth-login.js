@@ -98,8 +98,7 @@ export class Login extends React.Component {
             <Pages.Auth.Login 
             {...this.props} 
             state={this.state} 
-            methods={this.methods}
-            />
+            methods={this.methods} />
         )
     }
 }

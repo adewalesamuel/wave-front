@@ -2,7 +2,7 @@ import { Auth } from './layouts/auth';
 import { Auth as AuthRoute } from './routes/auth';
 import { Login } from './forms/login';
 import { ForgotPassword } from './forms/forgot-password';
-import './../app-assets/css/pages/authentication.css';
+import { ResetPassword } from './forms/reset-password';
 import { ErrorMessageText } from './error-message-text';
 import { SuccessMessageText } from './success-message-text';
 
@@ -15,7 +15,8 @@ export const Components = {
     },
     Forms: {
         Login,
-        ForgotPassword
+        ForgotPassword,
+        ResetPassword
     },
     ErrorMessageText,
     SuccessMessageText

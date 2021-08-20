@@ -1,8 +1,4 @@
-import { 
-    Route, 
-    Switch,
-    Redirect 
-} from "react-router-dom";
+import { Route, Switch,Redirect } from "react-router-dom";
 import { Components } from "..";
 import { Controllers } from "../../controllers";
 
@@ -14,6 +10,7 @@ export function Auth({ match: { path } }) {
             <Switch>
                 <Route exact path={`${path}/login`} component={Controllers.Auth.Login} />
                 <Route exact path={`${path}/forgot-password`} component={Controllers.Auth.ForgotPassword} />
+                <Route exact path={`${path}/reset-password`} component={Controllers.Auth.ResetPassword} />
                 <Redirect exact from={path + "/"} to={`${path}/login`} />
             </Switch>
         </Components.Layouts.Auth>
