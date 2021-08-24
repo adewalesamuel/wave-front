@@ -94,6 +94,39 @@ export class ForgotPassword extends React.Component {
             this.handleforgotPasswordError(response);
             this.setFormDisabled(event, false)
         });
+        this.forgotPassword()
+        .then(res => {
+            this.setFormDisabled(event, false);
+            this.setForgotPasswordSuccess(`A mail was sent to the address 
+            ${this.state.email}. Check your email to reset your password.`);
+            this.resetEmailInput();
+        })
+        .catch(response => {
+            this.handleforgotPasswordError(response);
+            this.setFormDisabled(event, false)
+        });
+        this.forgotPassword()
+        .then(res => {
+            this.setFormDisabled(event, false);
+            this.setForgotPasswordSuccess(`A mail was sent to the address 
+            ${this.state.email}. Check your email to reset your password.`);
+            this.resetEmailInput();
+        })
+        .catch(response => {
+            this.handleforgotPasswordError(response);
+            this.setFormDisabled(event, false)
+        });
+        this.forgotPassword()
+        .then(res => {
+            this.setFormDisabled(event, false);
+            this.setForgotPasswordSuccess(`A mail was sent to the address 
+            ${this.state.email}. Check your email to reset your password.`);
+            this.resetEmailInput();
+        })
+        .catch(response => {
+            this.handleforgotPasswordError(response);
+            this.setFormDisabled(event, false)
+        });
     }
 
     render() {

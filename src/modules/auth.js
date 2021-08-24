@@ -3,7 +3,7 @@ const getSessionToken = () => {
 }
 
 const isLoggedIn = () => {
-    if (getSessionToken() === '' || getSessionToken === undefined)
+    if (getSessionToken() === '' || !getSessionToken())
         return false;
 
     return true;

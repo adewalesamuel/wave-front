@@ -1,4 +1,4 @@
-import {get, post, put, erase} from './api';
+import { post } from './api';
 
 const  ENPOINTS = {
     LOGIN: 'login',

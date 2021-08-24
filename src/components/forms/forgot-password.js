@@ -1,10 +1,10 @@
 export function ForgotPassword({methods, state}) {
     return (
-        <form className="mb-2"  className={state.formDisabled ? "disabled" : ''} 
+        <form className={state.formDisabled ? "disabled" : ''} 
         onSubmit={methods.onHandleSubmit}>
             <div className="form-group mb-2">
                 <label className="text-bold-600" htmlFor="email">Email</label>
-                <input disabled={state.formDisabled} type="text" 
+                <input disabled={state.formDisabled} type="email" 
                 className="form-control" id="email" name="email"
                 value={state.email} required placeholder="Email" onChange={methods.onHandleChange} />
             </div>

@@ -86,7 +86,9 @@ export class ResetPassword extends React.Component {
 
     handleResetPasswordError = response => {
         if (response.status >= 500)
-            this.setResetPasswordError("An unexpected error occured " + response.statusText);
+            return this.setResetPasswordError("An unexpected error occured " + response.statusText);
+        if (response.status >= 400)
+            return this.setResetPasswordError("Could not reset password. Invalid token");
     }
     
     onHandleChange(event) {

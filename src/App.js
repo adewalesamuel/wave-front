@@ -4,7 +4,6 @@ import {
   Route, 
   Switch 
 } from 'react-router-dom';
-import { Pages } from "./pages/index.js";
 import { Components } from "./components";
 import './app-assets/vendors/css/vendors.min.css';
 import './app-assets/css/bootstrap.css';
@@ -21,7 +20,7 @@ class App extends React.Component {
      <BrowserRouter>
       <Switch>
         <Route path="/auth" render={Components.Routes.Auth} />
-        <Route exact path="/" component={Pages.Root} />
+        <Route exact path="/" component={Components.Routes.Main} />
       </Switch>
      </BrowserRouter>
     );

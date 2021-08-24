@@ -388,4 +388,27 @@ $(document).ready(function () {
     })
   });
 
+  $('#logoutBtn').on('click', function () {
+    Swal.fire({
+      title: "You are logging out",
+      text: "Are you sure you want to loggout ?",
+      type: 'warning',
+      showCancelButton: true,
+      allowOutsideClick: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Log out!',
+      confirmButtonClass: 'btn btn-warning',
+      cancelButtonClass: 'btn btn-danger ml-1',
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        return true;
+      }
+      else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false;
+      }
+    })
+  });
+
 });

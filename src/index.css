@@ -14,6 +14,10 @@ code {
     monospace;
 }
 
+* [role=button] {
+  cursor: pointer;
+}
+
 .error-message {
   min-height: 22px;
 }

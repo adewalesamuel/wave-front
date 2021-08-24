@@ -3,7 +3,7 @@ import { Components } from "..";
 import { Controllers } from "../../controllers";
 
 export function Auth({ match: { path } }) {
-    const document = window.document || window.document.documentElement;
+    const document = window.document;
     document.body.className = "horizontal-layout horizontal-menu navbar-sticky 1-column footer-static bg-full-screen-image blank-page blank-page pace-done";
     return(
         <Components.Layouts.Auth>
