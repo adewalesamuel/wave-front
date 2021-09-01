@@ -2,6 +2,7 @@ import { Modules } from "../modules";
 
 const URL = 'http://127.0.0.1';
 const PORT = '8000';
+const API_URL = process.env.REACT_APP_API_URL ?? `${URL}:${PORT}`;
 const ROOT_PATH  = '/api' 
 const HEADERS = new Headers({
     'Content-type': 'application/json',
@@ -12,7 +13,7 @@ const HEADERS = new Headers({
 
 export const get = (endpoint, signal=new AbortController().signal) => {
     return new Promise((resolve, reject) => {
-        fetch(`${URL}:${PORT}${ROOT_PATH}/${endpoint}`, {
+        fetch(`${API_URL}${ROOT_PATH}/${endpoint}`, {
             headers:HEADERS,
             signal
         })
@@ -31,7 +32,7 @@ export const get = (endpoint, signal=new AbortController().signal) => {
 
 export const post = (endpoint, payload="", signal=new AbortController().signal) => {
     return new Promise((resolve, reject) => {
-        fetch(`${URL}:${PORT}${ROOT_PATH}/${endpoint}`,
+        fetch(`${API_URL}${ROOT_PATH}/${endpoint}`,
         {
             method:"post", 
             headers:HEADERS, 
@@ -53,7 +54,7 @@ export const post = (endpoint, payload="", signal=new AbortController().signal) 
 
 export const put = (endpoint, payload="", signal=new AbortController().signal) => {
    return new Promise((resolve, reject) => {
-        fetch(`${URL}:${PORT}${ROOT_PATH}/${endpoint}`,
+        fetch(`${API_URL}${ROOT_PATH}/${endpoint}`,
         {
             method:"put", 
             headers:HEADERS, 
@@ -75,7 +76,7 @@ export const put = (endpoint, payload="", signal=new AbortController().signal) =
 
 export const erase = (endpoint, payload="", signal=new AbortController().signal) => {
     return new Promise((resolve, reject) => {
-        fetch(`${URL}:${PORT}${ROOT_PATH}/${endpoint}`,
+        fetch(`${API_URL}${ROOT_PATH}/${endpoint}`,
         {
             method:"delete", 
             headers:HEADERS, 

@@ -12,11 +12,11 @@ const create = (payload, signal) => {
     return post(ENPOINTS.USER, payload, signal)
 }
 
-const update = (payload, signal) => {
-    return put(ENPOINTS.USER, payload, signal)
+const update = (id, payload, signal) => {
+    return put(`${ENPOINTS.USER}/${id}`, payload, signal)
 }
-const destroy = (payload, signal) => {
-    return erase(ENPOINTS.USER, payload, signal)
+const destroy = (id, signal) => {
+    return erase(`${ENPOINTS.USER}/${id}`, signal)
 }
 
 export const User = {

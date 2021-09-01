@@ -18,7 +18,7 @@ export function Table(props) {
         })
     }
 
-    function renderTableData(data) {
+    function renderTableData(data, dataIndex=0) {
         let tableCells = [];
 
         for (const key in data)  {
@@ -31,11 +31,11 @@ export function Table(props) {
 
         let actions = props.tableActions.map((item, index) => {
             if (item === "edit")
-                return <a key={Math.random()} role="button" onClick={props.methods.onHandleEditClick ?? null} ><i className="bx bx-edit-alt"></i></a>;
+                return <a key={Math.random()} data-index={dataIndex} role="button" onClick={props.methods.onHandleEditClick ?? null} ><i className="bx bx-edit-alt"></i></a>;
             if (item === "info")
-                return <a key={Math.random()} role="button" onClick={props.methods.onHandleInfoClick ?? null}><i className="bx bx-show-alt"></i></a>;
+                return <a key={Math.random()} data-index={dataIndex} className="ml-1" role="button" onClick={props.methods.onHandleInfoClick ?? null}><i className="bx bx-show-alt"></i></a>;
             if (item === "delete")
-                return <a key={Math.random()} role="button" onClick={props.methods.onHandleDeleteClick ?? null}><i className="bx bx-bin-alt"></i></a>;
+                return <a key={Math.random()} data-index={dataIndex} className="ml-1" role="button" onClick={props.methods.onHandleDeleteClick ?? null}><i className="bx bxs-trash"></i></a>;
         });
 
         tableCells.push(
@@ -54,7 +54,7 @@ export function Table(props) {
         return props.tableData.map((item,index) => {
             return(
                 <tr key={index * Math.random()}>
-                    { renderTableData(item) }
+                    { renderTableData(item, index) }
                 </tr>
             )
         })
