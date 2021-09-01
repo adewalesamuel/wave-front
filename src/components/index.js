@@ -5,11 +5,14 @@ import {Main as MainRoute} from './routes/main';
 import { Login } from './forms/login';
 import { ForgotPassword } from './forms/forgot-password';
 import { ResetPassword } from './forms/reset-password';
+import { User } from './forms/user';
 import { ErrorMessageText } from './error-message-text';
 import { SuccessMessageText } from './success-message-text';
 import { Header } from './header';
 import { MainMenu } from './main-menu';
 import { PrivateRoute } from './private-route';
+import { Table } from './table';
+import { Modal } from './modal';
 
 export const Components = {
     Layouts: {
@@ -23,11 +26,14 @@ export const Components = {
     Forms: {
         Login,
         ForgotPassword,
-        ResetPassword
+        ResetPassword,
+        User
     },
     ErrorMessageText,
     SuccessMessageText,
     PrivateRoute,
     Header,
-    MainMenu
+    MainMenu,
+    Table,
+    Modal
 }

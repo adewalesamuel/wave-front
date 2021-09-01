@@ -20,7 +20,7 @@ class App extends React.Component {
      <BrowserRouter>
       <Switch>
         <Route path="/auth" render={Components.Routes.Auth} />
-        <Route exact path="/" component={Components.Routes.Main} />
+        <Route path="*" component={Components.Routes.Main} />
       </Switch>
      </BrowserRouter>
     );

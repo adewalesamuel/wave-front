@@ -1,7 +1,6 @@
 import logoImg from '../app-assets/images/logo/logo.png' 
 
 export function MainMenu(props) {
-    console.log(props)
     return(
         <div className="header-navbar navbar-expand-sm navbar navbar-horizontal navbar-fixed navbar-light navbar-without-dd-arrow" 
         role="navigation" data-menu="menu-wrapper">

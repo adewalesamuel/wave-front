@@ -10,12 +10,10 @@ export class Login extends React.Component {
         this.abortController = new AbortController();
         this.history = window.location;
         this.location = this.props.location;
-        this.onHandleChange = this.onHandleChange.bind(this);
-        this.onHandleSubmit = this.onHandleSubmit.bind(this);
 
         this.methods = {
-            onHandleChange: this.onHandleChange,
-            onHandleSubmit: this.onHandleSubmit
+            onHandleChange: this.onHandleChange.bind(this),
+            onHandleSubmit: this.onHandleSubmit.bind(this)
         };
         this.state = {
             loginError: "",

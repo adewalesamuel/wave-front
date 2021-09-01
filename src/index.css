@@ -18,6 +18,10 @@ code {
   cursor: pointer;
 }
 
+.app-content {
+ padding-top: 60px !important;
+}
+
 .error-message {
   min-height: 22px;
 }
@@ -28,4 +32,8 @@ code {
 
 form.disabled {
   opacity: 0.6;
+}
+
+.modal {
+  background-color: rgba(0,0,0,0.1);
 }

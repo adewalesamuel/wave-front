@@ -9,10 +9,9 @@ class HeaderController extends React.Component {
 
         this.$Swal = window.Swal;
         this.history = this.props.history;
-        this.onHandleLogoutClick = this.onHandleLogoutClick.bind(this);
 
         this.methods = {
-            onHandleLogoutClick: this.onHandleLogoutClick
+            onHandleLogoutClick: this.onHandleLogoutClick.bind(this)
         }
         this.state = {};
     }
