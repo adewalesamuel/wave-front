@@ -51,7 +51,11 @@ export function User({state, methods}) {
                     </div>
                     <div className="col-6">
                         <div className="form-group">
-                            <label htmlFor="role-vertical">Role</label>
+                            <label htmlFor="role-vertical">
+                                Role <span onClick={methods.onHandleCreateRoleClick} role="button" 
+                                className="bx bxs-plus-circle" style={{transform: "translateY(3px)"}} 
+                                title="Add new role"></span> 
+                            </label>
                             <fieldset className="form-group">
                                 <select className="custom-select" id="customSelect" value={state.role ?? ""}
                                 onChange={methods.onHandleChange} name="role_id">

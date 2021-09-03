@@ -67,8 +67,18 @@ export function User(props) {
                 isHidden={props.state.isUserModalHidden ?? true}
                 closeModal={props.methods.onHandleModalCloseClick}
                 isDisabled={props.state.formDisabled}
-                confirmModal={props.methods.onHandleSubmit}>
+                confirmModal={props.methods.onHandleSubmit}
+                modalTitle={props.state.userModalTitle}>
                 <Components.Forms.User {...props} />
+                <Components.Modal
+                    isHidden={props.state.isRoleModalHidden ?? true}
+                    closeModal={props.methods.onHandleRoleModalCloseClick}
+                    isDisabled={props.state.roleFormDisabled}
+                    confirmModal={props.methods.onHandleRoleSubmit}
+                    modalTitle="Add role"
+                    modalSize="modal-sm">
+                    <Components.Forms.Role {...props} />
+                </Components.Modal>
             </Components.Modal>
         </section>
     )

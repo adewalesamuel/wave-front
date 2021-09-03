@@ -16,7 +16,7 @@
                                     </div>
                                     <div className="card-content">
                                         <div className="card-body">
-                                            <Components.ErrorMessageText>
+                                            <Components.ErrorMessageText style={{minHeight: "22px"}}>
                                                 {props.state.loginError ?? ''}
                                             </Components.ErrorMessageText>
                                             <Components.Forms.Login {...props} />

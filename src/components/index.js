@@ -6,6 +6,7 @@ import { Login } from './forms/login';
 import { ForgotPassword } from './forms/forgot-password';
 import { ResetPassword } from './forms/reset-password';
 import { User } from './forms/user';
+import { Role } from './forms/role';
 import { ErrorMessageText } from './error-message-text';
 import { SuccessMessageText } from './success-message-text';
 import { Header } from './header';
@@ -27,7 +28,8 @@ export const Components = {
         Login,
         ForgotPassword,
         ResetPassword,
-        User
+        User,
+        Role
     },
     ErrorMessageText,
     SuccessMessageText,

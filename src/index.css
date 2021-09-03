@@ -22,10 +22,6 @@ code {
  padding-top: 60px !important;
 }
 
-.error-message {
-  min-height: 22px;
-}
-
 .error-message small {
   font-weight: bold;
 }  

@@ -1,11 +1,12 @@
 export function Modal(props) {
     return(
-        <div className="modal" id="userModal" tabIndex="-1" role="dialog" aria-labelledby="userModalTitle" 
+        <div className="modal" tabIndex="-1" role="dialog" aria-labelledby="modalTitle" 
             aria-hidden="true" style={{display: props.isHidden ? "none": "block" }} >
-            <div className="modal-dialog modal-dialog-scrollable" role="document">
+            <div className={`${props.modalSize ?? ''} modal-dialog modal-dialog-centered modal-dialog-scrollable`} 
+            role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="userModalTitle">Scrolling long Content</h5>
+                        <h5 className="modal-title" id="modalTitle">{props.modalTitle ?? ""}</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close"
                             onClick={props.closeModal}>
                             <i className="bx bx-x"></i>
