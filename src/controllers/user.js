@@ -190,6 +190,7 @@ export class User extends React.Component {
 
     setInputValue = event => {
         let inputName = event.target.name;
+
         if (inputName.includes('role_id')) inputName = 'role';
         this.setState({
             [inputName]: event.target.value
@@ -321,7 +322,7 @@ export class User extends React.Component {
             lastname: user.lastname,
             tel: user.tel,
             email: user.email,
-            role: this.state.roleData.find(item => item.id === user.role_id).name,
+            role: this.state.roleData.find(item => item.id === parseInt(user.role_id)).name,
             created_at: new Date(user.created_at).toLocaleDateString('en')
         }
         this.setState((state) => {
@@ -356,7 +357,7 @@ export class User extends React.Component {
         userTableDataCopy[userTableIndex]['lastname'] = user.lastname;
         userTableDataCopy[userTableIndex]['tel'] = user.tel;
         userTableDataCopy[userTableIndex]['email'] = user.email;
-        userTableDataCopy[userTableIndex]['role'] = this.state.roleData.find(role => role.id === user.role_id).name;
+        userTableDataCopy[userTableIndex]['role'] = this.state.roleData.find(role => role.id === parseInt(user.role_id)).name;
 
         let userDataCopy = [...this.state.userData];
 
