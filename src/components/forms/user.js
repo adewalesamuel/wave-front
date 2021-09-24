@@ -2,7 +2,7 @@ import { Components } from ".."
 
 export function User({state, methods}) {
     return (
-        <form className="form form-vertical" className={state.formDisabled ? "disabled" : ''}
+        <form className={`form form-vertical ${state.roleFormDisabled ? "disabled" : ''}`}
         onSubmit={methods.onHandleSubmit}>
             <Components.ErrorMessageText>
                 {state.userErrorMessage ?? ''}

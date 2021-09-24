@@ -1,4 +1,4 @@
-import { erase, post, put, get } from './api';
+import { get } from './api';
 
 const  ENPOINTS = {
     PERMISSION: 'permissions',

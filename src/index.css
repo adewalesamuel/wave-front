@@ -33,3 +33,51 @@ form.disabled {
 .modal {
   background-color: rgba(0,0,0,0.1);
 }
+
+button.link {
+  color: white;
+  background: none;
+  border: none;
+  outline: none;
+  display: inline-block;
+}
+
+button.dropdown-item:active {
+  color: inherit;
+}
+
+button.user-link {
+  padding: 0.9rem 1.25rem 0.9rem 1rem;
+  display: flex;
+  align-items: center;
+}
+
+button.user-link .user-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  float: left;
+  margin-right: 0.8rem;
+}
+
+button.link .ficon {
+  color: white !important;
+}
+
+button.link .bx {
+  font-size: 1.78rem;
+  margin: 0;
+  vertical-align: middle;
+}
+
+button.link .bx-small {
+  font-size: 1.3rem;
+}
+
+.react-nav-link {
+  padding-right: .85rem;
+  padding-left: .85rem;
+  display: flex;
+  align-items: center;
+}
+

@@ -24,7 +24,8 @@ export function Main(props) {
                     <span className="float-left d-inline-block">2021 &copy; WAVE PLANTVILLAGE</span>
                     <span className="float-right d-sm-inline-block d-none">
                         Crafted with<i className="bx bxs-heart pink mx-50 font-small-3"></i>by
-                        <a className="text-uppercase" href="https://epistrophe.ci" target="_blank">
+                        <a className="text-uppercase" href="https://epistrophe.ci" target="_blank"
+                        rel="noreferrer">
                             Epistrophe
                         </a>
                     </span>

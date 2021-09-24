@@ -18,15 +18,19 @@ export const get = (endpoint, signal=new AbortController().signal) => {
             signal
         })
         .then(response => {
-            if (!response.ok)
-               return reject(response);
+            if (!response.ok) {
+                return reject({
+                    status: response.status,
+                    messages: getResponseErrors(response)
+                 });
+            }
 
             return response.json();
         })
         .then(result => {
             resolve(result)
         })
-        .catch(err => reject(err))
+        .catch(error => reject(error))
     })
 }
 
@@ -40,15 +44,19 @@ export const post = (endpoint, payload="", signal=new AbortController().signal) 
             signal
         })
         .then(response => {
-            if (!response.ok)
-               return reject(response);
+            if (!response.ok) {
+                return reject({
+                    status: response.status,
+                    messages: getResponseErrors(response)
+                 });
+            }
 
             return response.json();
         })
         .then(result => {
             resolve(result)
         })
-        .catch(err => reject(err))
+        .catch(error => reject(error))
     })
 }
 
@@ -62,15 +70,19 @@ export const put = (endpoint, payload="", signal=new AbortController().signal) =
             signal
         })
         .then(response => {
-            if (!response.ok)
-               return reject(response);
+            if (!response.ok) {
+                return reject({
+                    status: response.status,
+                    messages: getResponseErrors(response)
+                 });
+            } 
 
             return response.json();
         })
         .then(result => {
             resolve(result)
         })
-        .catch(err => reject(err))
+        .catch(error => reject(error))
     })
 }
 
@@ -84,14 +96,36 @@ export const erase = (endpoint, payload="", signal=new AbortController().signal)
             signal
         })
         .then(response => {
-            if (!response.ok)
-               return reject(response);
+            if (!response.ok) {
+                return reject({
+                    status: response.status,
+                    messages: getResponseErrors(response)
+                 });
+            }
 
             return response.json();
         })
         .then(result => {
             resolve(result)
         })
-        .catch(err => reject(err))
+        .catch(error => reject(error))
+    })
+}
+
+const getResponseErrors = response => {
+    return new Promise((resolve, reject) => {
+        if (!response)
+            reject("");
+        
+        response.json().then(result => {
+            let errorMessages = [];
+    
+            errorMessages.push(result.message);
+    
+            for (let error in result.errors) 
+                errorMessages.push(result.errors[error]);
+
+            resolve(errorMessages);
+        });    
     })
 }

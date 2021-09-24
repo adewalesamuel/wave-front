@@ -390,7 +390,7 @@
   .horizontal-layout .header-navbar .navbar-container .bookmark-wrapper .menu-toggle {
     top: 2px;
   }
-  .horizontal-layout .header-navbar .navbar-container a.nav-link-expand {
+  .horizontal-layout .header-navbar .navbar-container button.nav-link-expand {
     padding: 1.2rem 0.75rem 1.15rem 0.75rem !important;
   }
 }
@@ -405,6 +405,12 @@
   .horizontal-layout .header-navbar .navbar-container {
     padding-left: 1rem !important;
     padding-right: 0.2rem !important;
+    width: 100%;
+  }
+
+  .navbar-nav {
+    flex-direction: row;
+    flex-wrap: nowrap;
   }
 }
 

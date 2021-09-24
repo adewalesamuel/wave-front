@@ -399,19 +399,19 @@ export class User extends React.Component {
         })
     }
 
-    handleUserError = response => {
-       if (response.status >= 400)
-            this.setUserErrorMessage(`An error occured! Check if the form 
-            was correctly registered or if the user already exist.`) 
+    handleUserError = async (error) => {
+        let errorMessages = await error.messages;
+        this.setUserErrorMessage(errorMessages ?? error);
     }
 
-    handleRoleError = response => {
-        if (response.status >= 400)
-             this.setRoleErrorMessage(`An error occured! Check if the form 
-             was correctly registered or if the role already exist.`) 
+    handleRoleError = async (error) => {
+        let errorMessages = await error.messages;
+        this.setRoleErrorMessage(errorMessages ?? error);
      }
 
     showUserDeleteAlert = self => {
+        if (!self.$Swal) return
+
         self.$Swal.fire({
             title: "You're about to delete a user",
             text: "Are you sure you want to delete this user",
@@ -470,8 +470,11 @@ export class User extends React.Component {
     onHandleEditClick(event) {
         const dataIndex = event.target.parentElement.getAttribute('data-index');
         const user = this.state.userData[dataIndex];
+        
+        if (!user || user === undefined)
+            return
 
-        this.setUserModalTitle("Edit user")
+        this.setUserModalTitle("Edit user");
         this.setIsEditingUser();
         this.fillUserForm(user);
         this.setIsUserModalHidden(false);

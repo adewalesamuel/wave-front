@@ -31,11 +31,25 @@ export function Table(props) {
 
         let actions = props.tableActions.map((item, index) => {
             if (item === "edit")
-                return <a key={Math.random()} data-index={dataIndex} role="button" onClick={props.methods.onHandleEditClick ?? null} ><i className="bx bx-edit-alt"></i></a>;
+                return (
+                    <button key={Math.random()} data-index={dataIndex} className="link" 
+                    onClick={props.methods.onHandleEditClick ?? null} >
+                        <i className="bx bx-edit-alt text-primary bx-small"></i>
+                    </button>
+                );
             if (item === "info")
-                return <a key={Math.random()} data-index={dataIndex} className="ml-1" role="button" onClick={props.methods.onHandleInfoClick ?? null}><i className="bx bx-show-alt"></i></a>;
+                return (
+                <button key={Math.random()} data-index={dataIndex} className="ml-1 link" 
+                onClick={props.methods.onHandleInfoClick ?? null}>
+                    <i className="bx bx-show-alt text-primary bx-small"></i>
+                </button>);
             if (item === "delete")
-                return <a key={Math.random()} data-index={dataIndex} className="ml-1" role="button" onClick={props.methods.onHandleDeleteClick ?? null}><i className="bx bxs-trash"></i></a>;
+                return (
+                <button key={Math.random()} data-index={dataIndex} className="ml-1 link" 
+                onClick={props.methods.onHandleDeleteClick ?? null}>
+                    <i className="bx bxs-trash text-danger bx-small"></i>
+                </button>);
+            return null;
         });
 
         tableCells.push(

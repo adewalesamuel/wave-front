@@ -2,7 +2,7 @@ import { Components } from ".."
 
 export function Role({state, methods}) {
     return (
-        <form className="form form-vertical" className={state.roleFormDisabled ? "disabled" : ''}
+        <form className={`form form-vertical ${state.roleFormDisabled ? "disabled" : ''}`}
         onSubmit={methods.onHandleRoleSubmit ?? null}>
             <Components.ErrorMessageText>
                 {state.roleErrorMessage ?? ''}

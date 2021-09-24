@@ -26,6 +26,8 @@ class HeaderController extends React.Component {
     }
 
     showLogoutAlert = self => {
+        if (!self.$Swal) return
+        
         self.$Swal.fire({
             title: "You are logging out",
             text: "Are you sure you want to loggout ?",
