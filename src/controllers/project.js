@@ -8,6 +8,8 @@ export class Project extends React.Component {
         super(props);
 
         this.abortController = new AbortController();
+        this.$ = window.$;
+        this.$Swal = window.Swal;
         this.history = this.props.history;
 
         this.methods = {
@@ -15,7 +17,8 @@ export class Project extends React.Component {
             handleChange: this.handleChange.bind(this),
             handleModalCloseClick: this.handleModalCloseClick.bind(this),
             handleSelectMultipleChange: this.handleSelectMultipleChange.bind(this),
-            handleSubmit: this.handleSubmit.bind(this)
+            handleSubmit: this.handleSubmit.bind(this),
+            handleDeleteClick: this.handleDeleteClick.bind(this)
         };
         this.state = {
             projectModalTitle: "Add new project",
@@ -116,6 +119,15 @@ export class Project extends React.Component {
         });
     }
 
+    handleDeleteClick(event) {
+        const dataDiff = this.state.projectTableData.length - this.state.projectData.length;
+        const dataIndex = event.target.parentElement.getAttribute('data-index') - dataDiff;
+        const project = this.state.projectData[dataIndex];
+
+        this.setProjectId(project.id);
+        this.showProjectDeleteAlert(this);
+    }
+
     handleSelectMultipleChange(event) {
         this.setSelectMultupleValue(event);
     }
@@ -141,6 +153,13 @@ export class Project extends React.Component {
             )
     }
 
+    deleteProject = (self) => {
+        return Services.Project.destroy(
+            self.state.id, 
+            self.abortController.signal
+            )
+    }
+
     appendProjectData = project => {
         const payload = {
             id: project.id,
@@ -157,6 +176,58 @@ export class Project extends React.Component {
                 projectData: [project, ...prevState.projectData]
             }
         });
+    }
+
+    removeProjectData = project => {
+        let projectTableIndex;
+
+        this.state.projectTableData.forEach((item, index) => {
+            if (project.id === item['id'])
+                projectTableIndex = index
+        });
+
+        let projectTableDataCopy = [...this.state.projectTableData];
+        let projectDataCopy = [...this.state.projectData];
+
+        projectDataCopy.splice(projectTableIndex,1);
+        projectTableDataCopy.splice(projectTableIndex,1);
+
+        this.setState({
+            projectTableData: [...projectTableDataCopy],
+            projectData: [...projectDataCopy],
+        });
+    }
+
+    showProjectDeleteAlert = self => {
+        if (!self.$Swal) return
+
+        self.$Swal.fire({
+            title: "You're about to delete a project",
+            text: "Are you sure you want to delete this project",
+            type: 'warning',
+            showCancelButton: true,
+            allowOutsideClick: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete project!',
+            confirmButtonClass: 'btn btn-warning',
+            cancelButtonClass: 'btn btn-danger ml-1',
+            buttonsStyling: false,
+        }).then(function (result) {
+            if (result.value) {
+                self.deleteProject(self)
+                .then(res => {
+                    self.removeProjectData(res.data.project);
+                    self.resetProjectForm();
+                })
+                .catch(response => {
+                    console.log(response);
+                });
+            }
+            else if (result.dismiss === self.$Swal.DismissReason.cancel) {
+                return false;
+            }
+        })
     }
 
     resetProjectForm = () => {
@@ -211,6 +282,10 @@ export class Project extends React.Component {
 
     setStatus = status => {
         this.setState({status})
+    }
+
+    setProjectId = id => {
+        this.setState({id});
     }
 
     setdefaultDates = () => {

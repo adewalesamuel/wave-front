@@ -12,11 +12,11 @@ const create = (payload, signal) => {
     return post(ENPOINTS.PROJECT, payload, signal)
 }
 
-const update = (payload, signal) => {
-    return put(ENPOINTS.PROJECT, payload, signal)
+const update = (id, payload, signal) => {
+    return put(`${ENPOINTS.PROJECT}/${id}`, payload, signal)
 }
-const destroy = (payload, signal) => {
-    return erase(ENPOINTS.PROJECT, payload, signal)
+const destroy = (id, signal) => {
+    return erase(`${ENPOINTS.PROJECT}/${id}`, signal)
 }
 
 export const Project = {

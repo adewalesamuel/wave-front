@@ -33,20 +33,20 @@ export function Table(props) {
             if (item === "edit")
                 return (
                     <button key={Math.random()} data-index={dataIndex} className="link" 
-                    onClick={props.methods.onHandleEditClick ?? null} >
+                    onClick={props.methods.handleEditClick ?? null} >
                         <i className="bx bx-edit-alt text-primary bx-small"></i>
                     </button>
                 );
             if (item === "info")
                 return (
                 <button key={Math.random()} data-index={dataIndex} className="ml-1 link" 
-                onClick={props.methods.onHandleInfoClick ?? null}>
+                onClick={props.methods.handleInfoClick ?? null}>
                     <i className="bx bx-show-alt text-primary bx-small"></i>
                 </button>);
             if (item === "delete")
                 return (
                 <button key={Math.random()} data-index={dataIndex} className="ml-1 link" 
-                onClick={props.methods.onHandleDeleteClick ?? null}>
+                onClick={props.methods.handleDeleteClick ?? null}>
                     <i className="bx bxs-trash text-danger bx-small"></i>
                 </button>);
             return null;

@@ -40,7 +40,7 @@ export function User(props) {
                         </div> */}
                         <div className="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
                             <button className="btn btn-primary btn-block glow users-list-clear mb-0"
-                                onClick={props.methods.onHandleCreateClick}>
+                                onClick={props.methods.handleCreateClick}>
                                 Create a user
                             </button>
                         </div>
@@ -64,16 +64,16 @@ export function User(props) {
             </div>
             <Components.Modal
                 isHidden={props.state.isUserModalHidden ?? true}
-                closeModal={props.methods.onHandleModalCloseClick}
+                closeModal={props.methods.handleModalCloseClick}
                 isDisabled={props.state.formDisabled}
-                confirmModal={props.methods.onHandleSubmit}
+                confirmModal={props.methods.handleSubmit}
                 modalTitle={props.state.userModalTitle}>
                 <Components.Forms.User {...props} />
                 <Components.Modal
                     isHidden={props.state.isRoleModalHidden ?? true}
-                    closeModal={props.methods.onHandleRoleModalCloseClick}
+                    closeModal={props.methods.handleRoleModalCloseClick}
                     isDisabled={props.state.roleFormDisabled}
-                    confirmModal={props.methods.onHandleRoleSubmit}
+                    confirmModal={props.methods.handleRoleSubmit}
                     modalTitle="Add a new role"
                     modalSize="modal-sm">
                     <Components.Forms.Role {...props} />

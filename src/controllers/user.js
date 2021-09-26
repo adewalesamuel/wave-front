@@ -1,4 +1,4 @@
-    import React from "react";
+import React from "react";
 import { Modules } from "../modules";
 import { Pages } from "../pages";
 import { Services } from "../services";
@@ -13,16 +13,16 @@ export class User extends React.Component {
         this.history = this.props.history;
 
         this.methods = {
-            onHandleEditClick: this.onHandleEditClick.bind(this),
-            onHandleDeleteClick: this.onHandleDeleteClick.bind(this),
-            onHandleModalCloseClick: this.onHandleModalCloseClick.bind(this),
-            onHandleRoleModalCloseClick: this.onHandleRoleModalCloseClick.bind(this),
-            onHandleChange: this.onHandleChange.bind(this), 
-            onHandleCreateClick: this.onHandleCreateClick.bind(this),
-            onHandleSubmit: this.onHandleSubmit.bind(this),
-            onHandleRoleSubmit: this.onHandleRoleSubmit.bind(this),
-            onHandleCreateRoleClick: this.onHandleCreateRoleClick.bind(this),
-            onHandleSelectMultipleChange: this.onHandleSelectMultipleChange.bind(this) 
+            handleEditClick: this.handleEditClick.bind(this),
+            handleDeleteClick: this.handleDeleteClick.bind(this),
+            handleModalCloseClick: this.handleModalCloseClick.bind(this),
+            handleRoleModalCloseClick: this.handleRoleModalCloseClick.bind(this),
+            handleChange: this.handleChange.bind(this), 
+            handleCreateClick: this.handleCreateClick.bind(this),
+            handleSubmit: this.handleSubmit.bind(this),
+            handleRoleSubmit: this.handleRoleSubmit.bind(this),
+            handleCreateRoleClick: this.handleCreateRoleClick.bind(this),
+            handleSelectMultipleChange: this.handleSelectMultipleChange.bind(this) 
         };
         this.state = {
             userModalTitle: "Add a new user",
@@ -429,7 +429,7 @@ export class User extends React.Component {
         })
     }
 
-    onHandleModalCloseClick(event) {
+    handleModalCloseClick(event) {
         if (this.state.formDisabled)
             return; 
 
@@ -438,7 +438,7 @@ export class User extends React.Component {
         this.setUserErrorMessage('');
     }
 
-    onHandleRoleModalCloseClick(event) {
+    handleRoleModalCloseClick(event) {
         if (this.state.roleFormDisabled)
             return;
 
@@ -447,15 +447,15 @@ export class User extends React.Component {
         this.setRoleErrorMessage('')
     }
 
-    onHandleChange(event) {
+    handleChange(event) {
         this.setInputValue(event);
     }
 
-    onHandleSelectMultipleChange(event) {
+    handleSelectMultipleChange(event) {
         this.setSelectMultupleValue(event);
     }
 
-    onHandleEditClick(event) {
+    handleEditClick(event) {
         const dataIndex = event.target.parentElement.getAttribute('data-index');
         const user = this.state.userData[dataIndex];
         
@@ -468,7 +468,7 @@ export class User extends React.Component {
         this.setIsUserModalHidden(false);
     }
 
-    onHandleSubmit(event) {
+    handleSubmit(event) {
         event.preventDefault();
 
         if (this.state.formDisabled)
@@ -504,7 +504,7 @@ export class User extends React.Component {
         }
     }
 
-    onHandleRoleSubmit = event => {
+    handleRoleSubmit = event => {
         event.preventDefault();
 
         if (this.state.roleFormDisabled)
@@ -527,7 +527,7 @@ export class User extends React.Component {
 
     }
 
-    onHandleDeleteClick(event) {
+    handleDeleteClick(event) {
         const dataDiff = this.state.userTableData.length - this.state.userData.length;
         const dataIndex = event.target.parentElement.getAttribute('data-index') - dataDiff;
         const user = this.state.userData[dataIndex];
@@ -536,7 +536,7 @@ export class User extends React.Component {
         this.showUserDeleteAlert(this)
     }
     
-    onHandleCreateClick(event) {
+    handleCreateClick(event) {
         event.preventDefault();
 
         this.setUserModalTitle("Add new user")
@@ -544,7 +544,7 @@ export class User extends React.Component {
         this.setIsUserModalHidden(false);
     }
 
-    onHandleCreateRoleClick(event) {
+    handleCreateRoleClick(event) {
         event.preventDefault();
         this.setIsRoleModalHidden(false);
     }

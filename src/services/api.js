@@ -86,13 +86,12 @@ export const put = (endpoint, payload="", signal=new AbortController().signal) =
     })
 }
 
-export const erase = (endpoint, payload="", signal=new AbortController().signal) => {
+export const erase = (endpoint, signal=new AbortController().signal) => {
     return new Promise((resolve, reject) => {
         fetch(`${API_URL}${ROOT_PATH}/${endpoint}`,
         {
             method:"delete", 
             headers:HEADERS, 
-            body:payload,
             signal
         })
         .then(response => {
