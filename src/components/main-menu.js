@@ -31,9 +31,9 @@ export function MainMenu(props) {
                             style:filled;
                             duration:0.85; 
                             strokeWidth:1.3px;
-                            strokeColor:#8494A7;
-                            solidColor:#8494A7;
-                            fillColor:#d4ebf9;
+                            strokeColor:#93b69c;
+                            solidColor:#93b69c;
+                            fillColor:#d4f9e2;
                             strokeColorAlt:#E67E22;
                             "></i><span>Dashboard</span>
                         </Link>
@@ -45,9 +45,9 @@ export function MainMenu(props) {
                             style:filled;
                             duration:0.85; 
                             strokeWidth:1.3px;
-                            strokeColor:#8494A7;
-                            solidColor:#8494A7;
-                            fillColor:#d4ebf9;
+                            strokeColor:#93b69c;
+                            solidColor:#93b69c;
+                            fillColor:#d4f9e2;
                             strokeColorAlt:#E67E22;
                             "></i><span>Projects</span>
                         </NavLink>
@@ -59,9 +59,9 @@ export function MainMenu(props) {
                             style:filled;
                             duration:0.85; 
                             strokeWidth:1.3px;
-                            strokeColor:#8494A7;
-                            solidColor:#8494A7;
-                            fillColor:#d4ebf9;
+                            strokeColor:#93b69c;
+                            solidColor:#93b69c;
+                            fillColor:#d4f9e2;
                             strokeColorAlt:#E67E22;
                             "></i><span>Users</span>
                         </NavLink>

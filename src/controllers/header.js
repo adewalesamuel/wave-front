@@ -34,8 +34,6 @@ class HeaderController extends React.Component {
             type: 'warning',
             showCancelButton: true,
             allowOutsideClick: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, Log out!',
             confirmButtonClass: 'btn btn-warning',
             cancelButtonClass: 'btn btn-danger ml-1',

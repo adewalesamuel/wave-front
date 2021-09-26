@@ -18,7 +18,8 @@ export class Project extends React.Component {
             handleModalCloseClick: this.handleModalCloseClick.bind(this),
             handleSelectMultipleChange: this.handleSelectMultipleChange.bind(this),
             handleSubmit: this.handleSubmit.bind(this),
-            handleDeleteClick: this.handleDeleteClick.bind(this)
+            handleDeleteClick: this.handleDeleteClick.bind(this),
+            handleInfoClick: this.handleInfoClick.bind(this)
         };
         this.state = {
             projectModalTitle: "Add new project",
@@ -33,7 +34,7 @@ export class Project extends React.Component {
             projectData: [],
             projectTableData: [],
             projectTableActions: [
-                'edit', 
+                'info', 
                 'delete'
             ],
             countrieData: [
@@ -120,12 +121,21 @@ export class Project extends React.Component {
     }
 
     handleDeleteClick(event) {
-        const dataDiff = this.state.projectTableData.length - this.state.projectData.length;
-        const dataIndex = event.target.parentElement.getAttribute('data-index') - dataDiff;
-        const project = this.state.projectData[dataIndex];
-
+        event.preventDefault();
+        
+        const project = this.getClickedProject(event);
+        
         this.setProjectId(project.id);
         this.showProjectDeleteAlert(this);
+    }
+    
+    handleInfoClick(event) {
+        event.preventDefault();
+        const project = this.getClickedProject(event);
+
+        if (!project || project === undefined) return;
+
+        this.history.push(`/projects/${project.id}`);
     }
 
     handleSelectMultipleChange(event) {
@@ -134,6 +144,7 @@ export class Project extends React.Component {
 
     handleProjectError = async (error) => {
         let errorMessages = await error.messages;
+        console.log(error)
         this.setProjectErrorMessage(errorMessages ?? "An unexepecd error occurred");
     }
 
@@ -207,8 +218,6 @@ export class Project extends React.Component {
             type: 'warning',
             showCancelButton: true,
             allowOutsideClick: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete project!',
             confirmButtonClass: 'btn btn-warning',
             cancelButtonClass: 'btn btn-danger ml-1',
@@ -240,6 +249,13 @@ export class Project extends React.Component {
         this.setdefaultDates();
         this.setStatus(this.state.statusData[0] ?? "open");
         this.setCountries(this.state.countrieData[0].slug ?? "cote-divoire");
+    }
+
+    getClickedProject = (event) => {
+        const dataDiff = this.state.projectTableData.length - this.state.projectData.length;
+        const dataIndex = event.target.parentElement.getAttribute('data-index') - dataDiff;
+        
+        return this.state.projectData[dataIndex];
     }
 
     setProjectTableData = data => {

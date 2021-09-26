@@ -91,7 +91,7 @@ export class User extends React.Component {
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history)
             this.setRoleData(res.data.roles);
-            this.setRole(res.data.roles[0].id);
+            this.setRole(res.data.roles[0] ? res.data.roles[0].id : 1);
         })
         .catch(Modules.Auth.redirectIfSessionExpired);
     }
@@ -279,7 +279,7 @@ export class User extends React.Component {
             'tel'
         ].forEach(item => this.setState({[item]: ""}));
         this.setPassword();
-        this.setRole(this.state.roleData[0].id ?? 1);
+        this.setRole(this.state.roleData[0] ? this.state.roleData[0].id : 1);
     } 
 
     resetRoleForm = () => {
@@ -389,12 +389,12 @@ export class User extends React.Component {
 
     handleUserError = async (error) => {
         let errorMessages = await error.messages;
-        this.setUserErrorMessage(errorMessages ?? error);
+        this.setUserErrorMessage(errorMessages ?? "An unexpected error occured");
     }
 
     handleRoleError = async (error) => {
         let errorMessages = await error.messages;
-        this.setRoleErrorMessage(errorMessages ?? error);
+        this.setRoleErrorMessage(errorMessages ?? "An unexpected error occured");
      }
 
     showUserDeleteAlert = self => {
@@ -406,8 +406,6 @@ export class User extends React.Component {
             type: 'warning',
             showCancelButton: true,
             allowOutsideClick: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, Delete user!',
             confirmButtonClass: 'btn btn-warning',
             cancelButtonClass: 'btn btn-danger ml-1',
@@ -459,8 +457,7 @@ export class User extends React.Component {
         const dataIndex = event.target.parentElement.getAttribute('data-index');
         const user = this.state.userData[dataIndex];
         
-        if (!user || user === undefined)
-            return;
+        if (!user || user === undefined) return;
 
         this.setUserModalTitle("Edit user");
         this.setIsEditingUser();

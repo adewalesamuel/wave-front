@@ -1571,7 +1571,7 @@ input:focus ~ .bg-primary {
 /* Background color */
 /* ---------------- */
 .bg-primary {
-  background-color: #5A8DEE !important;
+  background-color: #5AEEA9 !important;
 }
 
 .bg-primary .card-header,
@@ -1672,27 +1672,27 @@ input:focus ~ .bg-primary {
 /* Basic buttons */
 /* ------------- */
 .btn-primary {
-  border-color: #2c6de9 !important;
-  background-color: #5A8DEE !important;
+  border-color: #2ce999 !important;
+  background-color: #5AEEA2 !important;
   color: #fff;
 }
 
 .btn-primary:hover, .btn-primary.hover {
-  background-color: #719df0 !important;
+  background-color: #71f0af !important;
   color: #fff;
 }
 
 .btn-primary:hover.glow, .btn-primary.hover.glow {
-  box-shadow: 0 4px 12px 0 rgba(90, 141, 238, 0.6) !important;
+  box-shadow: 0 4px 12px 0 rgba(90, 238, 189, 0.6) !important;
 }
 
 .btn-primary:focus, .btn-primary:active, .btn-primary.active {
-  background-color: #437dec !important;
+  background-color: #43ec8d !important;
   color: #fff !important;
 }
 
 .btn-primary.glow {
-  box-shadow: 0 2px 4px 0 rgba(90, 141, 238, 0.5) !important;
+  box-shadow: 0 4px 12px 0 rgba(90, 238, 189, 0.5) !important;
 }
 
 .btn-primary:disabled, .btn-primary.disabled {
@@ -2881,17 +2881,17 @@ input:focus ~ .bg-secondary {
 }
 
 .btn-light-secondary {
-  background-color: #E6EAEE;
+  background-color: #E6EEEA;
   color: #475F7B !important;
 }
 
 .btn-light-secondary:hover, .btn-light-secondary.hover {
-  background-color: #506b8b !important;
+  background-color: #508b85 !important;
   color: #fff !important;
 }
 
 .btn-light-secondary:active, .btn-light-secondary.active {
-  background-color: #3e536b !important;
+  background-color: #3e6b56 !important;
   color: #fff !important;
 }
 

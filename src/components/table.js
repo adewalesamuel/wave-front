@@ -1,5 +1,4 @@
 export function Table(props) {
-    
     function renderTableHead() {
         if (!props.tableHead)
             return null;
