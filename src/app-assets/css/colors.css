@@ -1571,7 +1571,8 @@ input:focus ~ .bg-primary {
 /* Background color */
 /* ---------------- */
 .bg-primary {
-  background-color: #5AEEA9 !important;
+  background-color: #33CC76 !important;
+  /* background-color: #5AEEA9 !important; */
 }
 
 .bg-primary .card-header,
