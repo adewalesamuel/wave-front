@@ -81,3 +81,7 @@ button.link .bx-small {
   align-items: center;
 }
 
+.navbar-light .navbar-nav .nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+

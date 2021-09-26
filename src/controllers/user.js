@@ -1,4 +1,4 @@
-import React from "react";
+    import React from "react";
 import { Modules } from "../modules";
 import { Pages } from "../pages";
 import { Services } from "../services";
@@ -10,7 +10,6 @@ export class User extends React.Component {
         this.abortController = new AbortController();
         this.$ = window.$;
         this.$Swal = window.Swal;
-        this.usersTable = null;
         this.history = this.props.history;
 
         this.methods = {
@@ -26,7 +25,7 @@ export class User extends React.Component {
             onHandleSelectMultipleChange: this.onHandleSelectMultipleChange.bind(this) 
         };
         this.state = {
-            userModalTitle: "Add new user",
+            userModalTitle: "Add a new user",
             userTableHead: [
                 'id', 
                 'firstname',
@@ -80,30 +79,30 @@ export class User extends React.Component {
     getAllUsers = () => {
         return Services.User.getAll(this.abortController.signal)
         .then(res => {
-            this.errorManager(res)
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
             this.setUserData(res.data.users);
             this.setUserTableData(this.state.userData);
         })
-        .catch(this.errorManager);
+        .catch(Modules.Auth.redirectIfSessionExpired);
     }
 
     getAllRoles = () => {
         return Services.Role.getAll(this.abortController.signal)
         .then(res => {
-            this.errorManager(res)
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
             this.setRoleData(res.data.roles);
             this.setRole(res.data.roles[0].id);
         })
-        .catch(this.errorManager);
+        .catch(Modules.Auth.redirectIfSessionExpired);
     }
 
     getAllPermissions = () => {
         return Services.Permission.getAll(this.abortController.signal)
         .then(res => {
-            this.errorManager(res)
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
             this.setPermissionData(res.data.permissions);
         })
-        .catch(this.errorManager);
+        .catch(Modules.Auth.redirectIfSessionExpired);
     }
 
     createUser = () => {
@@ -180,7 +179,7 @@ export class User extends React.Component {
         const userDataTable = data.map(item => {
             const {id, firstname, lastname, tel, email} = item;
             const role = item.role.name;
-            const created_at = item.created_at ? new Date(item.created_at).toLocaleDateString('en'): null;
+            const created_at = item.created_at ? new Date(item.created_at).toLocaleDateString('en').replace(/\//g, '-') : null;
 
             return {id, firstname, lastname, tel, email, role, created_at};
         })
@@ -213,17 +212,6 @@ export class User extends React.Component {
                 [event.target.name]: [...state[event.target.name], event.target.value]
             }
         });
-    }
-
-    errorManager = err => {
-        if (!err) return;
-        
-        if (err.status && err.status === "Token is Expired") {
-            Modules.Auth.removeSessionToken();
-            this.history.push('/auth/login');
-            return;
-        }
-            
     }
 
     setUserModalTitle = (userModalTitle) => {
@@ -443,16 +431,16 @@ export class User extends React.Component {
 
     onHandleModalCloseClick(event) {
         if (this.state.formDisabled)
-            return
+            return; 
 
         this.resetUserForm()
         this.setIsUserModalHidden(true);
-        this.setUserErrorMessage('')
+        this.setUserErrorMessage('');
     }
 
     onHandleRoleModalCloseClick(event) {
         if (this.state.roleFormDisabled)
-            return
+            return;
 
         this.resetRoleForm()
         this.setIsRoleModalHidden(true);
@@ -472,7 +460,7 @@ export class User extends React.Component {
         const user = this.state.userData[dataIndex];
         
         if (!user || user === undefined)
-            return
+            return;
 
         this.setUserModalTitle("Edit user");
         this.setIsEditingUser();
@@ -484,7 +472,7 @@ export class User extends React.Component {
         event.preventDefault();
 
         if (this.state.formDisabled)
-            return
+            return;
 
         this.setUserErrorMessage("");
         this.setFormDisabled(event);

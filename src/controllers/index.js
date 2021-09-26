@@ -4,6 +4,7 @@ import { ResetPassword } from "./auth-reset_password";
 import { Home } from "./home";
 import { Header } from "./header";
 import { User } from "./user";
+import { Project } from "./project";
 
 export const Controllers = {
     Auth: {
@@ -13,5 +14,6 @@ export const Controllers = {
     },
     Header,
     Home,
-    User
+    User,
+    Project
 }

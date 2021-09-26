@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom'
-import logoImg from '../app-assets/images/logo/logo.png' 
+import { Link, NavLink } from 'react-router-dom'
 
 export function MainMenu(props) {
     return(
@@ -40,7 +39,7 @@ export function MainMenu(props) {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/projects">
+                        <NavLink className="nav-link" to="/projects">
                         <i className="livicon-evo" data-options="
                             name:morph-folder;
                             style:filled;
@@ -51,10 +50,10 @@ export function MainMenu(props) {
                             fillColor:#d4ebf9;
                             strokeColorAlt:#E67E22;
                             "></i><span>Projects</span>
-                        </Link>
+                        </NavLink>
                     </li>                 
                     <li className="nav-item">
-                        <Link className="nav-link" to="/users">
+                        <NavLink className="nav-link" to="/users">
                         <i className="livicon-evo" data-options="
                             name:users;
                             style:filled;
@@ -65,7 +64,7 @@ export function MainMenu(props) {
                             fillColor:#d4ebf9;
                             strokeColorAlt:#E67E22;
                             "></i><span>Users</span>
-                        </Link>
+                        </NavLink>
                     </li>                 
                 </ul>
             </div>

@@ -1,7 +1,6 @@
 import "../app-assets/css-rtl/pages/page-users.css";
 import { Components } from "../components";
 
-import { Table } from "../components/table";
 export function User(props) {
     return (
         <section className="users-list-wrapper">
@@ -42,7 +41,7 @@ export function User(props) {
                         <div className="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
                             <button className="btn btn-primary btn-block glow users-list-clear mb-0"
                                 onClick={props.methods.onHandleCreateClick}>
-                                Create user
+                                Create a user
                             </button>
                         </div>
                     </div>
@@ -52,7 +51,7 @@ export function User(props) {
                 <div className="card">
                     <div className="card-content">
                         <div className="card-body">
-                            <Table 
+                            <Components.Table 
                                 {...props}
                                 tableHead={props.state.userTableHead ?? null}
                                 tableData={props.state.userTableData ?? null} 
@@ -75,7 +74,7 @@ export function User(props) {
                     closeModal={props.methods.onHandleRoleModalCloseClick}
                     isDisabled={props.state.roleFormDisabled}
                     confirmModal={props.methods.onHandleRoleSubmit}
-                    modalTitle="Add role"
+                    modalTitle="Add a new role"
                     modalSize="modal-sm">
                     <Components.Forms.Role {...props} />
                 </Components.Modal>

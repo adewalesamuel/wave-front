@@ -4,6 +4,7 @@ import { ResetPassword } from "./auth-reset_password";
 import { Root as RootPage} from "./Root";
 import { Home } from "./home";
 import { User } from "./user";
+import { Project } from "./project";
 
 export const Pages = {
     Root: RootPage,
@@ -13,5 +14,6 @@ export const Pages = {
         ResetPassword
     },
     Home,
-    User
+    User,
+    Project
 };
