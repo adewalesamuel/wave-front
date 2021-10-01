@@ -5,6 +5,9 @@ import { Home } from "./home";
 import { Header } from "./header";
 import { User } from "./user";
 import { Project } from "./project";
+import { ProjectDetails as Index } from "./projectDetails";
+import { ProjectEdit } from "./projectEdit";
+import { ProjectMembers } from "./projectMembers";
 
 export const Controllers = {
     Auth: {
@@ -15,5 +18,10 @@ export const Controllers = {
     Header,
     Home,
     User,
-    Project
+    Project,
+    ProjectDetails: {
+        Index,
+        ProjectEdit,
+        ProjectMembers
+    }
 }

@@ -8,8 +8,9 @@ export function Main({ match: { path } }) {
     return(
         <Components.Layouts.Main>
             <Switch>
-                <PrivateRoute exact path={`${path}/users`} component={Controllers.User} />
+                <PrivateRoute path={`${path}/projects/:id`} component={Controllers.ProjectDetails.Index} />
                 <PrivateRoute exact path={`${path}/projects`} component={Controllers.Project} />
+                <PrivateRoute exact path={`${path}/users`} component={Controllers.User} />
                 <PrivateRoute exact path={`${path}`} component={Controllers.Home} />
                 {/* <Redirect exact from={path + "/"} to={`${path}/`} /> */}
             </Switch>

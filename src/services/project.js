@@ -8,6 +8,10 @@ const getAll = signal => {
     return get(ENPOINTS.PROJECT, signal)
 }
 
+const getById = (id, signal) => {
+    return get(`${ENPOINTS.PROJECT}/${id}`, signal)
+}
+
 const create = (payload, signal) => {
     return post(ENPOINTS.PROJECT, payload, signal)
 }
@@ -21,6 +25,7 @@ const destroy = (id, signal) => {
 
 export const Project = {
     getAll,
+    getById,
     create,
     update,
     destroy

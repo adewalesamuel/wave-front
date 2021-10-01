@@ -5,6 +5,9 @@ import { Root as RootPage} from "./Root";
 import { Home } from "./home";
 import { User } from "./user";
 import { Project } from "./project";
+import { ProjectDetails as Index } from "./projectDetails";
+import { ProjectEdit } from "./projectEdit";
+import { ProjectMembers } from "./projectMembers";
 
 export const Pages = {
     Root: RootPage,
@@ -15,5 +18,10 @@ export const Pages = {
     },
     Home,
     User,
-    Project
+    Project,
+    ProjectDetails: {
+        Index,
+        ProjectEdit,
+        ProjectMembers
+    }
 };

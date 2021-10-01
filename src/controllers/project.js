@@ -77,7 +77,7 @@ export class Project extends React.Component {
             this.setProjectData(res.data.projects);
             this.setProjectTableData(this.state.projectData);
         })
-        .catch(Modules.Auth.redirectIfSessionExpired);
+        .catch(err => console.log(err));
     }
 
     handleCreateClick(event) {
@@ -144,7 +144,6 @@ export class Project extends React.Component {
 
     handleProjectError = async (error) => {
         let errorMessages = await error.messages;
-        console.log(error)
         this.setProjectErrorMessage(errorMessages ?? "An unexepecd error occurred");
     }
 

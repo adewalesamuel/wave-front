@@ -25,7 +25,7 @@ export function MainMenu(props) {
             <div className="navbar-container main-menu-content" data-menu="menu-container">
                 <ul className="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/">
+                        <NavLink className="nav-link" to="/" exact>
                             <i className="livicon-evo" data-options="
                             name:desktop;
                             style:filled;
@@ -36,7 +36,7 @@ export function MainMenu(props) {
                             fillColor:#d4f9e2;
                             strokeColorAlt:#E67E22;
                             "></i><span>Dashboard</span>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/projects">

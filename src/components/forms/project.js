@@ -2,7 +2,7 @@ import { Components } from ".."
 
 export function Project({state, methods}) {
     return (
-        <form className={`form form-vertical ${state.roleFormDisabled ? "disabled" : ''}`}
+        <form className={`form form-vertical ${state.projectprojectFormDisabled ? "disabled" : ''}`}
         onSubmit={methods.handleProjectSubmit}>
             <Components.ErrorMessageText>
                 {state.projectErrorMessage ?? ''}
@@ -12,7 +12,7 @@ export function Project({state, methods}) {
                     <div className="col-12">
                         <div className="form-group">
                             <label htmlFor="name-vertical">Name</label>
-                            <input disabled={state.formDisabled} type="text" id="name-vertical" 
+                            <input disabled={state.projectFormDisabled} type="text" id="name-vertical" 
                             className="form-control" name="name" placeholder="Name" value={state.name ?? ""}
                             onChange={methods.handleChange}  />
                         </div>
@@ -20,7 +20,7 @@ export function Project({state, methods}) {
                     <div className="col-6">
                         <div className="form-group">
                             <label htmlFor="start_date">Start date</label>
-                            <input disabled={state.formDisabled} type="date" id="start_date" lang="en"
+                            <input disabled={state.projectFormDisabled} type="date" id="start_date" lang="en"
                             className="form-control" name="start_date" placeholder="Start date" value={state.start_date ?? ""}
                             onChange={methods.handleChange}  />
                         </div>
@@ -28,7 +28,7 @@ export function Project({state, methods}) {
                     <div className="col-6">
                         <div className="form-group">
                             <label htmlFor="end_date">End date</label>
-                            <input disabled={state.formDisabled} type="date" id="end_date" lang="en"
+                            <input disabled={state.projectFormDisabled} type="date" id="end_date" lang="en"
                             className="form-control" name="end_date" placeholder="Start date" value={state.end_date ?? ""}
                             onChange={methods.handleChange}  />
                         </div>
@@ -69,7 +69,7 @@ export function Project({state, methods}) {
                         <div className="form-group">
                             <label htmlFor="description-info-vertical">Description</label>
                             <textarea className="form-control" name="description" id="description-info-vertical" 
-                            onChange={methods.handleChange} value={state.description}>
+                            rows="4" onChange={methods.handleChange} value={state.description}>
                             </textarea> 
                         </div>
                     </div>
