@@ -32,10 +32,10 @@ export class ProjectDetails extends React.Component {
     getAllProjects = () => {
         return Services.Project.getAll(this.abortController.signal)
         .then(res => {
-            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setProjectList(res.data.projects);
         })
-        .catch(Modules.Auth.redirectIfSessionExpired);
+        .catch(err => console.log(err));
     }
 
     pushToProject(self, projectId) {
@@ -48,10 +48,10 @@ export class ProjectDetails extends React.Component {
 
     setProjectList = projects => {
         const projectList = projects.map(project => {
-            return {name: project.name, id: project.id}
-        })
+            return {name: project.name, id: project.id};
+        });
 
-        this.setState({projectList})
+        this.setState({projectList});
     }
 
     render() {

@@ -43,13 +43,14 @@ export class ProjectEdit extends React.Component {
 
     componentDidMount() {
         this._isMounted = true;
-        const projectId = this.props.match.params.id;
+        const projectId = this.getParams().id;
         this.setProjectId(projectId);
         this.getProjectById(projectId);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const projectId = this.props.match.params.id;
+        const projectId = this.getParams().id;
+        if (prevState.id === "") return;
         if (projectId === prevState.id) {
             return;
         }else {
@@ -100,6 +101,7 @@ export class ProjectEdit extends React.Component {
             this.setProjectFormDisabled(false);
         })
         .catch(err => {
+            if (!this._isMounted) return;
             this.setProjectFormDisabled(false);
         })
     }
@@ -127,12 +129,14 @@ export class ProjectEdit extends React.Component {
 
     handleProjectError = async (error) => {
         let errorMessages = await error.messages;
-        this.setProjectErrorMessage(errorMessages ?? "An unexepecd error occurred");
+        this.setProjectErrorMessage(errorMessages ?? "An unxepected error occurred");
     }
 
     getProjectId = () => this.state.id;
 
     getProjectFormDisabled = () => this.state.projectFormDisabled;
+
+    getParams = () => this.props.match.params;
 
     setProjectId = id => {
         this.setState({id});

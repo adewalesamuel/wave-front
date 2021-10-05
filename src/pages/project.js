@@ -65,7 +65,7 @@ export function Project(props) {
                 isHidden={props.state.isProjectModalHidden ?? true}
                 closeModal={props.methods.handleModalCloseClick}
                 isDisabled={props.state.projectFormDisabled}
-                confirmModal={props.methods.handleSubmit}
+                confirmModal={props.methods.handleProjectSubmit}
                 modalTitle="Create a project">
                 <Components.Forms.Project {...props} />
             </Components.Modal>

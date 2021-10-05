@@ -8,7 +8,7 @@ export function ResetPassword({methods, state}) {
             <div className="form-group">
                 <label className="text-bold-600" htmlFor="password">New Password</label>
                 <input disabled={state.formDisabled} type="password" className="form-control" 
-                id="password" name="password" value={state.email} required minLength="8" 
+                id="password" name="password" value={state.password} required minLength="8" 
                 placeholder="Enter a new password" onChange={methods.onHandleChange} />
             </div>
             <div className="form-group mb-2">
@@ -16,7 +16,7 @@ export function ResetPassword({methods, state}) {
                     Confirm New Password
                 </label>
                 <input disabled={state.formDisabled} type="password" className="form-control" 
-                id="password_confirmation" name="password_confirmation" value={state.email} 
+                id="password_confirmation" name="password_confirmation" value={state.password_confirmation} 
                 required minLength="8" placeholder="Confirm your new password" 
                 onChange={methods.onHandleChange} />
                 <Components.ErrorMessageText>

@@ -8,7 +8,6 @@ export class ForgotPassword extends React.Component {
 
         this.abortController = new AbortController();
         this.history = this.props.history;
-        this.location = this.props.location;
         this.onHandleChange = this.onHandleChange.bind(this);
         this.onHandleSubmit = this.onHandleSubmit.bind(this);
 
@@ -62,11 +61,13 @@ export class ForgotPassword extends React.Component {
             );
     }
 
-    handleforgotPasswordError = response => {
+    handleForgotPasswordError = response => {
         if (response.status === 404)
-                this.setForgotPasswordError("This user with entrered email cannot be found.");
+            this.setForgotPasswordError("This user with entrered email cannot be found.");
         if (response.status >= 500)
             this.setForgotPasswordError("An unexpected error occured " + response.statusText);
+
+        this.setForgotPasswordError("An unexpected error occured");
     }
     
     onHandleChange(event) {
@@ -81,7 +82,7 @@ export class ForgotPassword extends React.Component {
             return
 
         this.setForgotPasswordError("");
-        this.setForgotPasswordSuccess("")
+        this.setForgotPasswordSuccess("");
         this.setFormDisabled(event);
         this.forgotPassword()
         .then(res => {
@@ -91,41 +92,9 @@ export class ForgotPassword extends React.Component {
             this.resetEmailInput();
         })
         .catch(response => {
-            this.handleforgotPasswordError(response);
-            this.setFormDisabled(event, false)
-        });
-        this.forgotPassword()
-        .then(res => {
+            console.log(response);
+            this.handleForgotPasswordError(response);
             this.setFormDisabled(event, false);
-            this.setForgotPasswordSuccess(`A mail was sent to the address 
-            ${this.state.email}. Check your email to reset your password.`);
-            this.resetEmailInput();
-        })
-        .catch(response => {
-            this.handleforgotPasswordError(response);
-            this.setFormDisabled(event, false)
-        });
-        this.forgotPassword()
-        .then(res => {
-            this.setFormDisabled(event, false);
-            this.setForgotPasswordSuccess(`A mail was sent to the address 
-            ${this.state.email}. Check your email to reset your password.`);
-            this.resetEmailInput();
-        })
-        .catch(response => {
-            this.handleforgotPasswordError(response);
-            this.setFormDisabled(event, false)
-        });
-        this.forgotPassword()
-        .then(res => {
-            this.setFormDisabled(event, false);
-            this.setForgotPasswordSuccess(`A mail was sent to the address 
-            ${this.state.email}. Check your email to reset your password.`);
-            this.resetEmailInput();
-        })
-        .catch(response => {
-            this.handleforgotPasswordError(response);
-            this.setFormDisabled(event, false)
         });
     }
 

@@ -17,7 +17,7 @@ export class Project extends React.Component {
             handleChange: this.handleChange.bind(this),
             handleModalCloseClick: this.handleModalCloseClick.bind(this),
             handleSelectMultipleChange: this.handleSelectMultipleChange.bind(this),
-            handleSubmit: this.handleSubmit.bind(this),
+            handleProjectSubmit: this.handleProjectSubmit.bind(this),
             handleDeleteClick: this.handleDeleteClick.bind(this),
             handleInfoClick: this.handleInfoClick.bind(this)
         };
@@ -91,14 +91,14 @@ export class Project extends React.Component {
 
     handleModalCloseClick(event) {
         if (this.state.projectFormDisabled)
-            return
+            return;
 
         this.resetProjectForm();
         this.setIsProjectModalHidden(true);
         this.setProjectErrorMessage('');
     }
 
-    handleSubmit(event) {
+    handleProjectSubmit(event) {
         event.preventDefault();
 
         if (this.state.projectFormDisabled)

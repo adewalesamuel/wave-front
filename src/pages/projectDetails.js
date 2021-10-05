@@ -18,7 +18,9 @@ export function ProjectDetails({methods, state, match}) {
                                 onChange={methods.handleProjectChange ?? null} name="projectList" value={state.id}>
                                     {
                                         state.projectList.map(project => {
-                                            return <option key={Math.random()} value={project.id ?? ""}>{project.name}</option>
+                                            return (<option key={Math.random()} value={project.id ?? ""}>
+                                                    {project.name}
+                                                </option>)
                                         })
                                     } 
                                 </select>
@@ -46,8 +48,15 @@ export function ProjectDetails({methods, state, match}) {
                             <li className="nav-item">
                                 <NavLink className="nav-link" id="documents-tab" data-toggle="tab" 
                                 to={`/projects/${state.id ?? 1}/documents`} aria-controls="documents" role="tab">
-                                    <i className="bx bx-message-square align-middle"></i>
+                                    <i className="bx bx-folder align-middle"></i>
                                     <span className="align-middle">Documents</span>
+                                </NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" id="indicators-tab" data-toggle="tab" 
+                                to={`/projects/${state.id ?? 1}/indicators`} aria-controls="indicators" role="tab">
+                                    <i className="bx bx-pulse align-middle"></i>
+                                    <span className="align-middle">Indicators</span>
                                 </NavLink>
                             </li>
                         </ul>

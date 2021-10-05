@@ -105,8 +105,9 @@ export class ResetPassword extends React.Component {
         if (!this.isPasswordConfirmed())
             return this.setPasswordConfirmationError("Passwords must be identical");
 
+        this.setPasswordConfirmationError("");
         this.setResetPasswordError("");
-        this.setResetPasswordSuccess("")
+        this.setResetPasswordSuccess("");
         this.setFormDisabled(event);
         this.resetPassword()
         .then(res => {

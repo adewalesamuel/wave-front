@@ -67,9 +67,9 @@ export class User extends React.Component {
 
     componentDidMount() {
         this.setPassword();
-        this.getAllUsers();
-        this.getAllRoles();
-        this.getAllPermissions();
+        this.getAllUsers()
+        .then(() => this.getAllRoles())
+        .then(() => this.getAllPermissions());
     }
 
     componentWillUnmount() {
@@ -83,7 +83,7 @@ export class User extends React.Component {
             this.setUserData(res.data.users);
             this.setUserTableData(this.state.userData);
         })
-        .catch(Modules.Auth.redirectIfSessionExpired);
+        .catch(err => console.log(err));
     }
 
     getAllRoles = () => {
@@ -93,7 +93,7 @@ export class User extends React.Component {
             this.setRoleData(res.data.roles);
             this.setRole(res.data.roles[0] ? res.data.roles[0].id : 1);
         })
-        .catch(Modules.Auth.redirectIfSessionExpired);
+        .catch(err => console.log(err));
     }
 
     getAllPermissions = () => {
@@ -102,7 +102,7 @@ export class User extends React.Component {
             Modules.Auth.redirectIfSessionExpired(res, this.history)
             this.setPermissionData(res.data.permissions);
         })
-        .catch(Modules.Auth.redirectIfSessionExpired);
+        .catch(err => console.log(err));
     }
 
     createUser = () => {
@@ -159,16 +159,16 @@ export class User extends React.Component {
             )
     }
 
-    setUserData = data => {
-        this.setState({userData: [...data]});
+    setUserData = userData => {
+        this.setState({userData});
     }
 
-    setRoleData = data => {
-        this.setState({roleData: [...data]});
+    setRoleData = roleData => {
+        this.setState({roleData});
     }
 
-    setPermissionData = data => {
-        this.setState({permissionData: [...data]});
+    setPermissionData = permissionData => {
+        this.setState({permissionData});
     }
     
     setRole = role => {
@@ -176,7 +176,7 @@ export class User extends React.Component {
     }
 
     setUserTableData = data => {
-        const userDataTable = data.map(item => {
+        const userTableData = data.map(item => {
             const {id, firstname, lastname, tel, email} = item;
             const role = item.role.name;
             const created_at = item.created_at ? new Date(item.created_at).toLocaleDateString('en').replace(/\//g, '-') : null;
@@ -184,7 +184,7 @@ export class User extends React.Component {
             return {id, firstname, lastname, tel, email, role, created_at};
         })
 
-        this.setState({userTableData: [...userDataTable]});
+        this.setState({userTableData});
     }
 
     setInputValue = event => {
@@ -427,7 +427,7 @@ export class User extends React.Component {
         })
     }
 
-    handleModalCloseClick(event) {
+    handleModalCloseClick() {
         if (this.state.formDisabled)
             return; 
 
@@ -436,7 +436,7 @@ export class User extends React.Component {
         this.setUserErrorMessage('');
     }
 
-    handleRoleModalCloseClick(event) {
+    handleRoleModalCloseClick() {
         if (this.state.roleFormDisabled)
             return;
 
