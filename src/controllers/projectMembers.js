@@ -144,12 +144,14 @@ export class ProjectMembers extends React.Component {
     }
     
     setProjectMembersTableData = data => {
-        const projectMembersTableData = data.map(item => {
-            return {
-                id: item.id,
+        const projectMembersTableData = []
+        data.forEach(item => {
+            if (!item.user) return;
+            projectMembersTableData.push({
+                id: item.id ?? "",
                 firstname: item.user.firstname,
                 lastname: item.user.lastname
-            };
+            });
         })
 
         this.setState({projectMembersTableData});
