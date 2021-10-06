@@ -19,6 +19,7 @@ export class ProjectMembers extends React.Component {
         };
         this.state = {  
             projectId: '',
+            projectMemberId:'',
             projectMembersTableHead:  ['id', 'firstname', 'lastname'],
             projectMembersTableActions: ['delete'],
             projectMembersData: [],
@@ -50,7 +51,7 @@ export class ProjectMembers extends React.Component {
         this.createProjectMember()
         .then(res => {
             this.setUserFormDisabled(false);
-            this.appendProjectMembersData(res.data);
+            this.appendProjectMembersData(res.data.project_member);
         })
         .catch(response => {
             this.handleProjectMembersError(response);
@@ -66,6 +67,10 @@ export class ProjectMembers extends React.Component {
 
     handleDeleteClick(event) {
         event.preventDefault();
+        
+        const project_member = this.getClickedProjectMember(event);
+        this.setProjectMemberId(project_member.id);
+        this.showProjectMembersDeleteAlert(this);
     }
 
     handleProjectMembersError = async (error) => {
@@ -82,6 +87,13 @@ export class ProjectMembers extends React.Component {
         return Services.ProjectMember.create(
             JSON.stringify(payload),
             this.abortController.signal
+            )
+    }
+    
+    deleteProjectMember = (self) => {
+        return Services.ProjectMember.destroy(
+            self.state.projectMemberId, 
+            self.abortController.signal
             )
     }
 
@@ -105,6 +117,43 @@ export class ProjectMembers extends React.Component {
         .catch(err => console.log(err));
     }
 
+    
+    showProjectMembersDeleteAlert = self => {
+        if (!self.$Swal) return
+
+        self.$Swal.fire({
+            title: "You're about to remove this user from the project",
+            text: "Are you sure you want to remove this user",
+            type: 'warning',
+            showCancelButton: true,
+            allowOutsideClick: true,
+            confirmButtonText: 'Yes, remove user!',
+            confirmButtonClass: 'btn btn-warning',
+            cancelButtonClass: 'btn btn-danger ml-1',
+            buttonsStyling: false,
+        }).then(function (result) {
+            if (result.value) {
+                self.deleteProjectMember(self)
+                .then(res => {
+                    self.removeProjectMembersData(res.data.project_member);
+                })
+                .catch(response => {
+                    console.log(response);
+                });
+            }
+            else if (result.dismiss === self.$Swal.DismissReason.cancel) {
+                return false;
+            }
+        })
+    }
+
+    getClickedProjectMember = (event) => {
+        const dataDiff = this.state.projectMembersTableData.length - this.state.projectMembersData.length;
+        const dataIndex = event.target.parentElement.getAttribute('data-index') - dataDiff;
+        
+        return this.state.projectMembersData[dataIndex];
+    }
+
     getParams = () => this.props.match.params;
 
     getProjectId = () => this.state.projectId;
@@ -113,18 +162,38 @@ export class ProjectMembers extends React.Component {
 
     isUserFormDisabled = () => this.state.userFormDisabled
 
-    appendProjectMembersData = data => {
+    appendProjectMembersData = project_member => {
         const payload = {
-            id: data.project_member.id,
-            firstname: data.user.firstname,
-            lastname: data.user.lastname,
+            id: project_member.id,
+            firstname: project_member.user.firstname,
+            lastname: project_member.user.lastname,
         }
 
         this.setState((prevState) => {
             return {
                 projectMembersTableData: [payload, ...prevState.projectMembersTableData],
-                projectMembersData: [data, ...prevState.projectMembersData]
+                projectMembersData: [project_member, ...prevState.projectMembersData]
             }
+        });
+    }
+
+    removeProjectMembersData = project => {
+        let projectMembersTableIndex;
+
+        this.state.projectMembersTableData.forEach((item, index) => {
+            if (project.id === item['id'])
+                projectMembersTableIndex = index
+        });
+
+        let projectMembersTableDataCopy = [...this.state.projectMembersTableData];
+        let projectMembersDataCopy = [...this.state.projectMembersData];
+
+        projectMembersDataCopy.splice(projectMembersTableIndex,1);
+        projectMembersTableDataCopy.splice(projectMembersTableIndex,1);
+
+        this.setState({
+            projectMembersTableData: [...projectMembersTableDataCopy],
+            projectMembersData: [...projectMembersDataCopy],
         });
     }
 
@@ -141,6 +210,10 @@ export class ProjectMembers extends React.Component {
 
     setProjectId = projectId => {
         this.setState({projectId});
+    }
+    
+    setProjectMemberId = projectMemberId => {
+        this.setState({projectMemberId});
     }
     
     setProjectMembersTableData = data => {
