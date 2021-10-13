@@ -2,7 +2,7 @@ import { Components } from ".."
 
 export function Project({state, methods}) {
     return (
-        <form className={`form form-vertical ${state.projectprojectFormDisabled ? "disabled" : ''}`}
+        <form className={`form form-vertical ${state.projectFormDisabled ? "disabled" : ''}`}
         onSubmit={methods.handleProjectSubmit}>
             <Components.ErrorMessageText>
                 {state.projectErrorMessage ?? ''}

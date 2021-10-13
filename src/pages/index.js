@@ -8,6 +8,7 @@ import { Project } from "./project";
 import { ProjectDetails as Index } from "./projectDetails";
 import { ProjectEdit } from "./projectEdit";
 import { ProjectMembers } from "./projectMembers";
+import { Activity } from "./activity";
 
 export const Pages = {
     Root: RootPage,
@@ -23,5 +24,6 @@ export const Pages = {
         Index,
         ProjectEdit,
         ProjectMembers
-    }
+    },
+    Activity
 };

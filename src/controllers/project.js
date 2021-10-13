@@ -22,7 +22,6 @@ export class Project extends React.Component {
             handleInfoClick: this.handleInfoClick.bind(this)
         };
         this.state = {
-            projectModalTitle: "Add new project",
             projectTableHead: [
                 'id', 
                 'name',

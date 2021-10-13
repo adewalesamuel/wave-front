@@ -4,6 +4,7 @@ import { Role } from "./user-role";
 import { Permission } from "./permission";
 import { Project } from "./project";
 import { ProjectMember } from "./projectMembers";
+import { Activity } from "./activity";
 
 export const Services = {
     Auth,
@@ -11,5 +12,6 @@ export const Services = {
     Role,
     Permission,
     Project,
-    ProjectMember
+    ProjectMember,
+    Activity
 }

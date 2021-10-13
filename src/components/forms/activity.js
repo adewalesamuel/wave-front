@@ -1,0 +1,120 @@
+import { Components } from ".."
+
+export function Activity({state, methods}) {
+    return (
+        <form className={`form form-vertical ${state.activityFormDisabled ? "disabled" : ''}`}
+        onSubmit={methods.handleActivitySubmit}>
+            <Components.ErrorMessageText>
+                {state.activityErrorMessage ?? ''}
+            </Components.ErrorMessageText>
+            <div className="form-body">
+                <div className="row">
+                    <div className="col-12">
+                        <div className="form-group">
+                            <label htmlFor="name-vertical">Name</label>
+                            <input disabled={state.activityFormDisabled} type="text" id="name-vertical" 
+                            className="form-control" name="name" placeholder="Name" value={state.name ?? ""}
+                            onChange={methods.handleChange} required/>
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="start_date">Start date</label>
+                            <input disabled={state.activityFormDisabled} type="date" id="start_date" lang="en" required
+                            className="form-control" name="start_date" placeholder="Start date" value={state.start_date ?? ""}
+                            onChange={methods.handleChange}  />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="end_date">End date</label>
+                            <input disabled={state.activityFormDisabled} type="date" id="end_date" lang="en" required
+                            className="form-control" name="end_date" placeholder="Start date" value={state.end_date ?? ""}
+                            onChange={methods.handleChange}  />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="status-id-vertical">Status</label>
+                            <fieldset className="form-group">
+                                <select className="select2 form-control" required onChange={methods.handleChange} 
+                                name="status" value={state.status}>
+                                    {
+                                        state.statusData.map(status => {
+                                            return (<option key={Math.random()} value={status ?? ""}>
+                                                    {`${status[0].toUpperCase()}${status.substring(1)}`}
+                                                </option>)
+                                        })
+                                    } 
+                                </select>
+                            </fieldset> 
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="budget">Budget</label>
+                            <input disabled={state.activityFormDisabled} type="number" id="budget"
+                            className="form-control" name="budget" placeholder="Budget" value={state.budget ?? ""}
+                            onChange={methods.handleChange}  />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="amount_spent">Amount spent</label>
+                            <input disabled={state.activityFormDisabled} type="number" id="amount_spent"
+                            className="form-control" name="amount_spent" placeholder="Amount spent" value={state.amount_spent ?? ""}
+                            onChange={methods.handleChange}  />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="amount_spent">Parent Activity</label>
+                            <fieldset className="form-group">
+                                <select className="select2 form-control" onChange={methods.handleChange} 
+                                name="activity_id" value={state.activity_id}>
+                                    <option hidden>Select the parent activity</option>
+                                    {
+                                        state.activityData.map(activity => {
+                                            if (activity.activity_id === "" || !activity.activity_id) {
+                                                return (<option key={Math.random()} value={activity.id ?? ""}>
+                                                        {activity.name}
+                                                    </option>)
+                                            }
+                                            return null
+                                        })
+                                    } 
+                                </select>
+                            </fieldset> 
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="amount_spent">Assigned user</label>
+                            <fieldset className="form-group">
+                                <select className="select2 form-control" onChange={methods.handleChange} 
+                                name="user_id" value={state.user_id}>
+                                    <option hidden>Select the user</option>
+                                    {
+                                        state.userList.map(user => {
+                                            return (<option key={Math.random()} value={user.id ?? ""}>
+                                                    {`${user.firstname} ${user.lastname}`}
+                                                </option>)
+                                        })
+                                    } 
+                                </select>
+                            </fieldset> 
+                        </div>
+                    </div>
+                    <div className="col-12">
+                        <div className="form-group">
+                            <label htmlFor="description-info-vertical">Description</label>
+                            <textarea className="form-control" name="description" id="description-info-vertical" 
+                            rows="4" onChange={methods.handleChange} value={state.description}>
+                            </textarea> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    )
+}
