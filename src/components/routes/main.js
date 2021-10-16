@@ -8,6 +8,7 @@ export function Main({ match: { path } }) {
     return(
         <Components.Layouts.Main>
             <Switch>
+                <PrivateRoute path={`${path}/activities/:id`} component={Controllers.ActivitytDetails.Index} />
                 <PrivateRoute path={`${path}/projects/:id`} component={Controllers.ProjectDetails.Index} />
                 <PrivateRoute exact path={`${path}/projects`} component={Controllers.Project} />
                 <PrivateRoute exact path={`${path}/activities`} component={Controllers.Activity} />

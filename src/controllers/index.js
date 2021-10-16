@@ -5,10 +5,11 @@ import { Home } from "./home";
 import { Header } from "./header";
 import { User } from "./user";
 import { Project } from "./project";
-import { ProjectDetails as Index } from "./projectDetails";
+import { ProjectDetails as ProjectDetailsIndex } from "./projectDetails";
 import { ProjectEdit } from "./projectEdit";
 import { ProjectMembers } from "./projectMembers";
 import { Activity } from "./activity";
+import { ActivitytDetails as ActivityDetailsIndex} from "./activityDetails";
 
 export const Controllers = {
     Auth: {
@@ -21,9 +22,12 @@ export const Controllers = {
     User,
     Project,
     ProjectDetails: {
-        Index,
+        Index: ProjectDetailsIndex,
         ProjectEdit,
         ProjectMembers
     },
-    Activity
+    Activity,
+    ActivitytDetails: {
+        Index: ActivityDetailsIndex,
+    },
 }

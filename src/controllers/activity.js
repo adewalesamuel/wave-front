@@ -67,10 +67,10 @@ export class Activity extends React.Component {
         this._isMounted = true;
         this.setDefaultDates();
         this.getAllProjects()
-        .then(() => this.getAllProjectMembers(this.getProjectId()))
+        .then(() => this.getAllProjectActivities())
         .then(() => {
-            this.getAllProjectActivities()
-        })
+            this.getAllProjectMembers(this.getProjectId())
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -194,19 +194,19 @@ export class Activity extends React.Component {
             user_id: this.state.user_id,
             project_id: this.getProjectId(),
             description: this.state.description
-        }
+        };
     
         return Services.Activity.create(
             JSON.stringify(payload),
             this.abortController.signal
-            )
+            );
     }
 
     deleteActivity = (self) => {
         return Services.Activity.destroy(
             self.state.id, 
             self.abortController.signal
-            )
+            );
     }
 
     appendActivityData = activity => {
@@ -217,12 +217,13 @@ export class Activity extends React.Component {
             start_date: new Date(activity.start_date).toLocaleDateString('fr').replace(/\//g, '-'),
             budget: activity.budget,
             amount_spent: activity.amount_spent,
-        }
-
+            activity_id: activity.activity_id
+        };
+        
         // Could not create deep copy
-        let activityDataCopy = this.state.activityData.map(item => {return {...item}});
-        let activityTableDataCopy = this.state.activityTableData.map(item => {return {...item}});
-
+        let activityDataCopy = this.state.activityData;
+        let activityTableDataCopy = this.state.activityTableData;
+        
         if (activity.activity_id && activity.activity_id !== "") {
             let parentActivity = activityDataCopy.find(pActivity => pActivity.id === parseInt(activity.activity_id));
             let tableParentActivity = activityTableDataCopy.find(tPActivity => tPActivity.id === parseInt(activity.activity_id));
@@ -230,13 +231,13 @@ export class Activity extends React.Component {
             parentActivity['children'] = parentActivity.children ?? [];
             tableParentActivity['children'] = tableParentActivity.children ?? [];
             
-            // parentActivity['children'].unshift(activity); //Inserted activity object twice in parentActivity and tableParentActivity
+            //parentActivity['children'].unshift(payload); //Inserted activity object twice in parentActivity and tableParentActivity
             tableParentActivity['children'].unshift(payload);
         }else {
             activityDataCopy.unshift(activity);
             activityTableDataCopy.unshift(payload);
         }
-
+        
         this.setState({
             activityTableData: [...activityTableDataCopy],
             activityData: [...activityDataCopy],
@@ -247,7 +248,7 @@ export class Activity extends React.Component {
         let parentActivityIndex = -1;
         let childActivityIndex = -1;
 
-        this.state.activityData.forEach((pActivity, i) => {
+        this.state.activityTableData.forEach((pActivity, i) => {
             if (parseInt(pActivity.id) === parseInt(activity.id)) {
                 parentActivityIndex = i;
                 return;
@@ -259,19 +260,20 @@ export class Activity extends React.Component {
                             childActivityIndex = j;
                             return;
                         }
-                    }) 
+                    }); 
                 }
             }
         });
 
 
         if (childActivityIndex > -1) {
-            // this.state.activityData[parentActivityIndex].children.splice(childActivityIndex,1);
+            // this.state.activityData[parentActivityIndex].children.splice(childActivityIndex,1); Should propably do a deep copy
             this.state.activityTableData[parentActivityIndex].children.splice(childActivityIndex,1);
         }else{
             this.state.activityData.splice(parentActivityIndex,1);
             this.state.activityTableData.splice(parentActivityIndex,1);
         }
+
     }
 
     showActivityDeleteAlert = self => {

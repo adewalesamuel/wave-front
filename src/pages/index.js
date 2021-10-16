@@ -5,10 +5,11 @@ import { Root as RootPage} from "./Root";
 import { Home } from "./home";
 import { User } from "./user";
 import { Project } from "./project";
-import { ProjectDetails as Index } from "./projectDetails";
+import { ProjectDetails as ProjectDetailsIndex } from "./projectDetails";
 import { ProjectEdit } from "./projectEdit";
 import { ProjectMembers } from "./projectMembers";
 import { Activity } from "./activity";
+import { ActivityDetails as ActivityDetailsIndex} from "./activityDetails";
 
 export const Pages = {
     Root: RootPage,
@@ -21,9 +22,12 @@ export const Pages = {
     User,
     Project,
     ProjectDetails: {
-        Index,
+        Index: ProjectDetailsIndex,
         ProjectEdit,
         ProjectMembers
     },
-    Activity
+    Activity,
+    ActivityDetails: {
+        Index: ActivityDetailsIndex,
+    }
 };
