@@ -9,7 +9,8 @@ import { ProjectDetails as ProjectDetailsIndex } from "./projectDetails";
 import { ProjectEdit } from "./projectEdit";
 import { ProjectMembers } from "./projectMembers";
 import { Activity } from "./activity";
-import { ActivitytDetails as ActivityDetailsIndex} from "./activityDetails";
+import { ActivityDetails as ActivityDetailsIndex} from "./activityDetails";
+import { ActivityEdit } from "./activityEdit";
 
 export const Controllers = {
     Auth: {
@@ -27,7 +28,8 @@ export const Controllers = {
         ProjectMembers
     },
     Activity,
-    ActivitytDetails: {
+    ActivityDetails: {
         Index: ActivityDetailsIndex,
+        ActivityEdit
     },
 }

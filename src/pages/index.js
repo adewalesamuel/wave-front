@@ -10,6 +10,7 @@ import { ProjectEdit } from "./projectEdit";
 import { ProjectMembers } from "./projectMembers";
 import { Activity } from "./activity";
 import { ActivityDetails as ActivityDetailsIndex} from "./activityDetails";
+import { ActivityEdit } from "./activityEdit";
 
 export const Pages = {
     Root: RootPage,
@@ -29,5 +30,6 @@ export const Pages = {
     Activity,
     ActivityDetails: {
         Index: ActivityDetailsIndex,
+        ActivityEdit
     }
 };

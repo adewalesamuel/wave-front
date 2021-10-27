@@ -1,15 +1,14 @@
 import React from "react";
 import { Pages } from "../pages";
 
-export class ActivitytDetails extends React.Component {
+export class ActivityDetails extends React.Component {
     constructor(props) {
         super(props);
 
         this.methods = {
         };
         this.state = {  
-            id: '',
-            projectList: [],
+            id: this.props.match.params.id,
         };
     }
 

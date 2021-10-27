@@ -2,7 +2,7 @@ import { NavLink, Switch } from "react-router-dom";
 import { PrivateRoute } from "../components/private-route";
 import { Controllers } from "../controllers";
 
-export function ActivityDetails({methods, state, match}) {
+export function ActivityDetails({state, match}) {
     return(
         <section id="basic-tabs-components">
             <div className="card">
@@ -21,28 +21,14 @@ export function ActivityDetails({methods, state, match}) {
                                     <span className="align-middle">Edit</span>
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" id="documents-tab" data-toggle="tab" 
-                                to={`/activities/${state.id ?? 1}/documents`} aria-controls="documents" role="tab">
-                                    <i className="bx bx-folder align-middle"></i>
-                                    <span className="align-middle">Documents</span>
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" id="indicators-tab" data-toggle="tab" 
-                                to={`/activities/${state.id ?? 1}/indicators`} aria-controls="indicators" role="tab">
-                                    <i className="bx bx-pulse align-middle"></i>
-                                    <span className="align-middle">Indicators</span>
-                                </NavLink>
-                            </li>
                         </ul>
                         <div className="tab-content">
-                        {/* <Switch>
-                            <PrivateRoute exact path={`${match.path}/members`} 
-                            component={Controllers.ProjectDetails.ProjectMembers} />
+                        <Switch>
+                            {/* <PrivateRoute exact path={`${match.path}/members`} 
+                            component={Controllers.ActivityDetails.ActivityMembers} /> */}
                             <PrivateRoute exact path={`${match.path}`} 
-                            component={Controllers.ProjectDetails.ProjectEdit} />
-                        </Switch> */}
+                            component={Controllers.ActivityDetails.ActivityEdit} />
+                        </Switch>
                         </div>
                     </div>
                 </div>

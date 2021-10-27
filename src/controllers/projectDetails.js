@@ -14,13 +14,12 @@ export class ProjectDetails extends React.Component {
             handleProjectChange: this.handleProjectChange.bind(this)
         };
         this.state = {  
-            id: '',
+            id: this.props.match.params.id,
             projectList: [],
         };
     }
 
     componentDidMount() {
-        this.setProjectId(this.props.match.params.id);
         this.getAllProjects();
     }
 

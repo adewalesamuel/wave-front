@@ -325,6 +325,14 @@ export class Activity extends React.Component {
         return event.target.parentElement.getAttribute('data-id');
     }
 
+    setProjectList = projects => {
+        const projectList = projects.map(project => {
+            return {name: project.name, id: project.id};
+        });
+
+        this.setState({projectList});
+    }
+
     setUserList = data => {
         const userList = [];
         data.forEach(item => {
@@ -336,14 +344,6 @@ export class Activity extends React.Component {
             });
         })
         this.setState({userList});
-    }
-
-    setProjectList = projects => {
-        const projectList = projects.map(project => {
-            return {name: project.name, id: project.id};
-        });
-
-        this.setState({projectList});
     }
 
     setProjectId = (projectId, callback = () => null) => {
