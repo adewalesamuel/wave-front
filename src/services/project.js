@@ -20,6 +20,10 @@ const getAllActivities = (id, signal) => {
     return get(`${ENPOINTS.PROJECT}/${id}/activities`, signal);
 }
 
+const getAllIndicators = (id, signal) => {
+    return get(`${ENPOINTS.PROJECT}/${id}/indicators`, signal);
+}
+
 const create = (payload, signal) => {
     return post(ENPOINTS.PROJECT, payload, signal);
 }
@@ -37,6 +41,7 @@ export const Project = {
     getById,
     getAllMembers,
     getAllActivities,
+    getAllIndicators,
     create,
     update,
     destroy

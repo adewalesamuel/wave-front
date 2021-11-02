@@ -11,6 +11,10 @@ import { ProjectMembers } from "./projectMembers";
 import { Activity } from "./activity";
 import { ActivityDetails as ActivityDetailsIndex} from "./activityDetails";
 import { ActivityEdit } from "./activityEdit";
+import { Indicator } from "./indicator";
+import { IndicatorDetails as IndicatorDetailsIndex } from "./indicatorDetails";
+import { IndicatorEdit } from "./indicatorEdit";
+import { IndicatorDisaggregation } from "./indicatorDisaggregation";
 
 export const Pages = {
     Root: RootPage,
@@ -31,5 +35,11 @@ export const Pages = {
     ActivityDetails: {
         Index: ActivityDetailsIndex,
         ActivityEdit
+    },
+    Indicator,
+    IndicatorDetails: {
+        Index: IndicatorDetailsIndex,
+        IndicatorEdit,
+        IndicatorDisaggregation
     }
 };

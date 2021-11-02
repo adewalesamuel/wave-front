@@ -5,6 +5,9 @@ import { Permission } from "./permission";
 import { Project } from "./project";
 import { ProjectMember } from "./projectMembers";
 import { Activity } from "./activity";
+import { Indicator } from "./indicator";
+import { Disaggregation } from "./disaggregation";
+import { IndicatorDisaggregation } from "./indicatorDisaggregation";
 
 export const Services = {
     Auth,
@@ -13,5 +16,8 @@ export const Services = {
     Permission,
     Project,
     ProjectMember,
-    Activity
+    Activity,
+    Indicator,
+    Disaggregation,
+    IndicatorDisaggregation
 }

@@ -33,7 +33,7 @@ export function Table(props) {
         let actions = props.tableActions.map((item, index) => {
             if (item === "edit")
                 return (
-                    <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="link" 
+                    <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="ml-1 link" 
                     onClick={props.methods.handleEditClick ?? null} >
                         <i className="bx bx-edit-alt text-primary bx-small"></i>
                     </button>

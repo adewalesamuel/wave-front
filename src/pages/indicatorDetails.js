@@ -2,13 +2,13 @@ import { NavLink, Switch } from "react-router-dom";
 import { PrivateRoute } from "../components/private-route";
 import { Controllers } from "../controllers";
 
-export function ActivityDetails({state, match}) {
+export function IndicatorDetails({state, match}) {
     return(
         <section id="basic-tabs-components">
             <div className="card">
                 <div className="card-header">
                     <div className="card-title">
-                        <h4>Activity Details</h4>
+                        <h4>Indicator Details</h4>
                     </div>
                 </div>
                 <div className="card-content">
@@ -16,32 +16,32 @@ export function ActivityDetails({state, match}) {
                         <ul className="nav nav-tabs" role="tablist">
                             <li className="nav-item">
                                 <NavLink className="nav-link" id="edit-tab" exact data-toggle="tab" 
-                                to={`/activities/${state.id ?? 1}`} aria-controls="edit" role="tab">
+                                to={`/indicators/${state.id ?? 1}`} aria-controls="edit" role="tab">
                                     <i className="bx bx-home align-middle"></i>
                                     <span className="align-middle">Edit</span>
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" id="documents-tab" data-toggle="tab" 
-                                to={`/activities/${state.id ?? 1}/documents`} aria-controls="documents" role="tab">
-                                    <i className="bx bx-folder align-middle"></i>
-                                    <span className="align-middle">Documents</span>
+                                <NavLink className="nav-link" id="disaggregations-tab" data-toggle="tab" 
+                                to={`/indicators/${state.id ?? 1}/disaggregations`} aria-controls="disaggregations" role="tab">
+                                    <i className="bx bx-collection align-middle"></i>
+                                    <span className="align-middle">Disaggregations</span>
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" id="indicators-tab" data-toggle="tab" 
-                                to={`/activities/${state.id ?? 1}/indicators`} aria-controls="indicators" role="tab">
-                                    <i className="bx bx-pulse align-middle"></i>
-                                    <span className="align-middle">Indicators</span>
+                                <NavLink className="nav-link" id="collected_data-tab" data-toggle="tab" 
+                                to={`/indicators/${state.id ?? 1}/collected_data`} aria-controls="collected_data" role="tab">
+                                    <i className="bx bx-data align-middle"></i>
+                                    <span className="align-middle">Collected Data</span>
                                 </NavLink>
                             </li>
                         </ul>
                         <div className="tab-content">
                         <Switch>
-                            {/* <PrivateRoute exact path={`${match.path}/members`} 
-                            component={Controllers.ActivityDetails.ActivityMembers} /> */}
+                            <PrivateRoute exact path={`${match.path}/disaggregations`} 
+                            component={Controllers.IndicatorDetails.IndicatorDisaggregation} />
                             <PrivateRoute exact path={`${match.path}`} 
-                            component={Controllers.ActivityDetails.ActivityEdit} />
+                            component={Controllers.IndicatorDetails.IndicatorEdit} />
                         </Switch>
                         </div>
                     </div>

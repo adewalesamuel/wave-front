@@ -45,20 +45,6 @@ export function ProjectDetails({methods, state, match}) {
                                     <span className="align-middle">Members</span>
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" id="documents-tab" data-toggle="tab" 
-                                to={`/projects/${state.id ?? 1}/documents`} aria-controls="documents" role="tab">
-                                    <i className="bx bx-folder align-middle"></i>
-                                    <span className="align-middle">Documents</span>
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" id="indicators-tab" data-toggle="tab" 
-                                to={`/projects/${state.id ?? 1}/indicators`} aria-controls="indicators" role="tab">
-                                    <i className="bx bx-pulse align-middle"></i>
-                                    <span className="align-middle">Indicators</span>
-                                </NavLink>
-                            </li>
                         </ul>
                         <div className="tab-content">
                         <Switch>
