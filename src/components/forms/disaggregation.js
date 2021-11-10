@@ -41,8 +41,9 @@ export function Disaggregation({state, methods}) {
                                 state.fields.map((field, index) => {
                                     return (<div className="form-group" key={Math.random()}>
                                             <input disabled={state.isDisaggregationFormDisabled} type="text" 
-                                            id="field-vertical" className="form-control" name={`field${index + 1}`} 
-                                            placeholder={`Field ${index + 1}`} data-index={index} defaultValue={state.fields[index]}/>
+                                            className="form-control" name={`field${index + 1}`} 
+                                            placeholder={`Field ${index + 1}`} data-index={index} 
+                                            defaultValue={state.fields[index]}/>
                                         </div>)
                                 })
                             }        

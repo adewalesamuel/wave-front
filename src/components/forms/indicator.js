@@ -79,7 +79,7 @@ export function Indicator({state, methods}) {
                         <div className="form-group">
                             <label htmlFor="description-info-vertical">Description</label>
                             <textarea className="form-control" name="description" id="description-info-vertical" 
-                            rows="4" onChange={methods.handleChange} value={state.description}>
+                            rows="4" onChange={methods.handleChange} value={state.description ?? ""}>
                             </textarea> 
                         </div>
                     </div>

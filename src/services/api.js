@@ -10,6 +10,10 @@ const HEADERS = new Headers({
     'Connection': 'keep-alive',
     'Authorization': `Bearer ${Modules.Auth.getSessionToken()}`
 });
+const FORMDATA_HEADERS = new Headers({
+    'Accept': 'application/json',
+    'Authorization': `Bearer ${Modules.Auth.getSessionToken()}`
+});
 
 export const get = (endpoint, signal=new AbortController().signal) => {
     return new Promise((resolve, reject) => {
@@ -40,6 +44,31 @@ export const post = (endpoint, payload="", signal=new AbortController().signal) 
         {
             method:"post", 
             headers:HEADERS, 
+            body:payload,
+            signal
+        })
+        .then(response => {
+            if (!response.ok) {
+                return reject({
+                    status: response.status,
+                    messages: getResponseErrors(response)
+                 });
+            }
+
+            return response.json();
+        })
+        .then(result => {
+            resolve(result)
+        })
+        .catch(error => reject(error))
+    })
+}
+export const postFormData = (endpoint, payload="", signal=new AbortController().signal) => {
+    return new Promise((resolve, reject) => {
+        fetch(`${API_URL}${ROOT_PATH}/${endpoint}`,
+        {
+            method:"post", 
+            headers:FORMDATA_HEADERS, 
             body:payload,
             signal
         })
@@ -113,12 +142,11 @@ export const erase = (endpoint, signal=new AbortController().signal) => {
 
 const getResponseErrors = response => {
     return new Promise((resolve, reject) => {
-        if (!response)
-            reject("");
+        if (!response) reject(null);
         
         response.json().then(result => {
             let errorMessages = [];
-    
+            
             errorMessages.push(result.message);
     
             for (let error in result.errors) 

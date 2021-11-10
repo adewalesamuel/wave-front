@@ -12,6 +12,10 @@ const getAllDisaggregations = (id, signal) => {
     return get(`${ENPOINTS.INDICATOR}/${id}/disaggregations`, signal);
 }
 
+const getAllCollectedData = (id, signal) => {
+    return get(`${ENPOINTS.INDICATOR}/${id}/collected_data`, signal);
+}
+
 const getById = (id, signal) => {
     return get(`${ENPOINTS.INDICATOR}/${id}`, signal);
 }
@@ -31,6 +35,7 @@ const destroy = (id, signal) => {
 export const Indicator = {
     getAll,
     getAllDisaggregations,
+    getAllCollectedData,
     getById,
     create,
     update,

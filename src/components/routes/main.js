@@ -15,7 +15,7 @@ export function Main({ match: { path } }) {
                 <PrivateRoute exact path={`${path}/projects`} component={Controllers.Project} />
                 <PrivateRoute exact path={`${path}/activities`} component={Controllers.Activity} />
                 <PrivateRoute exact path={`${path}/users`} component={Controllers.User} />
-                <PrivateRoute exact path={`${path}`} component={Controllers.Home} />
+                <PrivateRoute exact path={`${path}`} component={Controllers.Dashboard} />
                 {/* <Redirect exact from={path + "/"} to={`${path}/`} /> */}
             </Switch>
         </Components.Layouts.Main>

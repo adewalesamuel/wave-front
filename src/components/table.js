@@ -13,7 +13,7 @@ export function Table(props) {
         return tableHead.map((item,index) => {
             return(
                 <th key={index * Math.random()}>
-                    {item}
+                    {item.replace(/_/g, ' ')}
                 </th>
             )
         })

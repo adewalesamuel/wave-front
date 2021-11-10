@@ -1,4 +1,4 @@
-import { Components } from "../components";
+    import { Components } from "../components";
 
 export function IndicatorDisaggregation(props) {
     return(

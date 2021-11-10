@@ -7,6 +7,7 @@ export class ProjectMembers extends React.Component {
     constructor(props) {
         super(props);
 
+        this._isMounted = false;
         this.abortController = new AbortController();
         this.$ = window.$;
         this.$Swal = window.Swal;
@@ -33,17 +34,22 @@ export class ProjectMembers extends React.Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
         const projectId = this.getParams().id;
         this.setProjectId(projectId);
         this.getAllProjectMembers(projectId)
         .then(() => this.getAllUsers());
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+        this.abortController.abort();
+    }
+
     handleProjectMembersSubmit(event) {
         event.preventDefault();
 
-        if (this.isUserFormDisabled() || this.getUserId() === "")
-            return;
+        if (this.isUserFormDisabled() || this.getUserId() === "") return;
 
         this.setProjectMembersErrorMessage('');
         this.setUserFormDisabled();

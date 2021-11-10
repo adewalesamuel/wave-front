@@ -38,6 +38,8 @@ export function IndicatorDetails({state, match}) {
                         </ul>
                         <div className="tab-content">
                         <Switch>
+                            <PrivateRoute exact path={`${match.path}/collected_data`} 
+                            component={Controllers.CollectedData} />
                             <PrivateRoute exact path={`${match.path}/disaggregations`} 
                             component={Controllers.IndicatorDetails.IndicatorDisaggregation} />
                             <PrivateRoute exact path={`${match.path}`} 

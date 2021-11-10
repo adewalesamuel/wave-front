@@ -15,6 +15,8 @@ import { Indicator } from "./indicator";
 import { IndicatorDetails as IndicatorDetailsIndex } from "./indicatorDetails";
 import { IndicatorEdit } from "./indicatorEdit";
 import { IndicatorDisaggregation } from "./indicatorDisaggregation";
+import { CollectedData } from "./collectedData";
+import { Dashboard } from "./dashbaord";
 
 export const Pages = {
     Root: RootPage,
@@ -41,5 +43,7 @@ export const Pages = {
         Index: IndicatorDetailsIndex,
         IndicatorEdit,
         IndicatorDisaggregation
-    }
+    },
+    CollectedData,
+    Dashboard
 };

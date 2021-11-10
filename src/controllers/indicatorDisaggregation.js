@@ -60,6 +60,7 @@ export class IndicatorDisaggregation extends React.Component {
     }
 
     componentDidMount() {
+        this._isMounted = true
         this.getAllIndicatorDisaggregations()
         .then(() => this.getAllDisaggregations());
     }
@@ -77,10 +78,17 @@ export class IndicatorDisaggregation extends React.Component {
     handleChange(event) {
         this.setInputValue(event);
     }
+
+    handleDeleteClick(event) {
+        event.preventDefault();
+        
+        const indicator_disaggregation = this.getClickedIndicatorDisaggregation(event);
+        this.setIndicatorDisaggregationId(indicator_disaggregation.id);
+        this.showIndicatorDisaggregationDeleteAlert(this);
+    }
     
     handleModalCloseClick(event) {
-        if (this.state.isDisaggregationFormDisabled)
-            return;
+        if (this.state.isDisaggregationFormDisabled) return;
             
         this.resetDisaggregationForm();
         this.setIsDisaggregationModalHidden(true);
@@ -90,8 +98,7 @@ export class IndicatorDisaggregation extends React.Component {
     handleDisaggregationSubmit(event) {
         event.preventDefault();
         
-        if (this.state.isDisaggregationFormDisabled)
-        return;
+        if (this.state.isDisaggregationFormDisabled) return;
             
         this.setDisaggregationErrorMessage('');
         this.setIsDisaggregationFormDisabled(event);
@@ -134,17 +141,11 @@ export class IndicatorDisaggregation extends React.Component {
         event.preventDefault();
         this.setIsDisaggregationModalHidden(false);
     }
-    
-    handleDeleteClick(event) {
-        event.preventDefault();
-    }
 
     handleAddFieldClick(event) {
         event.preventDefault();
 
-        let fields = Array.from(window.document.getElementById('fields')
-        .getElementsByTagName('input'))
-        .map(input => input.value)
+        let fields = this.getFields();
         
         fields.push("");
         
@@ -202,9 +203,7 @@ export class IndicatorDisaggregation extends React.Component {
     }
     
     createDisaggregation = () => {
-        let fields = Array.from(window.document.getElementById('fields')
-        .getElementsByTagName('input'))
-        .map(input => input.value)
+        let fields = this.getFields();
         this.setFields(fields);
 
         const payload = {
@@ -229,6 +228,13 @@ export class IndicatorDisaggregation extends React.Component {
         return Services.IndicatorDisaggregation.create(
             JSON.stringify(payload),
             this.abortController.signal
+            )
+    }
+
+        deleteIndicatorDisaggregation = (self) => {
+        return Services.IndicatorDisaggregation.destroy(
+            self.state.id, 
+            self.abortController.signal
             )
     }
     
@@ -260,6 +266,26 @@ export class IndicatorDisaggregation extends React.Component {
         });
     }
 
+    removeIndicatorDisaggregationData = indicator_disaggregation => {
+            let indicatorDisaggregationTableIndex;
+
+            this.state.indicatorDisaggregationTableData.forEach((item, index) => {
+                if (indicator_disaggregation.id === item['id'])
+                    indicatorDisaggregationTableIndex = index
+            });
+
+            let indicatorDisaggregationTableDataCopy = [...this.state.indicatorDisaggregationTableData];
+            let indicatorDisaggregationDataCopy = [...this.state.indicatorDisaggregationData];
+
+            indicatorDisaggregationDataCopy.splice(indicatorDisaggregationTableIndex,1);
+            indicatorDisaggregationTableDataCopy.splice(indicatorDisaggregationTableIndex,1);
+
+            this.setState({
+                indicatorDisaggregationTableData: [...indicatorDisaggregationTableDataCopy],
+                indicatorDisaggregationData: [...indicatorDisaggregationDataCopy],
+            });
+        }
+
     showIndicatorDisaggregationDeleteAlert = self => {
         if (!self.$Swal) return
 
@@ -275,10 +301,10 @@ export class IndicatorDisaggregation extends React.Component {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                self.deleteDisaggregation(self)
+                self.deleteIndicatorDisaggregation(self)
                 .then(res => {
-                    self.removeDisaggregationData(res.data.indicatorDisaggregation);
-                    self.resetDisaggregationForm();
+                    Modules.Auth.redirectIfSessionExpired(res, self.history);
+                    self.removeIndicatorDisaggregationData(res.data.indicator_disaggregation);
                 })
                 .catch(response => {
                     console.log(response);
@@ -287,7 +313,7 @@ export class IndicatorDisaggregation extends React.Component {
             else if (result.dismiss === self.$Swal.DismissReason.cancel) {
                 return false;
             }
-        })
+        });
     }
     
     resetDisaggregationForm = () => {
@@ -298,17 +324,35 @@ export class IndicatorDisaggregation extends React.Component {
         });
     }
     
+    getClickedIndicatorDisaggregation = (event) => {
+        const dataDiff = this.state.indicatorDisaggregationTableData.length - this.state.indicatorDisaggregationData.length;
+        const dataIndex = event.target.parentElement.getAttribute('data-index') - dataDiff;
+        
+        return this.state.indicatorDisaggregationData[dataIndex];
+    }
+
+    getFields = () => {
+        return Array.from(window.document.getElementById('fields')
+        .getElementsByTagName('input'))
+        .map(input => input.value);
+    }
+    
     setFields = fields => {
-        this.setState({fields: [...fields]})
+        this.setState({fields: [...fields]});
     }
 
     setIsDisaggregationFormDisabled = (event, val=true) => {
         event.target.disabled = val;
-        this.setState({isDisaggregationFormDisabled: val})
+        this.setState({isDisaggregationFormDisabled: val});
     }
    
     setIsIndicatorDisaggregationFormDisabled = (val=true) => {
-        this.setState({isIndicatorDisaggregationFormDisabled: val})
+        if (!this._isMounted) return;
+        this.setState({isIndicatorDisaggregationFormDisabled: val});
+    }
+
+    setIndicatorDisaggregationId = (id) => {
+        this.setState({id});
     }
 
     setDisaggregationErrorMessage =  disaggregationErrorMessage => {
@@ -320,7 +364,7 @@ export class IndicatorDisaggregation extends React.Component {
     }
 
     setIsDisaggregationModalHidden = isDisaggregationModalHidden => {
-        this.setState({isDisaggregationModalHidden})
+        this.setState({isDisaggregationModalHidden});
     }
 
     setIndicatorDisaggregationData = data => {
@@ -328,7 +372,7 @@ export class IndicatorDisaggregation extends React.Component {
     }
 
     setIndicatorDisaggregationTableData = data => {
-        const indicatorDisaggregationTableData = []
+        const indicatorDisaggregationTableData = [];
         data.forEach(item => {
             if (!item.disaggregation) return;
             indicatorDisaggregationTableData.push({
@@ -346,7 +390,7 @@ export class IndicatorDisaggregation extends React.Component {
     }
 
     setIsDisaggregationModalHidden = isDisaggregationModalHidden => {
-        this.setState({isDisaggregationModalHidden})
+        this.setState({isDisaggregationModalHidden});
     }
 
     setDisaggregationId = disaggregationId => {
