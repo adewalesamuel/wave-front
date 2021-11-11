@@ -38,6 +38,7 @@ export function Indicator(props) {
                                 tableHead={props.state.indicatorTableHead ?? null}
                                 tableData={props.state.indicatorTableData ?? null} 
                                 tableActions={props.state.indicatorTableActions ?? null}
+                                cellDataAsLink={{name: null}}
                                 tableName="indicator"
                                 methods={props.methods} />
                         </div>

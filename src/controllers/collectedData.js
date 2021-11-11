@@ -311,7 +311,8 @@ export class CollectedData extends React.Component {
             id: collected_data.id,
             values: collected_data.values,
             collection_date: new Date(collected_data.collection_date).toLocaleDateString('en').replace(/\//g, '-'),
-            file_name: collected_data.file_name
+            file_name: collected_data.file_name,
+            file_url: '/storage/' + collected_data.file_url
         }
         this.setState((state) => {
             return {
@@ -398,12 +399,12 @@ export class CollectedData extends React.Component {
 
     setCollectedDataTableData = data => {
         const collectedDataTableData = data.map(item => {
-            const {id, values, collection_date, file_name} = item;
+            const {id, values, collection_date, file_name, file_url} = item;
 
             return {id, values, 
                 collection_date: new Date(collection_date)
                 .toLocaleDateString('en').replace(/\//g, '-'), 
-                file_name};
+                file_name, file_url: '/storage/' + file_url};
         })
 
         this.setState({collectedDataTableData});

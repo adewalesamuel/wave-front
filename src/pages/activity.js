@@ -38,6 +38,12 @@ export function Activity(props) {
                                 tableHead={props.state.activityTableHead ?? null}
                                 tableData={props.state.activityTableData ?? null} 
                                 tableActions={props.state.activityTableActions ?? null}
+                                cellDataAsLink={{name: null}}
+                                cellDataClassNameByValue={{status: {
+                                    'open': 'badge badge-pill badge-light-success',
+                                    'pending': 'badge badge-pill badge-light-warning',
+                                    'closed': 'badge badge-pill badge-light-secondary'
+                                }}}
                                 tableName="activity"
                                 methods={props.methods} />
                         </div>

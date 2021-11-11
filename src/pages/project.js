@@ -55,6 +55,12 @@ export function Project(props) {
                                 tableHead={props.state.projectTableHead ?? null}
                                 tableData={props.state.projectTableData ?? null} 
                                 tableActions={props.state.projectTableActions ?? null}
+                                cellDataAsLink={{name: null}}
+                                cellDataClassNameByValue={{status: {
+                                    'open': 'badge badge-pill badge-light-success',
+                                    'pending': 'badge badge-pill badge-light-warning',
+                                    'closed': 'badge badge-pill badge-light-secondary'
+                                }}}
                                 tableName="projects"
                                 methods={props.methods} />
                         </div>

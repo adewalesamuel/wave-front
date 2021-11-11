@@ -55,6 +55,7 @@ export function CollectedData(props) {
                                 tableHead={props.state.collectedDataTableHead ?? null}
                                 tableData={props.state.collectedDataTableData ?? null} 
                                 tableActions={props.state.collectedDataTableActions ?? null}
+                                cellDataAsLink={{'file_name': {tableData: 'file_url'}}}
                                 tableName="collected_data"
                                 methods={props.methods} />
                         </div>

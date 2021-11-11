@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { Link } from 'react-router-dom';
 
 export function Table(props) {
     function renderTableHead() {
@@ -23,8 +24,30 @@ export function Table(props) {
         let tableCells = [];
 
         for (const key in data)  {
-            if (props.tableHead.includes(key))
-                tableCells.push(<td style={{borderBottom: "1px solid #DFE3E7"}} key={Math.random()}>{data[key]}</td>);
+            if (props.tableHead.includes(key)) {
+                if (props.cellDataAsLink && key in props.cellDataAsLink) {
+                    if (props.cellDataAsLink[key] && 'tableData' in props.cellDataAsLink[key] 
+                    && data[props.cellDataAsLink[key].tableData]) {
+                        tableCells.push(<td style={{borderBottom: "1px solid #DFE3E7"}} key={Math.random()}>
+                            <a href={data[props.cellDataAsLink[key].tableData]}>
+                                {data[key]}
+                            </a>
+                        </td>);
+                    } else {
+                        tableCells.push(<td style={{borderBottom: "1px solid #DFE3E7"}} key={Math.random()}>
+                                <Link to={props.cellDataAsLink[key] ?? `${props.location.pathname}/${data.id.toString()}`}>
+                                    {data[key]}
+                                </Link>
+                            </td>);
+                    }
+                } else if (props.cellDataClassNameByValue && key in props.cellDataClassNameByValue){
+                    tableCells.push(<td style={{borderBottom: "1px solid #DFE3E7"}} key={Math.random()}>
+                            <span className={props.cellDataClassNameByValue[key][data[key]]}>{data[key]}</span>
+                        </td>);
+                }else {
+                    tableCells.push(<td style={{borderBottom: "1px solid #DFE3E7"}} key={Math.random()}>{data[key]}</td>);
+                }
+            }
         }
 
         if (!props.tableActions) 
@@ -99,6 +122,8 @@ export function Table(props) {
             )
         })
     }
+
+
 
     return(
         <div className="table-responsive">
