@@ -30,6 +30,37 @@ export function Dashboard(props) {
                 </div>
             </div>
             <div className="graph-list-card">
+                {
+                    props.state.projectInfo ?
+                    <div className="row">
+                        <div className="col-xl-3 col-md-4 col-sm-6">
+                            <div className="card text-center">
+                                <div className="card-content">
+                                    <div className="card-body">
+                                        <div className="badge-circle badge-circle-lg badge-circle-light-primary mx-auto my-1">
+                                            <i className="bx bx-money font-medium-5"></i>
+                                        </div>
+                                        <p className="text-muted mb-0 line-ellipsis">Budget</p>
+                                        <h2 className="mb-0">{props.state.projectInfo.budget}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div className="col-xl-3 col-md-4 col-sm-6">
+                            <div className="card text-center">
+                                <div className="card-content">
+                                    <div className="card-body">
+                                        <div className="badge-circle badge-circle-lg bg-rgba-warning mx-auto my-1">
+                                            <i className="bx bx-dollar text-warning font-medium-5"></i>
+                                        </div>
+                                        <p className="text-muted mb-0 line-ellipsis">Amount Spent</p>
+                                        <h2 className="mb-0">{props.state.projectInfo.amount_spent}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> : null
+                }
                 <div className="row">
                     {
                     props.state.graphData.map((graph, index) => {

@@ -68,11 +68,15 @@ export class Indicator extends React.Component {
     componentDidMount() {
         this._isMounted = true;
         this.getAllProjects()
-        .then(() => this.getAllProjectIndicators());
+        .then(() => {
+            if (this.getProjectId() === '') return;
+            this.getAllProjectIndicators()
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.projectId === "" ) return;
+        if (this.getProjectId() === '') return;
         if (this.getProjectId() && this.getProjectId() === prevState.projectId) return;
         this.getAllProjectIndicators();
     }
@@ -186,7 +190,9 @@ export class Indicator extends React.Component {
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setProjectList(res.data.projects);
-            this.setProjectId(res.data.projects[0].id);
+
+            if (res.data.projects.length > 0)
+                this.setProjectId(res.data.projects[0].id);
         })
         .catch(err => console.log(err));
     }

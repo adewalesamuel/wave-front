@@ -8,6 +8,7 @@ export class Dashboard extends React.Component {
     constructor(props) {
         super(props);
 
+        this._isMounted = false;
         this.abortController = new AbortController();
         this.$ = window.$;
         this.$Swal = window.Swal;
@@ -23,6 +24,7 @@ export class Dashboard extends React.Component {
         };
         this.state = {
             projectId: '',
+            projectInfo:null,
             graphData: [
                 // {
                 //     name: "Graph 1",
@@ -101,12 +103,27 @@ export class Dashboard extends React.Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.getAllProjects()
-        .then(() => this.getAllGraphByProject())
-        .then(() => {this.getAllProjectIndicators()});
+        .then(() => {
+            if (this.state.projectId === '') return;
+
+            this.getAllProjectIndicators()
+            .then(() => this.getAllGraphByProject())
+        });
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.projectId === "" ) return;
+        if (this.state.projectId && this.state.projectId === prevState.projectId) return;
+        if (this.state.projectId === '') return;
+
+        this.getAllGraphByProject()
+        .then(() => this.getAllProjectIndicators());
     }
 
     componentWillUnmount() {
+        this._isMounted = false;
         this.abortController.abort();
     } 
 
@@ -130,7 +147,7 @@ export class Dashboard extends React.Component {
     handleGraphSubmit(event) {
         event.preventDefault();
         
-        if (this.state.isGraphFormDisabled) return;
+        if (this.state.isGraphFormDisabled || this.state.indicators === "") return;
             
         this.setGraphErrorMessage('');
         this.setIsGraphFormDisabled();
@@ -176,6 +193,7 @@ export class Dashboard extends React.Component {
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setGraphData(res.data.graphs);
+            this.setProjectInfo(res.data.project_info);
         })
         .catch(err => console.log(err));
     }
@@ -185,7 +203,8 @@ export class Dashboard extends React.Component {
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setProjectList(res.data.projects);
-            this.setProjectId(res.data.projects[0].id)
+            if (res.data.projects.length > 0)
+                this.setProjectId(res.data.projects[0].id);
         })
         .catch(err => console.log(err));
     }
@@ -278,15 +297,19 @@ export class Dashboard extends React.Component {
     }
 
     setGraphData = graphData => {
-        this.setState({graphData})
+        this.setState({graphData});
+    }
+   
+    setProjectInfo = projectInfo => {
+        this.setState({projectInfo});
     }
 
     setGraphModalTitle = (graphModalTitle) => {
-        this.setState({graphModalTitle})
+        this.setState({graphModalTitle});
     }
 
     setIsGraphModalHidden = isGraphModalHidden => {
-        this.setState({isGraphModalHidden})
+        this.setState({isGraphModalHidden});
     }
 
     setGraphErrorMessage = graphErrorMessage => {

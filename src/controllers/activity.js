@@ -67,15 +67,17 @@ export class Activity extends React.Component {
         this._isMounted = true;
         this.setDefaultDates();
         this.getAllProjects()
-        .then(() => this.getAllProjectActivities())
         .then(() => {
+            if (this.getProjectId() === '') return;
             this.getAllProjectMembers(this.getProjectId())
+            .then(() => this.getAllProjectActivities())
         });
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.projectId === "" ) return;
         if (this.getProjectId() && this.getProjectId() === prevState.projectId) return;
+        if (this.getProjectId() === '') return;
         this.getAllProjectActivities();
         this.getAllProjectMembers(this.getProjectId());
     }
@@ -165,7 +167,8 @@ export class Activity extends React.Component {
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setProjectList(res.data.projects);
-            this.setProjectId(res.data.projects[0].id);
+            if (res.data.projects.length > 0)
+                this.setProjectId(res.data.projects[0].id);
         })
         .catch(err => console.log(err));
     }
