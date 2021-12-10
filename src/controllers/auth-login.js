@@ -20,31 +20,31 @@ export class Login extends React.Component {
             email:"",
             password:"",
             formDisabled: false,
-        };
+        };  
     }
 
     componentWillUnmount() {
         this.abortController.abort();
     } 
+    
+    onHandleSubmit(event) {
+        event.preventDefault();
 
-    setInputValue = event => {
-        this.setState({
-            [event.target.name]: event.target.value
+        if (this.state.formDisabled)
+            return
+
+        this.setLoginError("");
+        this.setFormDisabled(event);
+        this.login()
+        .then(res => {
+            Modules.Auth.setSessionToken(res.access_token);
+            this.setFormDisabled(event, false);
+            this.goToTargetPage();
+        })
+        .catch(response => {
+            this.handleLoginError(response);
+            this.setFormDisabled(event, false)
         });
-    }
-
-    setFormDisabled = (event, val=true) => {
-        event.target.disabled = val;
-        this.setState({formDisabled: val})
-    }
-
-    setLoginError = (errText) => {
-        this.setState({loginError: errText});
-    }
-
-    goToTargetPage = () => {
-        const page = this.location.state ? this.location.state.from : '/';
-        this.history.replace(page);
     }
 
     login = () => {
@@ -70,25 +70,25 @@ export class Login extends React.Component {
         this.setInputValue(event);
     }
 
-
-    onHandleSubmit(event) {
-        event.preventDefault();
-
-        if (this.state.formDisabled)
-            return
-
-        this.setLoginError("");
-        this.setFormDisabled(event);
-        this.login()
-        .then(res => {
-            Modules.Auth.setSessionToken(res.access_token);
-            this.setFormDisabled(event, false);
-            this.goToTargetPage();
-        })
-        .catch(response => {
-            this.handleLoginError(response);
-            this.setFormDisabled(event, false)
+    setInputValue = event => {
+        this.setState({
+            [event.target.name]: event.target.value
         });
+    }
+
+    setFormDisabled = (event, val=true) => {
+        event.target.disabled = val;
+        this.setState({formDisabled: val})
+    }
+
+    setLoginError = (errText) => {
+        this.setState({loginError: errText});
+    }
+
+    goToTargetPage = () => {
+        const page = this.location.state ? this.location.state.from : '/';
+        this.history.replace(page);
+
     }
 
     render() {

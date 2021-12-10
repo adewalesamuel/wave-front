@@ -33,7 +33,7 @@ export function Dashboard(props) {
                 {
                     props.state.projectInfo ?
                     <div className="row">
-                        <div className="col-xl-3 col-md-4 col-sm-6">
+                        <div className="col-xl-3 col-md-4 col-sm-6 col-6">
                             <div className="card text-center">
                                 <div className="card-content">
                                     <div className="card-body">
@@ -46,7 +46,7 @@ export function Dashboard(props) {
                                 </div>
                             </div>
                         </div> 
-                        <div className="col-xl-3 col-md-4 col-sm-6">
+                        <div className="col-xl-3 col-md-4 col-sm-6 col-6">
                             <div className="card text-center">
                                 <div className="card-content">
                                     <div className="card-body">
@@ -55,6 +55,19 @@ export function Dashboard(props) {
                                         </div>
                                         <p className="text-muted mb-0 line-ellipsis">Amount Spent</p>
                                         <h2 className="mb-0">{props.state.projectInfo.amount_spent}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-3 col-md-4 col-sm-6 col-6">
+                            <div className="card text-center">
+                                <div className="card-content">
+                                    <div className="card-body">
+                                        <div className="badge-circle badge-circle-lg bg-rgba-danger mx-auto my-1">
+                                            <i className="bx bx-loader-circle text-danger font-medium-5"></i>
+                                        </div>
+                                        <p className="text-muted mb-0 line-ellipsis">Completed At</p>
+                                        <h2 className="mb-0">{ Math.ceil((100 * props.state.projectInfo.activities_closed) / props.state.projectInfo.activities_all)} %</h2>
                                     </div>
                                 </div>
                             </div>

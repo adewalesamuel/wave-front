@@ -10,8 +10,7 @@ export function Header({methods, state}) {
                 <ul className="nav navbar-nav flex-row">
                     <li className="nav-item">
                         <Link className="navbar-brand" to="/">
-                            <div className="brand-logo"><img className="logo" src={logoLightImg} alt="wave logo"/></div>
-                            <h2 className="brand-text mb-0">{process.env.REACT_APP_NAME ?? "App"}</h2>
+                            <div className="brand-logo"><img className="logo" src={logoLightImg} alt="wave logo" style={{height:"60px", transform: "translateY(-10px)"}}/></div>
                         </Link>
                     </li>
                 </ul>

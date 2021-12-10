@@ -3,13 +3,11 @@ import { Link } from 'react-router-dom';
 
 export function Table(props) {
     function renderTableHead() {
-        if (!props.tableHead)
-            return null;
+        if (!props.tableHead) return null;
 
         let tableHead = [...props.tableHead];
 
-        if (props.tableActions)
-            tableHead.push('actions');
+        if (props.tableActions) tableHead.push('actions');
 
         return tableHead.map((item,index) => {
             return(
@@ -50,8 +48,7 @@ export function Table(props) {
             }
         }
 
-        if (!props.tableActions) 
-            return tableCells;
+        if (!props.tableActions) return tableCells;
 
         let actions = props.tableActions.map((item, index) => {
             if (item === "edit")
@@ -86,8 +83,7 @@ export function Table(props) {
     }
 
     function renderTableRows() {
-        if (!props.tableData)
-            return null;
+        if (!props.tableData) return null;
 
         return props.tableData.map((item,index) => {
             return(

@@ -333,8 +333,7 @@ export class User extends React.Component {
         let userTableIndex;
 
         this.state.userTableData.forEach((item, index) => {
-            if (user.id === item['id'])
-                userTableIndex = index
+            if (user.id === item['id']) userTableIndex = index;
         });
 
 
@@ -371,8 +370,7 @@ export class User extends React.Component {
         let userTableIndex;
 
         this.state.userTableData.forEach((item, index) => {
-            if (user.id === item['id'])
-                userTableIndex = index
+            if (user.id === item['id']) userTableIndex = index;
         });
 
         let userTableDataCopy = [...this.state.userTableData];
@@ -428,8 +426,7 @@ export class User extends React.Component {
     }
 
     handleModalCloseClick() {
-        if (this.state.formDisabled)
-            return; 
+        if (this.state.formDisabled) return; 
 
         this.resetUserForm()
         this.setIsUserModalHidden(true);
@@ -437,8 +434,7 @@ export class User extends React.Component {
     }
 
     handleRoleModalCloseClick() {
-        if (this.state.roleFormDisabled)
-            return;
+        if (this.state.roleFormDisabled) return;
 
         this.resetRoleForm()
         this.setIsRoleModalHidden(true);
@@ -468,8 +464,7 @@ export class User extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        if (this.state.formDisabled)
-            return;
+        if (this.state.formDisabled) return;
 
         this.setUserErrorMessage("");
         this.setFormDisabled(event);
@@ -504,8 +499,7 @@ export class User extends React.Component {
     handleRoleSubmit = event => {
         event.preventDefault();
 
-        if (this.state.roleFormDisabled)
-            return;
+        if (this.state.roleFormDisabled)  return;
 
         this.setRoleErrorMessage("");
         this.setRoleFormDisabled(event);

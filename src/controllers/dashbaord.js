@@ -234,14 +234,18 @@ export class Dashboard extends React.Component {
         const graphOptions = {
             parsing: {
                 xAxisKey: 'name',
-                yAxisKey: 'value'
+                yAxisKey: 'value',
+            },
+            title: {
+                display: true,
+                text: graph.name
             }
         } 
         const graphData = {
             labels,
             datasets:[
                {
-                  label:graph.name,
+                  label: graph.name,
                   data,
                   backgroundColor:[
                    'rgba(255,105,145,0.6)',
@@ -257,13 +261,13 @@ export class Dashboard extends React.Component {
 
         switch (graph.type) {
             case 'v-bar':
-                return <Bar data={graphData} options={graphOptions ?? null}/>;
+                return <Bar data={graphData} options={graphOptions}/>;
             case 'graph':
-                return <Line data={graphData} options={graphOptions ?? null}/>;
+                return <Line data={graphData} options={graphOptions}/>;
             case 'donut':
-                return <Pie data={graphData} options={graphOptions ?? null}/>;
+                return <Pie data={graphData} options={graphOptions}/>;
             default:
-                return <Bar data={graphData} options={graphOptions ?? null}/>;
+                return <Bar data={graphData} options={graphOptions}/>;
         }
     }
 
