@@ -21,9 +21,11 @@ export class Activity extends React.Component {
             handleActivitySubmit: this.handleActivitySubmit.bind(this),
             handleDeleteClick: this.handleDeleteClick.bind(this),
             handleInfoClick: this.handleInfoClick.bind(this),
-            handleProjectChange:  this.handleProjectChange.bind(this)
+            handleProjectChange:  this.handleProjectChange.bind(this),
+            handleCountryChange: this.handleCountryChange.bind(this)
         };
         this.state = {
+            countryId: '',
             projectId: '',
             activityTableHead: [
                 'id', 
@@ -34,6 +36,7 @@ export class Activity extends React.Component {
                 'amount_spent'
             ],
             activityData: [],
+            countryData: [],
             userList: [],
             projectList: [],
             activityTableData: [],
@@ -64,22 +67,44 @@ export class Activity extends React.Component {
     }
 
     componentDidMount() {
-        this._isMounted = true;
+        // if (!Modules.Auth.getUser().isAdmin()) {
+        //     this.setCountryData([Modules.Auth.getUser().country]);
+        //     this.setCountryId(Modules.Auth.getUser().country.id);
+        //     this.getAllCountryProjects();
+        //     return;
+        // }
+
         this.setDefaultDates();
-        this.getAllProjects()
+        this.getAllCountries()
         .then(() => {
+            this.getAllCountryProjects();
+
             if (this.getProjectId() === '') return;
+
             this.getAllProjectMembers(this.getProjectId())
             .then(() => this.getAllProjectActivities())
         });
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.projectId === "" ) return;
-        if (this.getProjectId() && this.getProjectId() === prevState.projectId) return;
-        if (this.getProjectId() === '') return;
-        this.getAllProjectActivities();
-        this.getAllProjectMembers(this.getProjectId());
+    componentDidUpdate(prevProps, prevState) {        
+        if ( this.state.countryId === '') return;
+        if (this.state.countryId && this.state.countryId === prevState.countryId) {
+            if (this.getProjectId() === '') return;
+            if (this.getProjectId() && this.getProjectId() === prevState.projectId) {
+                return;
+            }else {
+                this.getAllProjectActivities();
+                this.getAllProjectMembers(this.getProjectId());
+            }
+            return;
+        }else {
+            this.getAllCountryProjects();
+
+            if (this.getProjectId() === '') return;
+
+            this.getAllProjectActivities();
+            this.getAllProjectMembers(this.getProjectId());
+        };
     }
 
     componentWillUnmount() {
@@ -99,6 +124,11 @@ export class Activity extends React.Component {
 
     handleChange(event) {
         this.setInputValue(event);
+    }
+
+    handleCountryChange(event) {
+        event.preventDefault();
+        this.setCountryId(event.target.value);
     }
     
     handleModalCloseClick(event) {
@@ -162,11 +192,35 @@ export class Activity extends React.Component {
         .catch(err => console.log(err));
     }
 
+    getAllCountries = () => {
+        return Services.Country.getAll(this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            this.setCountryData(res.data.countries);
+
+            if (res.data.countries.length > 0)
+                this.setCountryId(res.data.countries[0].id);
+        })
+        .catch(err => console.log(err));
+    }
+
+    getAllCountryProjects = () => {
+        return Services.Country.getAllProjects(this.state.countryId, this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history);
+            this.setProjectData(res.data.projects);
+
+            if (res.data.projects.length > 0)
+                this.setProjectId(res.data.projects[0].id);
+        })
+        .catch(err => console.log(err));
+    }
+
     getAllProjects = () => {
         return Services.Project.getAll(this.abortController.signal)
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
-            this.setProjectList(res.data.projects);
+            this.setProjectData(res.data.projects);
             if (res.data.projects.length > 0)
                 this.setProjectId(res.data.projects[0].id);
         })
@@ -328,12 +382,20 @@ export class Activity extends React.Component {
         return event.target.parentElement.getAttribute('data-id');
     }
 
-    setProjectList = projects => {
+    setProjectData = projects => {
         const projectList = projects.map(project => {
             return {name: project.name, id: project.id};
         });
 
         this.setState({projectList});
+    }
+
+    setCountryId = countryId => {
+        this.setState({countryId});
+    }
+
+    setCountryData = data => {
+        this.setState({countryData: [...data]});
     }
 
     setUserList = data => {
@@ -380,10 +442,6 @@ export class Activity extends React.Component {
         this.setState({activityData: [...data]});
     }
 
-    setIsActivityModalHidden = isActivityModalHidden => {
-        this.setState({isActivityModalHidden})
-    }
-    
     setStatus = status => {
         this.setState({status})
     }

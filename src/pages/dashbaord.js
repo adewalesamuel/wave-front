@@ -41,7 +41,7 @@ export function Dashboard(props) {
                                             <i className="bx bx-money font-medium-5"></i>
                                         </div>
                                         <p className="text-muted mb-0 line-ellipsis">Budget</p>
-                                        <h2 className="mb-0">{props.state.projectInfo.budget}</h2>
+                                        <h2 className="mb-0">{props.state.projectInfo.budget ?? 0}</h2>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@ export function Dashboard(props) {
                                             <i className="bx bx-dollar text-warning font-medium-5"></i>
                                         </div>
                                         <p className="text-muted mb-0 line-ellipsis">Amount Spent</p>
-                                        <h2 className="mb-0">{props.state.projectInfo.amount_spent}</h2>
+                                        <h2 className="mb-0">{props.state.projectInfo.amount_spent ?? 0}</h2>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +67,10 @@ export function Dashboard(props) {
                                             <i className="bx bx-loader-circle text-danger font-medium-5"></i>
                                         </div>
                                         <p className="text-muted mb-0 line-ellipsis">Completed At</p>
-                                        <h2 className="mb-0">{ Math.ceil((100 * props.state.projectInfo.activities_closed) / props.state.projectInfo.activities_all)} %</h2>
+                                        <h2 className="mb-0">
+                                            { Math.ceil((100 * props.state.projectInfo.activities_closed) / 
+                                            ((props.state.projectInfo.activities_all !== 0) ? props.state.projectInfo.activities_all : 1))} %
+                                            </h2>
                                     </div>
                                 </div>
                             </div>

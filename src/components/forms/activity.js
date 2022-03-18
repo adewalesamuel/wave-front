@@ -92,7 +92,7 @@ export function Activity({state, methods}) {
                             <label htmlFor="amount_spent">Assigned user</label>
                             <fieldset className="form-group">
                                 <select className="select2 form-control" onChange={methods.handleChange} 
-                                name="user_id" value={state.user_id}>
+                                name="user_id" value={state.user_id ?? ""}>
                                     <option hidden>Select the user</option>
                                     {
                                         state.userList.map(user => {

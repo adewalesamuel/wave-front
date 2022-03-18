@@ -6,7 +6,7 @@ export function Project(props) {
             <div className="projects-list-filter px-1">
                 <div className="row border rounded py-2 mb-2 justify-content-between">
                     <form className="col-12 col-sm-6 col-lg-4">
-                        <label htmlFor="countries-list-name">Select a project</label>
+                        <label htmlFor="countries-list-name">Select a country</label>
                         <fieldset className="form-group">
                             <select className="form-control" id="countries-list-status" 
                             onChange={props.methods.handleCountryChange ?? null} name="countryData" 

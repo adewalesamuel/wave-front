@@ -1,6 +1,5 @@
 import logoLightImg from '../app-assets/images/logo/logo-light.png';
 import portraitSmallAvatarS11Img from '../app-assets/images/portrait/small/avatar-s-11.jpg';
-import portraitSmallAvatarS16Img from '../app-assets/images/portrait/small/avatar-s-16.jpg';
 import { Link } from 'react-router-dom';
 
 export function Header({methods, state}) {
@@ -27,24 +26,24 @@ export function Header({methods, state}) {
                                 </li>
                             </ul>
                             <ul className="nav navbar-nav bookmark-icons">
-                                <li className="nav-item d-none d-lg-block">
+                                {/* <li className="nav-item d-none d-lg-block">
                                     <Link className="nav-link" to="/" data-toggle="tooltip" data-placement="top" 
                                     title="Email">
                                         <i className="ficon bx bx-envelope"></i>
                                     </Link>
-                                </li>
+                                </li> */}
                                 {/* <li className="nav-item d-none d-lg-block">
                                     <a className="nav-link" to="app-chat.html" data-toggle="tooltip" data-placement="top" 
                                     title="Chat">
                                         <i className="ficon bx bx-chat"></i>
                                     </a>
                                 </li> */}
-                                <li className="nav-item d-none d-lg-block">
+                                {/* <li className="nav-item d-none d-lg-block">
                                     <Link className="nav-link" to="/" data-toggle="tooltip" data-placement="top" 
                                     title="Calendar">
                                         <i className="ficon bx bx-calendar-alt"></i>
                                     </Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                         <ul className="nav navbar-nav float-right d-flex align-items-center">
@@ -63,13 +62,13 @@ export function Header({methods, state}) {
                                     </span>
                                 </div>
                             </li>
-                            <li className="nav-item d-none d-lg-block">
+                            {/* <li className="nav-item d-none d-lg-block">
                                 <button className="nav-link nav-link-expand link">
                                     <i className="ficon bx bx-fullscreen"></i>
                                 </button>
-                            </li>
+                            </li> */}
                             <li className="nav-item nav-search">
-                                <button className="nav-link nav-link-search pt-2 link">
+                                {/* <button className="nav-link nav-link-search pt-2 link">
                                     <i className="ficon bx bx-search"></i>
                                 </button>
                                 <div className="search-input">
@@ -78,10 +77,10 @@ export function Header({methods, state}) {
                                     data-search="template-search" />
                                     <div className="search-input-close"><i className="bx bx-x"></i></div>
                                     <ul className="search-list"></ul>
-                                </div>
+                                </div> */}
                             </li>
                             <li className="dropdown dropdown-notification nav-item">
-                                <button className="nav-link nav-link-label link" data-toggle="dropdown">
+                                {/* <button className="nav-link nav-link-label link" data-toggle="dropdown">
                                     <i className="ficon bx bx-bell bx-tada bx-flip-horizontal"></i>
                                     <span className="badge badge-pill badge-danger badge-up">0</span>
                                 </button>
@@ -115,7 +114,7 @@ export function Header({methods, state}) {
                                             Read all notifications
                                         </button>
                                     </li>
-                                </ul>
+                                </ul> */}
                             </li>
                             <li className="dropdown dropdown-user nav-item">
                                 <button className="dropdown-toggle nav-link link user-link" data-toggle="dropdown">
@@ -128,12 +127,12 @@ export function Header({methods, state}) {
                                     </span>
                                 </button>
                                 <div className="dropdown-menu dropdown-menu-right pb-0">
-                                    <Link className="dropdown-item" to="/">
+                                    {/* <Link className="dropdown-item" to="/">
                                         <i className="bx bx-envelope mr-50"></i> My Inbox
                                     </Link>
                                     <Link className="dropdown-item" to="/">
                                         <i className="bx bx-user mr-50"></i> Edit Profile
-                                    </Link>
+                                    </Link> */}
                                     {/* <a className="dropdown-item" to="app-todo.html">
                                         <i className="bx bx-check-square mr-50"></i> Task
                                     </a>

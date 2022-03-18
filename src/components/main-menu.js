@@ -41,7 +41,7 @@ export function MainMenu(props) {
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/countries" exact>
                             <i className="livicon-evo" data-options="
-                            name:desktop;
+                            name:globe;
                             style:filled;
                             duration:0.85; 
                             strokeWidth:1.3px;
