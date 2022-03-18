@@ -235,25 +235,6 @@ export class CollectedData extends React.Component {
             this.abortController.signal
             )
     }
-            
-
-    updateCollectedData = () => {
-        const payload = {
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            tel: this.state.tel,
-            password: this.state.password,
-            email: this.state.email,
-            role_id: this.state.role,
-        }
-
-        return Services.CollectedData.update(
-            this.state.id,
-            JSON.stringify(payload),
-            this.abortController.signal
-            )
-    }
-
     
     deleteCollectedData = (self) => {
         return Services.CollectedData.destroy(
@@ -320,10 +301,6 @@ export class CollectedData extends React.Component {
                 collectedData: [collected_data, ...state.collectedData]
             }
         });
-    }
-
-    updateCollectedData = collectedData => {
-        
     }
 
     removeCollectedData = collectedData => {

@@ -190,17 +190,6 @@ export class IndicatorDisaggregation extends React.Component {
             console.log(err)
         });
     }
-    getAllDisaggregations = () => {
-        return Services.Disaggregation.getAll(this.abortController.signal)
-        .then(res => {
-            Modules.Auth.redirectIfSessionExpired(res, this.history);
-            this.setDisaggregationList(res.data.disaggregations);
-            this.setIsIndicatorDisaggregationFormDisabled(false);
-        })
-        .catch(err => {
-            this.setIsIndicatorDisaggregationFormDisabled(false);
-        });
-    }
     
     createDisaggregation = () => {
         let fields = this.getFields();
@@ -387,10 +376,6 @@ export class IndicatorDisaggregation extends React.Component {
     
     setDisaggregationList = data => {
         this.setState({disaggregationList: [...data]});
-    }
-
-    setIsDisaggregationModalHidden = isDisaggregationModalHidden => {
-        this.setState({isDisaggregationModalHidden});
     }
 
     setDisaggregationId = disaggregationId => {

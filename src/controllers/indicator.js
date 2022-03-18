@@ -427,10 +427,6 @@ export class Indicator extends React.Component {
         this.setState({indicatorData: [...data]});
     }
 
-    setIsIndicatorModalHidden = isIndicatorModalHidden => {
-        this.setState({isIndicatorModalHidden})
-    }
-
     setIsEditingIndicator = (bool=true) => {
         this.setState({isEditingIndicator: bool})
     }

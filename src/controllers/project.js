@@ -335,11 +335,7 @@ export class Project extends React.Component {
     setCountryData = data => {
         this.setState({countryData: [...data]});
     }
-
-    setIsProjectModalHidden = isProjectModalHidden => {
-        this.setState({isProjectModalHidden});
-    }
-
+    
     setCountries = countrie => {
         this.setState({countrie});
     }
