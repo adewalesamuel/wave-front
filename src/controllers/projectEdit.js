@@ -26,6 +26,7 @@ export class ProjectEdit extends React.Component {
             end_date: '',
             countries: [],   
             description: "",
+            countryData: [],
             countrieData: [
                 {name:"Côte d'Ivoire", slug:"cote-divoire"},
                 {name:"Nigeria", slug:"nigeria"},
@@ -45,7 +46,9 @@ export class ProjectEdit extends React.Component {
         this._isMounted = true;
         const projectId = this.getParams().id;
         this.setProjectId(projectId);
-        this.getProjectById(projectId);
+        this.getProjectById(projectId)
+        .then(() => this.getAllCountries())
+        .then(() => this.setProjectFormDisabled(false));
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -98,12 +101,21 @@ export class ProjectEdit extends React.Component {
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setProjectData(res.data.project);
-            this.setProjectFormDisabled(false);
         })
         .catch(err => {
             if (!this._isMounted) return;
             this.setProjectFormDisabled(false);
         })
+    }
+
+
+    getAllCountries = () => {
+        return Services.Country.getAll(this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            this.setCountryData(res.data.countries);
+        })
+        .catch(err => console.log(err));
     }
 
     updateProject = () => {
@@ -112,7 +124,7 @@ export class ProjectEdit extends React.Component {
             start_date: this.state.start_date,
             end_date: this.state.end_date,
             status: this.state.status,
-            countries: JSON.stringify(this.state.countries),
+            country_id: this.state.country_id ?? "",
             description: this.state.description.toString(),
         };
     
@@ -157,8 +169,12 @@ export class ProjectEdit extends React.Component {
             end_date: project.end_date,
             status: project.status,
             description: project.description ?? "",
-            countries: JSON.parse(project.countries) ?? []
+            country_id: project.country_id ?? "",
         });
+    }
+   
+    setCountryData = data => {
+        this.setState({countryData: [...data]});
     }
     
     setInputValue = event => {

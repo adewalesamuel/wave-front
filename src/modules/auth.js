@@ -26,10 +26,22 @@ const redirectIfSessionExpired = (err, history) => {
     }
 }
 
+const getUser = () => {
+    return {
+        isAdmin: () => {
+            if (JSON.parse(localStorage.getItem('user')).role.slug === "admin")
+                return true;
+            return false;
+        },
+        ...JSON.parse(localStorage.getItem('user'))
+    }
+}
+
 export const Auth = {
     isLoggedIn,
     getSessionToken,
     setSessionToken,
     removeSessionToken,
-    redirectIfSessionExpired
+    redirectIfSessionExpired,
+    getUser
 }

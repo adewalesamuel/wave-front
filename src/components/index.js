@@ -20,6 +20,7 @@ import { Indicator } from './forms/indicator';
 import { Disaggregation } from './forms/disaggregation';
 import { CollectedData } from './forms/collectedData';
 import { Graph } from './forms/graph';
+import { Country } from './forms/country';
 
 export const Components = {
     Layouts: {
@@ -41,7 +42,8 @@ export const Components = {
         Indicator,
         Disaggregation,
         CollectedData,
-        Graph
+        Graph,
+        Country
     },
     ErrorMessageText,
     SuccessMessageText,

@@ -17,6 +17,7 @@ import { IndicatorEdit } from "./indicatorEdit";
 import { IndicatorDisaggregation } from "./indicatorDisaggregation";
 import { CollectedData } from "./collectedData";
 import { Dashboard } from "./dashbaord";
+import { Country } from "./country";
 
 export const Pages = {
     Root: RootPage,
@@ -45,5 +46,6 @@ export const Pages = {
         IndicatorDisaggregation
     },
     CollectedData,
-    Dashboard
+    Dashboard,
+    Country
 };

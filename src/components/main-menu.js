@@ -39,6 +39,20 @@ export function MainMenu(props) {
                         </NavLink>
                     </li>
                     <li className="nav-item">
+                        <NavLink className="nav-link" to="/countries" exact>
+                            <i className="livicon-evo" data-options="
+                            name:desktop;
+                            style:filled;
+                            duration:0.85; 
+                            strokeWidth:1.3px;
+                            strokeColor:#93b69c;
+                            solidColor:#93b69c;
+                            fillColor:#d4f9e2;
+                            strokeColorAlt:#E67E22;
+                            "></i><span>Countries</span>
+                        </NavLink>
+                    </li>
+                    <li className="nav-item">
                         <NavLink className="nav-link" to="/projects">
                         <i className="livicon-evo" data-options="
                             name:morph-folder;

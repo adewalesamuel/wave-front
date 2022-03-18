@@ -35,13 +35,14 @@ export function Project({state, methods}) {
                     </div>
                     <div  className="col-6">
                         <div className="form-group">
-                            <label htmlFor="countries-vertical">Countries</label>
+                            <label htmlFor="country-vertical">Country</label>
                             <fieldset className="form-group">
-                                <select className="select2 form-control" multiple="multiple"
-                                onChange={methods.handleSelectMultipleChange} name="countries" value={state.countries}>
+                                <select className="select2 form-control" onChange={methods.handleChange} 
+                                name="country_id" value={state.country_id}>
+                                    <option hidden>Select a country</option>
                                     {
-                                        state.countrieData.map(countrie => {
-                                            return <option key={Math.random()} value={countrie.slug ?? ""}>{countrie.name}</option>
+                                        state.countryData.map(country => {
+                                            return <option key={Math.random()} value={country.id ?? ""}>{country.name}</option>
                                         })
                                     } 
                                 </select>

@@ -19,7 +19,8 @@ export class Project extends React.Component {
             handleSelectMultipleChange: this.handleSelectMultipleChange.bind(this),
             handleProjectSubmit: this.handleProjectSubmit.bind(this),
             handleDeleteClick: this.handleDeleteClick.bind(this),
-            handleInfoClick: this.handleInfoClick.bind(this)
+            handleInfoClick: this.handleInfoClick.bind(this),
+            handleCountryChange: this.handleCountryChange.bind(this)
         };
         this.state = {
             projectTableHead: [
@@ -31,6 +32,7 @@ export class Project extends React.Component {
                 'created_at'
             ],
             projectData: [],
+            countryData: [],
             projectTableData: [],
             projectTableActions: [
                 'info', 
@@ -50,7 +52,8 @@ export class Project extends React.Component {
             status: 'open',
             start_date: '',
             end_date: '',
-            countries: [],   
+            country_id: "",  
+            countryId: "", 
             description: "",
             projectErrorMessage: '',
             projectSuccessMessage: '',
@@ -61,8 +64,24 @@ export class Project extends React.Component {
     }
 
     componentDidMount() {
-        this.getAllProjects();
+        // if (!Modules.Auth.getUser().isAdmin()) {
+        //     this.setCountryData([Modules.Auth.getUser().country]);
+        //     this.setCountryId(Modules.Auth.getUser().country.id);
+        //     this.getAllCountryProjects();
+        //     return;
+        // }
+
+        this.getAllCountries()
+        .then(() => this.getAllCountryProjects());
         this.setdefaultDates();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.countryId === "" ) return;
+        if (this.state.countryId && this.state.countryId === prevState.countryId) return;
+        if (this.state.countryId === '') return;
+
+        this.getAllCountryProjects();
     }
 
     componentWillUnmount() {
@@ -79,6 +98,28 @@ export class Project extends React.Component {
         .catch(err => console.log(err));
     }
 
+    getAllCountries = () => {
+        return Services.Country.getAll(this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            this.setCountryData(res.data.countries);
+
+            if (res.data.countries.length > 0)
+                this.setCountryId(res.data.countries[0].id);
+        })
+        .catch(err => console.log(err));
+    }
+
+    getAllCountryProjects = () => {
+        return Services.Country.getAllProjects(this.state.countryId, this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history);
+            this.setProjectData(res.data.projects);
+            this.setProjectTableData(this.state.projectData);
+        })
+        .catch(err => console.log(err));
+    }
+
     handleCreateClick(event) {
         event.preventDefault();
         this.setIsProjectModalHidden(false);
@@ -86,6 +127,11 @@ export class Project extends React.Component {
 
     handleChange(event) {
         this.setInputValue(event);
+    }
+
+    handleCountryChange(event) {
+        event.preventDefault();
+        this.setCountryId(event.target.value);
     }
 
     handleModalCloseClick(event) {
@@ -152,7 +198,7 @@ export class Project extends React.Component {
             start_date: this.state.start_date,
             end_date: this.state.end_date,
             status: this.state.status,
-            countries: JSON.stringify(this.state.countries),
+            country_id: this.state.country_id,
             description: this.state.description.toString(),
         }
     
@@ -242,11 +288,11 @@ export class Project extends React.Component {
             name:"",
             start_date:"",
             end_date:"",
-            description: ""
+            description: "",
+            country_id: ""
         });
         this.setdefaultDates();
         this.setStatus(this.state.statusData[0] ?? "open");
-        this.setCountries(this.state.countrieData[0].slug ?? "cote-divoire");
     }
 
     getClickedProject = (event) => {
@@ -285,17 +331,25 @@ export class Project extends React.Component {
     setProjectData = data => {
         this.setState({projectData: [...data]});
     }
+    
+    setCountryData = data => {
+        this.setState({countryData: [...data]});
+    }
 
     setIsProjectModalHidden = isProjectModalHidden => {
-        this.setState({isProjectModalHidden})
+        this.setState({isProjectModalHidden});
     }
 
     setCountries = countrie => {
-        this.setState({countrie})
+        this.setState({countrie});
+    }
+
+    setCountryId = countryId => {
+        this.setState({countryId, country_id: countryId});
     }
 
     setStatus = status => {
-        this.setState({status})
+        this.setState({status});
     }
 
     setProjectId = id => {
