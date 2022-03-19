@@ -22,6 +22,7 @@ import { CollectedData } from './forms/collectedData';
 import { Graph } from './forms/graph';
 import { Country } from './forms/country';
 import { FilterForm } from './filter-form';
+import { Outcome } from './forms/outcome';
 
 export const Components = {
     Layouts: {
@@ -44,7 +45,8 @@ export const Components = {
         Disaggregation,
         CollectedData,
         Graph,
-        Country
+        Country,
+        Outcome
     },
     ErrorMessageText,
     SuccessMessageText,

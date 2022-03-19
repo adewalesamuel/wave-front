@@ -18,6 +18,7 @@ import { IndicatorDisaggregation } from "./indicatorDisaggregation";
 import { CollectedData } from "./collectedData";
 import { Dashboard } from "./dashbaord";
 import { Country } from "./country";
+import { Outcome } from "./outcome";
 
 export const Controllers = {
     Auth: {
@@ -47,5 +48,6 @@ export const Controllers = {
     },
     CollectedData,
     Dashboard,
-    Country
+    Country,
+    Outcome
 }

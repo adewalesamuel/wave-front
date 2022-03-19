@@ -51,19 +51,6 @@ export class ProjectEdit extends React.Component {
         .then(() => this.setProjectFormDisabled(false));
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        const projectId = this.getParams().id;
-        if (prevState.id === "") return;
-        if (projectId === prevState.id) {
-            return;
-        }else {
-            if (!this._isMounted) return;
-            this.setProjectId(projectId);
-            this.getProjectById(projectId);
-        }
-        
-    }
-
     componentWillUnmount() {
         this._isMounted = false;
         this.abortController.abort();

@@ -65,7 +65,21 @@ export function MainMenu(props) {
                             strokeColorAlt:#E67E22;
                             "></i><span>Projects</span>
                         </NavLink>
-                    </li>                 
+                    </li>
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/outcomes">
+                        <i className="livicon-evo" data-options="
+                            name:thumbnails-small;
+                            style:filled;
+                            duration:0.85; 
+                            strokeWidth:1.3px;
+                            strokeColor:#93b69c;
+                            solidColor:#93b69c;
+                            fillColor:#d4f9e2;
+                            strokeColorAlt:#E67E22;
+                            "></i><span>Outcomes</span>
+                        </NavLink>
+                    </li>                  
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/activities">
                         <i className="livicon-evo" data-options="

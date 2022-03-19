@@ -11,6 +11,7 @@ import { IndicatorDisaggregation } from "./indicatorDisaggregation";
 import { CollectedData } from "./collectedData";
 import { Graph } from "./graph";
 import { Country } from "./country";
+import { Outcome } from "./outcome";
 
 export const Services = {
     Auth,
@@ -25,5 +26,6 @@ export const Services = {
     IndicatorDisaggregation,
     CollectedData,
     Graph,
-    Country
+    Country,
+    Outcome
 }

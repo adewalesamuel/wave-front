@@ -10,7 +10,7 @@ export function ProjectDetails({methods, state, match}) {
                     <div className="card-title">
                         <h4>Project Details</h4>
                     </div>
-                    <div className="projects-list-filter p-0 mt-2 row ">
+                    {/* <div className="projects-list-filter p-0 mt-2 row ">
                         <form className="col-lg-4 col-sm-12">
                             <label htmlFor="projects-list-name">Select a project</label>
                             <fieldset className="form-group">
@@ -26,7 +26,7 @@ export function ProjectDetails({methods, state, match}) {
                                 </select>
                             </fieldset>
                         </form>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="card-content">
                     <div className="card-body">
