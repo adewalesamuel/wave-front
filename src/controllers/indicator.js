@@ -22,11 +22,13 @@ export class Indicator extends React.Component {
             handleIndicatorSubmit: this.handleIndicatorSubmit.bind(this),
             handleDeleteClick: this.handleDeleteClick.bind(this),
             handleInfoClick: this.handleInfoClick.bind(this),
-            handleProjectChange:  this.handleProjectChange.bind(this)
+            handleProjectChange:  this.handleProjectChange.bind(this),
+            handleCountryChange: this.handleCountryChange.bind(this)
         };
         this.state = {
             indicatorModalTitle: "Add a new indicator",
             projectId: '',
+            countryId: '',
             indicatorTableHead: [
                 'id', 
                 'name',
@@ -36,6 +38,7 @@ export class Indicator extends React.Component {
             ],
             projectList: [],
             indicatorData: [],
+            countryData: [],
             indicatorTableData: [],
             indicatorTableActions: [
                 'info',
@@ -66,19 +69,40 @@ export class Indicator extends React.Component {
     }
 
     componentDidMount() {
+        // if (!Modules.Auth.getUser().isAdmin()) {
+        //     this.setCountryData([Modules.Auth.getUser().country]);
+        //     this.setCountryId(Modules.Auth.getUser().country.id);
+        //     this.getAllCountryProjects();
+        //     return;
+        // }
         this._isMounted = true;
-        this.getAllProjects()
+        this.getAllCountries()
         .then(() => {
+            this.getAllCountryProjects();
+
             if (this.getProjectId() === '') return;
-            this.getAllProjectIndicators()
+
+            this.getAllProjectIndicators();
         });
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.projectId === "" ) return;
-        if (this.getProjectId() === '') return;
-        if (this.getProjectId() && this.getProjectId() === prevState.projectId) return;
-        this.getAllProjectIndicators();
+        if ( this.state.countryId === '') return;
+        if (this.state.countryId && this.state.countryId === prevState.countryId) {
+            if (this.getProjectId() === '') return;
+            if (this.getProjectId() && this.getProjectId() === prevState.projectId) {
+                return;
+            }else {
+                this.getAllProjectIndicators();
+            }
+            return;
+        }else {
+            this.getAllCountryProjects();
+
+            if (this.getProjectId() === '') return;
+
+            this.getAllProjectIndicators();
+        };
     }
 
     componentWillUnmount() {
@@ -91,6 +115,11 @@ export class Indicator extends React.Component {
         this.setProjectId(event.target.value, this.pushToProject);
     }
     
+    handleCountryChange(event) {
+        event.preventDefault();
+        this.setCountryId(event.target.value);
+    }
+
     handleChange(event) {
         this.setInputValue(event);
     }
@@ -190,6 +219,30 @@ export class Indicator extends React.Component {
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setProjectList(res.data.projects);
+
+            if (res.data.projects.length > 0)
+                this.setProjectId(res.data.projects[0].id);
+        })
+        .catch(err => console.log(err));
+    }
+
+    getAllCountries = () => {
+        return Services.Country.getAll(this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            this.setCountryData(res.data.countries);
+
+            if (res.data.countries.length > 0)
+                this.setCountryId(res.data.countries[0].id);
+        })
+        .catch(err => console.log(err));
+    }
+
+    getAllCountryProjects = () => {
+        return Services.Country.getAllProjects(this.state.countryId, this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history);
+            this.setProjectData(res.data.projects);
 
             if (res.data.projects.length > 0)
                 this.setProjectId(res.data.projects[0].id);
@@ -395,6 +448,22 @@ export class Indicator extends React.Component {
 
     setProjectId = (projectId, callback = () => null) => {
         this.setState({projectId}, callback(this, projectId));
+    }
+
+    setCountryData = data => {
+        this.setState({countryData: [...data]});
+    }
+    
+    setCountryId = countryId => {
+        this.setState({countryId});
+    }
+
+    setProjectData = projects => {
+        const projectList = projects.map(project => {
+            return {name: project.name, id: project.id};
+        });
+
+        this.setState({projectList});
     }
 
     setIndicatorTableData = data => {

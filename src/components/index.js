@@ -21,6 +21,7 @@ import { Disaggregation } from './forms/disaggregation';
 import { CollectedData } from './forms/collectedData';
 import { Graph } from './forms/graph';
 import { Country } from './forms/country';
+import { FilterForm } from './filter-form';
 
 export const Components = {
     Layouts: {
@@ -52,4 +53,5 @@ export const Components = {
     MainMenu,
     Table,
     Modal,
+    FilterForm
 }

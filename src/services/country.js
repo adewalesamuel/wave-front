@@ -12,6 +12,9 @@ const getAllProjects = (id, signal) => {
     return get(`${ENPOINTS.COUNTRY}/${id}/projects`, signal);
 }
 
+const getAllUsers = (id, signal) => {
+    return get(`${ENPOINTS.COUNTRY}/${id}/users`, signal);
+}
 
 const create = (payload, signal) => {
     return post(ENPOINTS.COUNTRY, payload, signal)
@@ -29,5 +32,6 @@ export const Country = {
     create,
     update,
     destroy,
-    getAllProjects
+    getAllProjects,
+    getAllUsers
 }

@@ -5,22 +5,7 @@ export function Indicator(props) {
         <section className="indicator-list-wrapper">
             <div className="indicator-list-filter px-1">
                 <div className="row border rounded py-2 mb-2 justify-content-between">
-                    <form className="col-12 col-sm-6 col-lg-4">
-                        <label htmlFor="projects-list-name">Select a project</label>
-                        <fieldset className="form-group">
-                            <select className="form-control" id="projects-list-status" 
-                            onChange={props.methods.handleProjectChange ?? null} name="projectList" 
-                            value={props.state.projectId}>
-                                {
-                                    props.state.projectList.map(project => {
-                                        return (<option key={Math.random()} value={project.id ?? ""}>
-                                                {project.name}
-                                            </option>)
-                                    })
-                                } 
-                            </select>
-                        </fieldset>
-                    </form>
+                    <Components.FilterForm {...props} methods={props.methods} state={props.state}/>
                     <div className="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
                         <button className="btn btn-primary btn-block glow indicator-list-clear mb-0"
                             onClick={props.methods.handleCreateClick}>

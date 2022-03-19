@@ -82,7 +82,7 @@ export class Activity extends React.Component {
             if (this.getProjectId() === '') return;
 
             this.getAllProjectMembers(this.getProjectId())
-            .then(() => this.getAllProjectActivities())
+            .then(() => this.getAllProjectActivities());
         });
     }
 
@@ -334,7 +334,7 @@ export class Activity extends React.Component {
     }
 
     showActivityDeleteAlert = self => {
-        if (!self.$Swal) return
+        if (!self.$Swal) return;
 
         self.$Swal.fire({
             title: "You're about to delete an activity",
@@ -360,7 +360,7 @@ export class Activity extends React.Component {
             else if (result.dismiss === self.$Swal.DismissReason.cancel) {
                 return false;
             }
-        })
+        });
     }
 
     resetActivityForm = () => {
@@ -427,7 +427,7 @@ export class Activity extends React.Component {
 
     setActivityFormDisabled = (event, val=true) => {
         event.target.disabled = val;
-        this.setState({activityFormDisabled: val})
+        this.setState({activityFormDisabled: val});
     }
 
     setActivityErrorMessage =  activityErrorMessage => {
@@ -435,7 +435,7 @@ export class Activity extends React.Component {
     }
 
     setIsActivityModalHidden = isActivityModalHidden => {
-        this.setState({isActivityModalHidden})
+        this.setState({isActivityModalHidden});
     }
 
     setActivityData = data => {
@@ -443,7 +443,7 @@ export class Activity extends React.Component {
     }
 
     setStatus = status => {
-        this.setState({status})
+        this.setState({status});
     }
 
     setActivityId = id => {
@@ -458,7 +458,7 @@ export class Activity extends React.Component {
         this.setState({
             start_date: dateString,
             end_date: dateString
-        })
+        });
     }
     
     setInputValue = event => {
@@ -486,7 +486,6 @@ export class Activity extends React.Component {
         });
     }
     
-    
     render() {
         return(
          <Pages.Activity 
@@ -494,6 +493,6 @@ export class Activity extends React.Component {
          methods={this.methods}
          state={this.state} 
          />
-        )
+        );
     }
 }

@@ -88,7 +88,6 @@ export class Country extends React.Component {
             )
     }
 
-
     deleteCountry = (self) => {
         return Services.Country.destroy(
             self.state.id,

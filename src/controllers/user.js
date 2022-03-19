@@ -22,9 +22,11 @@ export class User extends React.Component {
             handleSubmit: this.handleSubmit.bind(this),
             handleRoleSubmit: this.handleRoleSubmit.bind(this),
             handleCreateRoleClick: this.handleCreateRoleClick.bind(this),
-            handleSelectMultipleChange: this.handleSelectMultipleChange.bind(this) 
+            handleSelectMultipleChange: this.handleSelectMultipleChange.bind(this),
+            handleCountryChange: this.handleCountryChange.bind(this) 
         };
         this.state = {
+            countryId:'',
             userModalTitle: "Add a new user",
             userTableHead: [
                 'id', 
@@ -36,6 +38,7 @@ export class User extends React.Component {
                 'created_at'
             ],
             userData: [],
+            countryData: [],
             userTableData: [],
             userTableActions: [
                 'edit', 
@@ -48,6 +51,7 @@ export class User extends React.Component {
             email: '',
             role: '',
             password: '',
+            country_id: '',
             roleData: [],
             permissions: [],
             roleName: '',
@@ -66,10 +70,26 @@ export class User extends React.Component {
     }
 
     componentDidMount() {
+        // if (!Modules.Auth.getUser().isAdmin()) {
+        //     this.setCountryData([Modules.Auth.getUser().country]);
+        //     this.setCountryId(Modules.Auth.getUser().country.id);
+        //     this.getAllCountryProjects();
+        //     return;
+        // }
+
         this.setPassword();
-        this.getAllUsers()
+        this.getAllCountries()
+        .then(() => this.getAllCountryUsers())
         .then(() => this.getAllRoles())
         .then(() => this.getAllPermissions());
+    }
+    
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.countryId === "" ) return;
+        if (this.state.countryId && this.state.countryId === prevState.countryId) return;
+        if (this.state.countryId === '') return;
+
+        this.getAllCountryUsers();
     }
 
     componentWillUnmount() {
@@ -86,12 +106,35 @@ export class User extends React.Component {
         .catch(err => console.log(err));
     }
 
+
+    getAllCountryUsers = () => {
+        return Services.Country.getAllUsers(this.state.countryId, this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history);
+            this.setUserData(res.data.users);
+            this.setUserTableData(this.state.userData);
+        })
+        .catch(err => console.log(err));
+    }
+
     getAllRoles = () => {
         return Services.Role.getAll(this.abortController.signal)
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history)
             this.setRoleData(res.data.roles);
             this.setRole(res.data.roles[0] ? res.data.roles[0].id : 1);
+        })
+        .catch(err => console.log(err));
+    }
+
+    getAllCountries = () => {
+        return Services.Country.getAll(this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            this.setCountryData(res.data.countries);
+
+            if (res.data.countries.length > 0)
+                this.setCountryId(res.data.countries[0].id);
         })
         .catch(err => console.log(err));
     }
@@ -113,6 +156,7 @@ export class User extends React.Component {
             password: this.state.password,
             email: this.state.email,
             role_id: this.state.role,
+            country_id: this.state.country_id,
         }
         
         return Services.User.create(
@@ -142,6 +186,7 @@ export class User extends React.Component {
             password: this.state.password,
             email: this.state.email,
             role_id: this.state.role,
+            country_id: this.state.country_id,
         }
 
         return Services.User.update(
@@ -165,6 +210,10 @@ export class User extends React.Component {
 
     setRoleData = roleData => {
         this.setState({roleData});
+    }
+
+    setCountryData = data => {
+        this.setState({countryData: [...data]});
     }
 
     setPermissionData = permissionData => {
@@ -270,16 +319,21 @@ export class User extends React.Component {
         this.setState({id});
     }
 
+    setCountryId = countryId => {
+        this.setState({countryId});
+    }
+
     resetUserForm = () => {
         [
             'id', 
             'firstname', 
             'lastname', 
             'email', 
-            'tel'
+            'tel',
         ].forEach(item => this.setState({[item]: ""}));
         this.setPassword();
         this.setRole(this.state.roleData[0] ? this.state.roleData[0].id : 1);
+        this.setCountryId(this.state.countryData[0] ? this.state.countryData[0].id : 1);
     } 
 
     resetRoleForm = () => {
@@ -298,6 +352,7 @@ export class User extends React.Component {
                 email: user.email, 
                 tel: user.tel, 
                 role: user.role_id, 
+                country_id: user.country_id,
                 password: (user.password === undefined) ? state.password : user.password
             }
         })
@@ -355,6 +410,7 @@ export class User extends React.Component {
         userDataCopy[userTableIndex]['email'] = user.email;
         userDataCopy[userTableIndex]['role'] = null;
         userDataCopy[userTableIndex]['role_id'] = user.role_id;
+        userDataCopy[userTableIndex]['country_id'] = user.country_id;
 
         if (user.password && user.password !== undefined)
             userDataCopy[userTableIndex]['password'] = user.password;
@@ -394,6 +450,11 @@ export class User extends React.Component {
         let errorMessages = await error.messages;
         this.setRoleErrorMessage(errorMessages ?? "An unexpected error occured");
      }
+
+     handleCountryChange(event) {
+        event.preventDefault();
+        this.setCountryId(event.target.value);
+    }
 
     showUserDeleteAlert = self => {
         if (!self.$Swal) return
