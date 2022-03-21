@@ -270,7 +270,8 @@ export class Activity extends React.Component {
             id: activity.id,
             name: activity.name,
             status: activity.status,
-            start_date: new Date(activity.start_date).toLocaleDateString('fr').replace(/\//g, '-'),
+            start_date: new Date(activity.start_date)
+            .toLocaleDateString('fr').replace(/\//g, '-'),
             budget: activity.budget,
             amount_spent: activity.amount_spent,
             activity_id: activity.activity_id
@@ -281,8 +282,10 @@ export class Activity extends React.Component {
         let activityTableDataCopy = this.state.activityTableData;
         
         if (activity.activity_id && activity.activity_id !== "") {
-            let parentActivity = activityDataCopy.find(pActivity => pActivity.id === parseInt(activity.activity_id));
-            let tableParentActivity = activityTableDataCopy.find(tPActivity => tPActivity.id === parseInt(activity.activity_id));
+            let parentActivity = activityDataCopy
+            .find(pActivity => pActivity.id === parseInt(activity.activity_id));
+            let tableParentActivity = activityTableDataCopy
+            .find(tPActivity => tPActivity.id === parseInt(activity.activity_id));
             
             parentActivity['children'] = parentActivity.children ?? [];
             tableParentActivity['children'] = tableParentActivity.children ?? [];
@@ -324,7 +327,8 @@ export class Activity extends React.Component {
 
         if (childActivityIndex > -1) {
             // this.state.activityData[parentActivityIndex].children.splice(childActivityIndex,1); Should propably do a deep copy
-            this.state.activityTableData[parentActivityIndex].children.splice(childActivityIndex,1);
+            this.state.activityTableData[parentActivityIndex].children
+            .splice(childActivityIndex,1);
         }else{
             this.state.activityData.splice(parentActivityIndex,1);
             this.state.activityTableData.splice(parentActivityIndex,1);
@@ -417,7 +421,9 @@ export class Activity extends React.Component {
     setActivityTableData = data => {
         const activityTableData = data.map(item => {
             const {id, name, status, budget, amount_spent, children} = item;
-            const start_date = item.start_date ? new Date(item.start_date).toLocaleDateString('fr').replace(/\//g, '-') : null;
+            const start_date = item.start_date ? 
+            new Date(item.start_date).toLocaleDateString('fr').replace(/\//g, '-') : null;
+
             return {id, name, status, start_date, budget, amount_spent, children};
         })
 
