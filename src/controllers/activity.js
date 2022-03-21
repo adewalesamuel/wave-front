@@ -78,7 +78,6 @@ export class Activity extends React.Component {
         this.getAllCountries()
         .then(() => {
             this.getAllCountryProjects();
-
             if (this.getProjectId() === '') return;
 
             this.getAllProjectMembers(this.getProjectId())
@@ -216,7 +215,7 @@ export class Activity extends React.Component {
         .catch(err => console.log(err));
     }
 
-    getAllProjects = () => {
+    getAllProject = () => {
         return Services.Project.getAll(this.abortController.signal)
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
