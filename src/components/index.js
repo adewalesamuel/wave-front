@@ -23,6 +23,7 @@ import { Graph } from './forms/graph';
 import { Country } from './forms/country';
 import { FilterForm } from './filter-form';
 import { Outcome } from './forms/outcome';
+import { ProjectInfo } from './project-info';
 
 export const Components = {
     Layouts: {
@@ -55,5 +56,6 @@ export const Components = {
     MainMenu,
     Table,
     Modal,
-    FilterForm
+    FilterForm,
+    ProjectInfo
 }

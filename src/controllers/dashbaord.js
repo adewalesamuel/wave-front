@@ -140,6 +140,7 @@ export class Dashboard extends React.Component {
             return;
         }else {
             if (this.state.countryId) {
+                this.setCountryProjectInfoData([]);
                 this.getAllCountryProjects()
                 .then(() => {
                     // If admin
@@ -150,7 +151,7 @@ export class Dashboard extends React.Component {
             }
             if (this.state.projectId === '') {
                 this.getAllCountryProjectsInfos(); //If admin
-                return
+                return;
             };
 
             this.getAllGraphByProject(this.state.projectId);
@@ -232,6 +233,7 @@ export class Dashboard extends React.Component {
     }
 
     getAllCountryProjects = () => {
+        if (!this.state.countryId) return;
         return Services.Country.getAllProjects(this.state.countryId, this.abortController.signal)
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
@@ -250,7 +252,7 @@ export class Dashboard extends React.Component {
             this.setCountryData(res.data.countries);
 
             if (res.data.countries.length > 0)
-                this.setCountryId(res.data.countries[0].id);
+                this.setCountryId(this.state.countryData[0].id);
         })
         .catch(err => console.log(err));
     }
@@ -277,7 +279,7 @@ export class Dashboard extends React.Component {
         .catch(err => console.log(err));
     }
 
-    getAllCountryProjectsInfos = () => {
+    getAllCountryProjectsInfos = () => {  
         for (let i = 1; i <= this.state.projectList.length - 1; i++ ) {
             Services.Graph.getAllByProject(this.state.projectList[i].id, this.abortController.signal)
             .then(res => {
@@ -362,7 +364,11 @@ export class Dashboard extends React.Component {
     appendCountryProjectInfoData = (projectInfo) => {
         this.setState(state => {
             return {countryProjectInfoData: [...state.countryProjectInfoData, projectInfo]}
-        })
+        });
+    }
+
+    setCountryProjectInfoData = (countryProjectInfoData) => {
+        this.setState({countryProjectInfoData});
     }
 
     setIsEditingGraph = (bool=true) => {
@@ -394,15 +400,16 @@ export class Dashboard extends React.Component {
     }
 
     setCountryData = data => {
-        this.setState({countryData: [...data]});
+        const countryData = data.map(country => {
+            return {name: country.name, id: country.id, code: country.code};
+        });
+
+        countryData.unshift({name: "Select a country",id: "", code:""}); //If admin
+        this.setState({countryData});
     }
    
     setProjectInfo = projectInfo => {
         this.setState({projectInfo});
-    }
-
-    setCountryData = data => {
-        this.setState({countryData: [...data]});
     }
 
     setCountryId = countryId => {
