@@ -69,7 +69,7 @@ export function MainMenu(props) {
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/outcomes">
                         <i className="livicon-evo" data-options="
-                            name:thumbnails-small;
+                            name:rocket;
                             style:filled;
                             duration:0.85; 
                             strokeWidth:1.3px;
