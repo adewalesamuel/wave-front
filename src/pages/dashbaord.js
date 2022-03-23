@@ -29,7 +29,7 @@ export function Dashboard(props) {
                                             <div className="card-body"> 
                                                 {props.methods.renderGraphItem(graph)}
                                             </div>
-                                        </div>
+                                        </div>  
                                     </div>
                                 </div>
                             )
