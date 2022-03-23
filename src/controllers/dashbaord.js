@@ -104,12 +104,19 @@ export class Dashboard extends React.Component {
 
     componentDidMount() {
         this._isMounted = true;
+        // if (!Modules.Auth.getUser().isAdmin()) {
+        //     this.setCountryData([Modules.Auth.getUser().country]);
+        //     this.setCountryId(Modules.Auth.getUser().country.id);
+        //     this.getAllCountryProjects();
+        //     return;
+        // }
+        this.getAllCountries();
         this.getAllProjects()
         .then(() => {
             if (this.state.projectId === '') return;
 
             this.getAllProjectIndicators()
-            .then(() => this.getAllGraphByProject())
+            .then(() => this.getAllGraphByProject(this.state.projectId))
         });
     }
 
@@ -118,7 +125,7 @@ export class Dashboard extends React.Component {
         if (this.state.projectId && this.state.projectId === prevState.projectId) return;
         if (this.state.projectId === '') return;
 
-        this.getAllGraphByProject()
+        this.getAllGraphByProject(this.state.projectId)
         .then(() => this.getAllProjectIndicators());
     }
 
@@ -188,8 +195,17 @@ export class Dashboard extends React.Component {
         .catch(err => console.log(err));
     }
 
-    getAllGraphByProject = () => {
-        return Services.Graph.getAllByProject(this.state.projectId, this.abortController.signal)
+    getAllCountries = () => {
+        return Services.Country.getAll(this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            this.setCountryData(res.data.countries);
+        })
+        .catch(err => console.log(err));
+    }
+
+    getAllGraphByProject = (projectId) => {
+        return Services.Graph.getAllByProject(projectId, this.abortController.signal)
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setGraphData(res.data.graphs);
@@ -203,6 +219,7 @@ export class Dashboard extends React.Component {
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setProjectList(res.data.projects);
+            
             if (res.data.projects.length > 0)
                 this.setProjectId(res.data.projects[0].id);
         })
@@ -302,6 +319,10 @@ export class Dashboard extends React.Component {
 
     setGraphData = graphData => {
         this.setState({graphData});
+    }
+
+    setCountryData = data => {
+        this.setState({countryData: [...data]});
     }
    
     setProjectInfo = projectInfo => {

@@ -132,8 +132,7 @@ export class Activity extends React.Component {
     }
     
     handleModalCloseClick(event) {
-        if (this.state.activityFormDisabled)
-            return;
+        if (this.state.activityFormDisabled) return;
             
         this.resetActivityForm();
         this.setIsActivityModalHidden(true);
@@ -143,8 +142,7 @@ export class Activity extends React.Component {
     handleActivitySubmit(event) {
         event.preventDefault();
         
-        if (this.state.activityFormDisabled)
-            return;
+        if (this.state.activityFormDisabled) return;
             
         this.setActivityErrorMessage('');
         this.setActivityFormDisabled(event);
