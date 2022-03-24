@@ -105,12 +105,89 @@ export function Activity({state, methods}) {
                             </fieldset> 
                         </div>
                     </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="outcome_id">Outcome</label>
+                            <fieldset className="form-group">
+                                <select className="select2 form-control" onChange={methods.handleChange} 
+                                name="outcome_id" value={state.outcome_id ?? ""}>
+                                    <option hidden>Select the outcome</option>
+                                    {
+                                        state.outcomeData.map(outcome => {
+                                            return (<option key={Math.random()} value={outcome.id ?? ""}>
+                                                    {outcome.name}
+                                                </option>)
+                                        })
+                                    } 
+                                </select>
+                            </fieldset> 
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="indicator_id">Indicator</label>
+                            <fieldset className="form-group">
+                                <select className="select2 form-control" onChange={methods.handleChange} 
+                                name="indicator_id" value={state.indicator_id ?? ""}>
+                                    <option hidden>Select the indicator</option>
+                                    {
+                                        state.indicatorData.map(indicator => {
+                                            return (<option key={Math.random()} value={indicator.id ?? ""}>
+                                                    {indicator.name}
+                                                </option>)
+                                        })
+                                    } 
+                                </select>
+                            </fieldset> 
+                        </div>
+                    </div>
                     <div className="col-12">
                         <div className="form-group">
                             <label htmlFor="description-info-vertical">Description</label>
                             <textarea className="form-control" name="description" id="description-info-vertical" 
                             rows="4" onChange={methods.handleChange} value={state.description ?? ""}>
                             </textarea> 
+                        </div>
+                    </div>
+                    <div className="col-12">
+                        <div className="form-group">
+                            <label htmlFor="tel-id-vertical">Periods</label> 
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="periodYear">Year</label>
+                            <fieldset className="form-group">
+                                <select className="select2 form-control" onChange={methods.handleChange} 
+                                name="periodYear" value={state.periodYear ?? ""}>
+                                    <option hidden>Select a year</option>
+                                    {
+                                        state.yearList.map(year => {
+                                            return (<option key={Math.random()} value={year ?? ""}>
+                                                    {year}
+                                                </option>)
+                                        })
+                                    } 
+                                </select>
+                            </fieldset> 
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="periodQuarters">Quarters</label>
+                            <fieldset className="form-group">
+                                <select className="select2 form-control" onChange={methods.handleSelectMultipleChange} 
+                                name="periodQuarters" value={state.periodQuarters ?? ""} multiple={true}>
+                                    <option hidden>Select quarters</option>
+                                    {
+                                        state.quarterList.map(quarter => {
+                                            return (<option key={Math.random()} value={quarter ?? ""}>
+                                                    {quarter.toUpperCase()}
+                                                </option>)
+                                        })
+                                    } 
+                                </select>
+                            </fieldset> 
                         </div>
                     </div>
                 </div>

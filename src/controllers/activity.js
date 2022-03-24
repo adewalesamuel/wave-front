@@ -36,10 +36,20 @@ export class Activity extends React.Component {
                 'amount_spent'
             ],
             activityData: [],
+            outcomeData: [],
             countryData: [],
+            indicatorData: [],
             userList: [],
             projectList: [],
             activityTableData: [],
+            periods:[
+                // {date: "string", quaters:["string"]}
+                // {date: "string", quaters:["string"]}
+            ],
+            periodYear: '',
+            periodQuarters: [],
+            yearList: [],
+            quarterList: [],
             activityTableActions: [
                 'info', 
                 'delete'
@@ -59,6 +69,8 @@ export class Activity extends React.Component {
             budget:'',
             amount_spent: '',
             user_id: '',
+            outcome_id: '',
+            indicator_id: '',
             activityErrorMessage: '',
             activitySuccessMessage: '',
             isActivityModalHidden: true,
@@ -74,14 +86,22 @@ export class Activity extends React.Component {
         //     return;
         // }
 
+        this.setDefaultQuarterList();
+        this.setDefaultYearList();
         this.setDefaultDates();
+
         this.getAllCountries()
         .then(() => {
             this.getAllCountryProjects();
+            this.getAllOutcomes();
+
             if (this.getProjectId() === '') return;
 
             this.getAllProjectMembers(this.getProjectId())
-            .then(() => this.getAllProjectActivities());
+            .then(() => {
+                this.getAllProjectActivities();
+                this.getAllProjectIndicators();
+            });
         });
     }
 
@@ -94,6 +114,7 @@ export class Activity extends React.Component {
             }else {
                 this.getAllProjectActivities();
                 this.getAllProjectMembers(this.getProjectId());
+                this.getAllProjectIndicators();
             }
             return;
         }else {
@@ -103,6 +124,7 @@ export class Activity extends React.Component {
 
             this.getAllProjectActivities();
             this.getAllProjectMembers(this.getProjectId());
+            this.getAllProjectIndicators();
         };
     }
 
@@ -189,6 +211,16 @@ export class Activity extends React.Component {
         .catch(err => console.log(err));
     }
 
+
+    getAllOutcomes = () => {
+        return Services.Outcome.getAll(this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            this.setOutcomeData(res.data.outcomes);
+        })
+        .catch(err => console.log(err));
+    }
+
     getAllCountries = () => {
         return Services.Country.getAll(this.abortController.signal)
         .then(res => {
@@ -234,6 +266,16 @@ export class Activity extends React.Component {
         .catch(err => console.log(err));
     }
 
+    getAllProjectIndicators = () => {
+        return Services.Project.getAllIndicators(this.state.projectId, this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history);
+            this.setIndicatorData(res.data.indicators);
+        })
+        .catch(err => console.log(err));
+    }
+
+
     getProjectId = () => this.state.projectId;
     
     createActivity = () => {
@@ -247,7 +289,10 @@ export class Activity extends React.Component {
             activity_id: this.state.activity_id,
             user_id: this.state.user_id,
             project_id: this.getProjectId(),
-            description: this.state.description
+            description: this.state.description,
+            outcome_id: this.state.outcome_id,
+            indicator_id: this.state.indicator_id,
+            periods: JSON.stringify(this.state.periods)
         };
     
         return Services.Activity.create(
@@ -374,6 +419,11 @@ export class Activity extends React.Component {
             budget:'',
             amount_spent: '',
             user_id: '',
+            outcome_id: '',
+            indicator_id: '',
+            periods: [],
+            periodQuarters: [],
+            periodYear: ''
         });
         this.setDefaultDates();
         this.setStatus(this.state.statusData[0] ?? "open");
@@ -399,6 +449,25 @@ export class Activity extends React.Component {
         this.setState({countryData: [...data]});
     }
 
+    setDefaultYearList = () => {
+        const currentYear = new Date().getFullYear();
+        const numYears = 10;
+        const startYear = currentYear - numYears;
+        const endYear = currentYear + numYears;
+        
+        let yearList = [];
+        
+        for(let i=startYear; i<=endYear; i++) yearList.push(i);
+
+        this.setState({yearList});
+    }
+
+    setDefaultQuarterList = () => {
+        this.setState({
+            quarterList: ["q1", "q2", "q3", "q4"]
+        })
+    }
+ 
     setUserList = data => {
         const userList = [];
         data.forEach(item => {
@@ -410,6 +479,10 @@ export class Activity extends React.Component {
             });
         })
         this.setState({userList});
+    }
+
+    setOutcomeData = outcomeData => {
+        this.setState({outcomeData});
     }
 
     setProjectId = (projectId, callback = () => null) => {
@@ -426,6 +499,14 @@ export class Activity extends React.Component {
         })
 
         this.setState({activityTableData});
+    }
+
+    setIndicatorData = indicators => {
+        const indicatorData = indicators.map(indicator => {
+            return {name: indicator.name, id: indicator.id};
+        });
+
+        this.setState({indicatorData});
     }
 
     setActivityFormDisabled = (event, val=true) => {

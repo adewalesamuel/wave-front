@@ -333,7 +333,7 @@ export class User extends React.Component {
         ].forEach(item => this.setState({[item]: ""}));
         this.setPassword();
         this.setRole(this.state.roleData[0] ? this.state.roleData[0].id : 1);
-        this.setCountryId(this.state.countryData[0] ? this.state.countryData[0].id : 1);
+        this.setCountryId(this.state.country_id ?? (this.state.countryData[0] ? this.state.countryData[0].id : 1));
     } 
 
     resetRoleForm = () => {

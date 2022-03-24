@@ -45,14 +45,14 @@ export class Outcome extends React.Component {
     }
 
     componentDidMount() {
-        this.getAllCountries()
+        this.getAllOutcomes()
     }
 
     componentWillUnmount() {
         this.abortController.abort();
     }
 
-    getAllCountries = () => {
+    getAllOutcomes = () => {
         return Services.Outcome.getAll(this.abortController.signal)
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history)

@@ -30,13 +30,25 @@ export class ActivityEdit extends React.Component {
             amount_spent: '',
             user_id: '',
             project_id: '',
+            outcome_id: '',
+            indicator_id: '',
             statusData: [
                 'open',
                 'closed',
                 'pending'
             ],
             activityData: [],
+            outcomeData: [],
+            indicatorData: [],
             userList: [],
+            periods:[
+                // {date: "string", quaters:["string"]}
+                // {date: "string", quaters:["string"]}
+            ],
+            periodYear: '',
+            periodQuarters: [],
+            yearList: [],
+            quarterList: [],
             activityErrorMessage: '',
             activitySuccessMessage: '',
             activityFormDisabled: true
@@ -46,12 +58,18 @@ export class ActivityEdit extends React.Component {
     componentDidMount() {
         this._isMounted = true;      
         const activityId = this.getParams().id;
+
+        this.setDefaultQuarterList();
+        this.setDefaultYearList();
+
         this.setActivityId(activityId);
         this.getActivityById(activityId)
         .then(() => {
             return Promise.all([
+                this.getAllOutcomes(),
                 this.getAllProjectMembers(),
-                this.getAllProjectActivities()
+                this.getAllProjectActivities(),
+                this.getAllProjectIndicators()
             ]);
         })
         .then((data) => this.setActivityFormDisabled(false))
@@ -124,7 +142,9 @@ export class ActivityEdit extends React.Component {
             budget:this.state.budget,
             amount_spent: this.state.amount_spent,
             user_id: this.state.user_id,
-            project_id: this.state.project_id
+            project_id: this.state.project_id,
+            outcome_id: this.state.outcome_id,
+            indicator_id: this.state.indicator_id
         };
     
         return Services.Activity.update(
@@ -156,6 +176,23 @@ export class ActivityEdit extends React.Component {
         });
     }
 
+    getAllProjectIndicators = () => {
+        return Services.Project.getAllIndicators(this.getActivityProjectId(), this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history);
+            this.setIndicatorData(res.data.indicators);
+        })
+        .catch(err => console.log(err));
+    }
+
+    getAllOutcomes = () => {
+        return Services.Outcome.getAll(this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            this.setOutcomeData(res.data.outcomes);
+        })
+        .catch(err => console.log(err));
+    }
 
     getActivityId = () => this.state.id;
 
@@ -183,6 +220,25 @@ export class ActivityEdit extends React.Component {
         this.setState({id});
     }
 
+    setDefaultYearList = () => {
+        const currentYear = new Date().getFullYear();
+        const numYears = 10;
+        const startYear = currentYear - numYears;
+        const endYear = currentYear + numYears;
+        
+        let yearList = [];
+        
+        for(let i=startYear; i<=endYear; i++) yearList.push(i);
+
+        this.setState({yearList});
+    }
+
+    setDefaultQuarterList = () => {
+        this.setState({
+            quarterList: ["q1", "q2", "q3", "q4"]
+        })
+    }
+
     setActivityFormDisabled = activityFormDisabled => {
         if (!this._isMounted) return;
         this.setState({activityFormDisabled});
@@ -194,6 +250,18 @@ export class ActivityEdit extends React.Component {
 
     setActivityData = activityData => {
         this.setState({activityData});
+    }
+
+    setIndicatorData = indicators => {
+        const indicatorData = indicators.map(indicator => {
+            return {name: indicator.name, id: indicator.id};
+        });
+
+        this.setState({indicatorData});
+    }
+
+    setOutcomeData = outcomeData => {
+        this.setState({outcomeData});
     }
 
     setActivity = activity => {
@@ -208,7 +276,9 @@ export class ActivityEdit extends React.Component {
             budget:activity.budget,
             amount_spent: activity.amount_spent,
             user_id: activity.user_id,
-            project_id: activity.project_id
+            project_id: activity.project_id,
+            outcome_id: activity.outcome_id,
+            indicator_id: activity.indicator_id
         });
     }
     
