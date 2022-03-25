@@ -13,6 +13,9 @@ import './app-assets/css/components.css';
 import './app-assets/css/themes/dark-layout.css';
 import './app-assets/css/themes/semi-dark-layout.css';
 import './app-assets/css/core/menu/menu-types/horizontal-menu.css';
+window.document.head.insertBefore(
+  window.document.createComment("by samueladewale | adewalesamuel.github.io"),
+  window.document.head.firstChild);
 
 class App extends React.Component {
   render() {
