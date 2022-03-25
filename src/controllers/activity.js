@@ -22,7 +22,9 @@ export class Activity extends React.Component {
             handleDeleteClick: this.handleDeleteClick.bind(this),
             handleInfoClick: this.handleInfoClick.bind(this),
             handleProjectChange:  this.handleProjectChange.bind(this),
-            handleCountryChange: this.handleCountryChange.bind(this)
+            handleCountryChange: this.handleCountryChange.bind(this),
+            handleAddPeriodClick: this.handleAddPeriodClick.bind(this),
+            handleDeletePeriodClick: this.handleDeletePeriodClick.bind(this)
         };
         this.state = {
             countryId: '',
@@ -137,6 +139,11 @@ export class Activity extends React.Component {
         event.preventDefault();
         this.setProjectId(event.target.value, this.pushToProject);
     }
+    
+    handleAddPeriodClick(event) {
+        event.preventDefault();
+        this.appendPeriod()
+    }
 
     handleCreateClick(event) {
         event.preventDefault();
@@ -150,6 +157,11 @@ export class Activity extends React.Component {
     handleCountryChange(event) {
         event.preventDefault();
         this.setCountryId(event.target.value);
+    }
+
+    handleDeletePeriodClick(event, period) {
+        event.preventDefault(); 
+        this.removePeriod(period);
     }
     
     handleModalCloseClick(event) {
@@ -377,6 +389,35 @@ export class Activity extends React.Component {
             this.state.activityTableData.splice(parentActivityIndex,1);
         }
 
+    }
+
+    appendPeriod = () => {
+        if (!this.state.periodYear || this.state.periodQuarters.length < 1) return;
+
+        this.setState(state => {
+            return {
+                periods: [
+                    {
+                        date: this.state.periodYear,
+                        quarters: this.state.periodQuarters
+                    },
+                    ...state.periods
+                ]
+            }
+        });
+
+        this.resetPeriodFields();
+    }
+
+    resetPeriodFields = () => {
+        this.setState({periodYear: '', periodQuarters: []});
+    }
+
+    removePeriod = (oldPeriod) => {
+        let periods = [...this.state.periods];
+        periods = periods.filter(period => parseInt(period.date) !== parseInt(oldPeriod.date));
+
+        this.setState({periods});
     }
 
     showActivityDeleteAlert = self => {

@@ -154,6 +154,21 @@ export function Activity({state, methods}) {
                             <label htmlFor="tel-id-vertical">Periods</label> 
                         </div>
                     </div>
+                    <div className="col-12">
+                        {state.periods.map((period, index) => {
+                            return (
+                                <div className="row mb-2" key={index}>
+                                    <div className="col-5">{period.date}</div>
+                                    <div className="col-5">{JSON.stringify(period.quarters)}</div>
+                                    <div className="col-2">
+                                        <span onClick={(event) => methods.handleDeletePeriodClick(event, period)} role="button" 
+                                        className="bx bxs-trash text-danger bx-small" style={{transform: "translateY(3px)"}} 
+                                        title="Delete period"></span> 
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
                     <div className="col-6">
                         <div className="form-group">
                             <label htmlFor="periodYear">Year</label>
@@ -170,6 +185,12 @@ export function Activity({state, methods}) {
                                     } 
                                 </select>
                             </fieldset> 
+                            <div className="float-right" >
+                                <span className="btn btn-text primary p-0" role="button" style={{fontSize: "0.82rem", fontWeight: "bold"}}
+                                onClick={methods.handleAddPeriodClick}>
+                                    <span className="bx bx-plus" style={{transform: "translateY(+4px)"}}></span> Add period
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div className="col-6">

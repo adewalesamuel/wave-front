@@ -17,6 +17,8 @@ export class ActivityEdit extends React.Component {
             handleChange: this.handleChange.bind(this),
             handleSelectMultipleChange: this.handleSelectMultipleChange.bind(this),
             handleActivitySubmit: this.handleActivitySubmit.bind(this),
+            handleAddPeriodClick: this.handleAddPeriodClick.bind(this),
+            handleDeletePeriodClick: this.handleDeletePeriodClick.bind(this)
         };
         this.state = {
             id: '',
@@ -109,6 +111,16 @@ export class ActivityEdit extends React.Component {
         });
     }
 
+    handleAddPeriodClick(event) {
+        event.preventDefault();
+        this.appendPeriod();
+    }
+
+    handleDeletePeriodClick(event, period) {
+        event.preventDefault(); 
+        this.removePeriod(period);
+    }
+
     handleSelectMultipleChange(event) {
         this.setSelectMultupleValue(event);
     }
@@ -144,7 +156,8 @@ export class ActivityEdit extends React.Component {
             user_id: this.state.user_id,
             project_id: this.state.project_id,
             outcome_id: this.state.outcome_id,
-            indicator_id: this.state.indicator_id
+            indicator_id: this.state.indicator_id,
+            periods: JSON.stringify(this.state.periods)
         };
     
         return Services.Activity.update(
@@ -201,6 +214,35 @@ export class ActivityEdit extends React.Component {
     getActivityFormDisabled = () => this.state.activityFormDisabled;
 
     getParams = () => this.props.match.params;
+
+    appendPeriod = () => {
+        if (!this.state.periodYear || this.state.periodQuarters.length < 1) return;
+
+        this.setState(state => {
+            return {
+                periods: [
+                    {
+                        date: this.state.periodYear,
+                        quarters: this.state.periodQuarters
+                    },
+                    ...state.periods
+                ]
+            }
+        });
+
+        this.resetPeriodFields();
+    }
+
+    resetPeriodFields = () => {
+        this.setState({periodYear: '', periodQuarters: []});
+    }
+
+    removePeriod = (oldPeriod) => {
+        let periods = [...this.state.periods];
+        periods = periods.filter(period => parseInt(period.date) !== parseInt(oldPeriod.date));
+
+        this.setState({periods});
+    }
 
     setUserList = data => {
         const userList = [];
@@ -278,7 +320,8 @@ export class ActivityEdit extends React.Component {
             user_id: activity.user_id,
             project_id: activity.project_id,
             outcome_id: activity.outcome_id,
-            indicator_id: activity.indicator_id
+            indicator_id: activity.indicator_id,
+            periods: activity.periods ? JSON.parse(activity.periods) : []
         });
     }
     
