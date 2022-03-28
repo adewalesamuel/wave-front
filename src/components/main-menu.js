@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { Components } from '.'
 
 export function MainMenu(props) {
     return(
@@ -38,90 +39,102 @@ export function MainMenu(props) {
                             "></i><span>Dashboard</span>
                         </NavLink>
                     </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to="/countries" exact>
+                    <Components.Auth.Can permission="view-any-countries">
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/countries" exact>
+                                <i className="livicon-evo" data-options="
+                                name:globe;
+                                style:filled;
+                                duration:0.85; 
+                                strokeWidth:1.3px;
+                                strokeColor:#93b69c;
+                                solidColor:#93b69c;
+                                fillColor:#d4f9e2;
+                                strokeColorAlt:#E67E22;
+                                "></i><span>Countries</span>
+                            </NavLink>
+                        </li>
+                    </Components.Auth.Can>
+                    <Components.Auth.Can permission="view-any-projects">    
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/projects">
                             <i className="livicon-evo" data-options="
-                            name:globe;
-                            style:filled;
-                            duration:0.85; 
-                            strokeWidth:1.3px;
-                            strokeColor:#93b69c;
-                            solidColor:#93b69c;
-                            fillColor:#d4f9e2;
-                            strokeColorAlt:#E67E22;
-                            "></i><span>Countries</span>
-                        </NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to="/projects">
-                        <i className="livicon-evo" data-options="
-                            name:morph-folder;
-                            style:filled;
-                            duration:0.85; 
-                            strokeWidth:1.3px;
-                            strokeColor:#93b69c;
-                            solidColor:#93b69c;
-                            fillColor:#d4f9e2;
-                            strokeColorAlt:#E67E22;
-                            "></i><span>Projects</span>
-                        </NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to="/outcomes">
-                        <i className="livicon-evo" data-options="
-                            name:rocket;
-                            style:filled;
-                            duration:0.85; 
-                            strokeWidth:1.3px;
-                            strokeColor:#93b69c;
-                            solidColor:#93b69c;
-                            fillColor:#d4f9e2;
-                            strokeColorAlt:#E67E22;
-                            "></i><span>Outcomes</span>
-                        </NavLink>
-                    </li>                  
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to="/activities">
-                        <i className="livicon-evo" data-options="
-                            name:thumbnails-small;
-                            style:filled;
-                            duration:0.85; 
-                            strokeWidth:1.3px;
-                            strokeColor:#93b69c;
-                            solidColor:#93b69c;
-                            fillColor:#d4f9e2;
-                            strokeColorAlt:#E67E22;
-                            "></i><span>Activities</span>
-                        </NavLink>
-                    </li>                 
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to="/indicators">
-                        <i className="livicon-evo" data-options="
-                            name:pulse;
-                            style:filled;
-                            duration:0.85; 
-                            strokeWidth:1.3px;
-                            strokeColor:#93b69c;
-                            solidColor:#93b69c;
-                            fillColor:#d4f9e2;
-                            strokeColorAlt:#E67E22;
-                            "></i><span>Indicators</span>
-                        </NavLink>
-                    </li>                 
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to="/users">
-                        <i className="livicon-evo" data-options="
-                            name:users;
-                            style:filled;
-                            duration:0.85; 
-                            strokeWidth:1.3px;
-                            strokeColor:#93b69c;
-                            solidColor:#93b69c;
-                            fillColor:#d4f9e2;
-                            strokeColorAlt:#E67E22;
-                            "></i><span>Users</span>
-                        </NavLink>
-                    </li>                 
+                                name:morph-folder;
+                                style:filled;
+                                duration:0.85; 
+                                strokeWidth:1.3px;
+                                strokeColor:#93b69c;
+                                solidColor:#93b69c;
+                                fillColor:#d4f9e2;
+                                strokeColorAlt:#E67E22;
+                                "></i><span>Projects</span>
+                            </NavLink>
+                        </li>
+                    </Components.Auth.Can>
+                    <Components.Auth.Can permission="view-any-outcomes">    
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/outcomes">
+                            <i className="livicon-evo" data-options="
+                                name:rocket;
+                                style:filled;
+                                duration:0.85; 
+                                strokeWidth:1.3px;
+                                strokeColor:#93b69c;
+                                solidColor:#93b69c;
+                                fillColor:#d4f9e2;
+                                strokeColorAlt:#E67E22;
+                                "></i><span>Outcomes</span>
+                            </NavLink>
+                        </li> 
+                    </Components.Auth.Can>
+                    <Components.Auth.Can permission="view-any-activities">    
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/activities">
+                            <i className="livicon-evo" data-options="
+                                name:thumbnails-small;
+                                style:filled;
+                                duration:0.85; 
+                                strokeWidth:1.3px;
+                                strokeColor:#93b69c;
+                                solidColor:#93b69c;
+                                fillColor:#d4f9e2;
+                                strokeColorAlt:#E67E22;
+                                "></i><span>Activities</span>
+                            </NavLink>
+                        </li> 
+                    </Components.Auth.Can>                        
+                    <Components.Auth.Can permission="view-any-indicators">
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/indicators">
+                            <i className="livicon-evo" data-options="
+                                name:pulse;
+                                style:filled;
+                                duration:0.85; 
+                                strokeWidth:1.3px;
+                                strokeColor:#93b69c;
+                                solidColor:#93b69c;
+                                fillColor:#d4f9e2;
+                                strokeColorAlt:#E67E22;
+                                "></i><span>Indicators</span>
+                            </NavLink>
+                        </li>                 
+                    </Components.Auth.Can>   
+                    <Components.Auth.Can permission="view-any-users">    
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/users">
+                            <i className="livicon-evo" data-options="
+                                name:users;
+                                style:filled;
+                                duration:0.85; 
+                                strokeWidth:1.3px;
+                                strokeColor:#93b69c;
+                                solidColor:#93b69c;
+                                fillColor:#d4f9e2;
+                                strokeColorAlt:#E67E22;
+                                "></i><span>Users</span>
+                            </NavLink>
+                        </li>  
+                    </Components.Auth.Can>                      
                 </ul>
             </div>
         </div>

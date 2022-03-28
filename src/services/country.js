@@ -1,3 +1,4 @@
+import { Modules } from '../modules';
 import { erase, post, put, get } from './api';
 
 const  ENPOINTS = {
@@ -5,6 +6,8 @@ const  ENPOINTS = {
 };
 
 const getAll = signal => {
+    if( !Modules.Auth.getUser().isAdmin() )
+        return Promise.resolve({data: {countries:[Modules.Auth.getUser().country]}});
     return get(ENPOINTS.COUNTRY, signal)
 }
 

@@ -38,6 +38,8 @@ export class Login extends React.Component {
         this.login()
         .then(res => {
             Modules.Auth.setSessionToken(res.access_token);
+            Modules.Auth.setUser(res.user);
+            
             this.setFormDisabled(event, false);
             this.goToTargetPage();
         })

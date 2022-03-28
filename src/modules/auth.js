@@ -13,6 +13,10 @@ const setSessionToken = token => {
     localStorage.setItem('sessionToken', token)
 }
 
+const setUser = user => {
+    localStorage.setItem('user', JSON.stringify(user))
+}
+
 const removeSessionToken = () => {
     localStorage.removeItem('sessionToken');
 }
@@ -27,11 +31,17 @@ const redirectIfSessionExpired = (err, history) => {
 }
 
 const getUser = () => {
+    const roleSlug = JSON.parse(localStorage.getItem('user')).role.slug;
+    const permissions = JSON.parse(JSON.parse(localStorage.getItem('user')).role.permissions);
+
     return {
         isAdmin: () => {
-            if (JSON.parse(localStorage.getItem('user')).role.slug === "admin")
+            if (roleSlug.startsWith("admin") || roleSlug.startsWith("stakehold"))
                 return true;
             return false;
+        },
+        hasPermission: permission => {
+            return permissions.includes(permission);
         },
         ...JSON.parse(localStorage.getItem('user'))
     }
@@ -43,5 +53,6 @@ export const Auth = {
     setSessionToken,
     removeSessionToken,
     redirectIfSessionExpired,
-    getUser
+    getUser,
+    setUser
 }

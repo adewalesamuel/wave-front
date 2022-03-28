@@ -18,13 +18,18 @@ export class Dashboard extends React.Component {
             renderGraphItem: this.renderGraphItem.bind(this),
             handleChange: this.handleChange.bind(this),
             handleCreateClick: this.handleCreateClick.bind(this),
+            handleCreateSummaryClick: this.handleCreateSummaryClick.bind(this),
+            handleActivitySummaryModalCloseClick: this.handleActivitySummaryModalCloseClick.bind(this),
             handleModalCloseClick: this.handleModalCloseClick.bind(this),
             handleProjectChange: this.handleProjectChange.bind(this),
             handleGraphSubmit: this.handleGraphSubmit.bind(this),
+            handleActivitySummarySubmit: this.handleActivitySummarySubmit.bind(this),
             handleCountryChange: this.handleCountryChange.bind(this)
         };
         this.state = {
             projectId: '',
+            startYear: '',
+            endYear: '',
             projectInfo:null,
             graphData: [
                 // {
@@ -85,6 +90,7 @@ export class Dashboard extends React.Component {
                 {name:"Line", value:"graph"}
             ],
             projectList: [],
+            yearList: [],
             countryData: [],
             indicatorList: [],
             countryProjectInfoData: [],
@@ -100,21 +106,16 @@ export class Dashboard extends React.Component {
             graphErrorMessage: '',
             graphSuccessMessage: '',
             isGraphModalHidden: true,
+            isActivitySummaryModalHidden: true,
             isGraphFormDisabled: false,
+            isActivitySummaryFormDisabled: false,
             isEditingGraph: false,
         };
     }
 
     componentDidMount() {
         this._isMounted = true;
-
-        // if (!Modules.Auth.getUser().isAdmin()) {
-        //     this.setCountryData([Modules.Auth.getUser().country]);
-        //     this.setCountryId(Modules.Auth.getUser().country.id);
-        //     this.getAllCountryProjects();
-        //     return;
-        // }
-
+        this.setDefaultYearList();
         this.getAllCountries()
         .then(() => this.getAllCountryProjects())
         .then(() => {
@@ -172,6 +173,14 @@ export class Dashboard extends React.Component {
         this.setIsGraphModalHidden(false);
     }
 
+    handleCreateSummaryClick(event) {
+        event.preventDefault();
+
+        if (!this.state.projectId) return;
+
+        this.setIsActivitySummaryModalHidden(false);
+    }
+
     handleModalCloseClick(event) {
         event.preventDefault();
         if (this.state.isGraphFormDisabled) return;
@@ -179,6 +188,13 @@ export class Dashboard extends React.Component {
         this.resetGraphForm();
         this.setIsGraphModalHidden(true);
         this.setGraphErrorMessage('');
+    }
+
+    handleActivitySummaryModalCloseClick(event) {
+        event.preventDefault();
+        if (this.state.isActivitySummaryFormDisabled) return;
+            
+        this.setIsActivitySummaryModalHidden(true);
     }
 
     handleCountryChange(event) {
@@ -207,6 +223,21 @@ export class Dashboard extends React.Component {
             this.handleGraphError(response);
             this.setIsGraphFormDisabled(false);
         });
+    }
+
+    handleActivitySummarySubmit(event) {
+        event.preventDefault();
+
+        if (!this.state.projectId || !this.state.startYear || !this.state.endYear)
+            return;
+
+        const URL = 'http://127.0.0.1';
+        const PORT = '8000';
+        const FILE_URL = process.env.REACT_APP_API_URL ?? `${URL}:${PORT}`;
+
+        window.open(`${FILE_URL}/activity_summary?project_id=${this.state.projectId}&start_year=${this.state.startYear}&end_year=${this.state.endYear}`);
+
+        this.setIsActivitySummaryModalHidden(true);
     }
 
     handleChange(event) {
@@ -379,10 +410,9 @@ export class Dashboard extends React.Component {
         const projectList = projects.map(project => {
             return {name: project.name, id: project.id};
         });
-        projectList.unshift({
-            name: "All projects",
-            id: ""
-        })
+
+        if (Modules.Auth.getUser().isAdmin())
+            projectList.unshift({name: "All projects",id: ""});
 
         this.setState({projectList});
     }
@@ -404,7 +434,9 @@ export class Dashboard extends React.Component {
             return {name: country.name, id: country.id, code: country.code};
         });
 
-        countryData.unshift({name: "Select a country",id: "", code:""}); //If admin
+        if (Modules.Auth.getUser().isAdmin())
+            countryData.unshift({name: "Select a country",id: "", code:""});
+
         this.setState({countryData});
     }
    
@@ -424,6 +456,19 @@ export class Dashboard extends React.Component {
         this.setState({isGraphModalHidden});
     }
 
+    setDefaultYearList = () => {
+        const currentYear = new Date().getFullYear();
+        const numYears = 10;
+        const startYear = currentYear - numYears;
+        const endYear = currentYear + numYears;
+        
+        let yearList = [];
+        
+        for(let i=startYear; i<=endYear; i++) yearList.push(i);
+
+        this.setState({yearList});
+    }
+
     setGraphErrorMessage = graphErrorMessage => {
         this.setState({graphErrorMessage});
     }
@@ -438,6 +483,14 @@ export class Dashboard extends React.Component {
 
     setIsGraphFormDisabled = (val=true) => {
         this.setState({isGraphFormDisabled: val})
+    }
+
+    setIsActivitySummaryModalHidden = (val=true) => {
+        this.setState({isActivitySummaryModalHidden: val});
+    }
+
+    setIsActivitySummaryFormDisabled = (val=true) => {
+        this.setState({isActivitySummaryFormDisabled: val});
     }
 
     setInputValue = event => {

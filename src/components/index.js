@@ -24,6 +24,8 @@ import { Country } from './forms/country';
 import { FilterForm } from './filter-form';
 import { Outcome } from './forms/outcome';
 import { ProjectInfo } from './project-info';
+import { ActivitySummary } from './forms/activity-summary';
+import { Can } from './auth/can';
 
 export const Components = {
     Layouts: {
@@ -47,7 +49,11 @@ export const Components = {
         CollectedData,
         Graph,
         Country,
-        Outcome
+        Outcome,
+        ActivitySummary
+    },
+    Auth: {
+        Can
     },
     ErrorMessageText,
     SuccessMessageText,

@@ -1,5 +1,6 @@
 import { Fragment } from "react"
 import { Components } from "../components"
+import { Modules } from "../modules"
 
 export function Dashboard(props) {
     return(
@@ -11,8 +12,16 @@ export function Dashboard(props) {
                         <button className="btn btn-primary btn-block glow graph-list-clear mb-0"
                             onClick={props.methods.handleCreateClick}>
                             Create a graph
-                        </button>
+                        </button>  
                     </div>
+                    {Modules.Auth.getUser().isAdmin() ? 
+                        <div className="w-100 pr-2" style={{textAlign: 'right'}}>
+                            <button className="btn btn-secondary glow graph-list-clear mb-0"
+                                onClick={props.methods.handleCreateSummaryClick}>
+                                Create a summary
+                            </button> 
+                        </div>
+                    : null}
                 </div>
             </div>
             <div className="graph-list-card">
@@ -59,6 +68,15 @@ export function Dashboard(props) {
                 confirmModal={props.methods.handleGraphSubmit}
                 modalTitle="Create a graph">
                     <Components.Forms.Graph {...props} />
+            </Components.Modal>
+            <Components.Modal
+                isHidden={props.state.isActivitySummaryModalHidden ?? true}
+                closeModal={props.methods.handleActivitySummaryModalCloseClick}
+                isDisabled={props.state.isActivitySummaryFormDisabled}
+                confirmModal={props.methods.handleActivitySummarySubmit}
+                modalTitle={"Create a summary"}
+                modalSize="modal-sm">
+                <Components.Forms.ActivitySummary {...props} />
             </Components.Modal>
         </section>
     )

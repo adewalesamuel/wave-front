@@ -69,12 +69,6 @@ export class Indicator extends React.Component {
     }
 
     componentDidMount() {
-        // if (!Modules.Auth.getUser().isAdmin()) {
-        //     this.setCountryData([Modules.Auth.getUser().country]);
-        //     this.setCountryId(Modules.Auth.getUser().country.id);
-        //     this.getAllCountryProjects();
-        //     return;
-        // }
         this._isMounted = true;
         this.getAllCountries()
         .then(() => {

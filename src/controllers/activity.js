@@ -81,13 +81,6 @@ export class Activity extends React.Component {
     }
 
     componentDidMount() {
-        // if (!Modules.Auth.getUser().isAdmin()) {
-        //     this.setCountryData([Modules.Auth.getUser().country]);
-        //     this.setCountryId(Modules.Auth.getUser().country.id);
-        //     this.getAllCountryProjects();
-        //     return;
-        // }
-
         this.setDefaultQuarterList();
         this.setDefaultYearList();
         this.setDefaultDates();
