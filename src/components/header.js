@@ -1,6 +1,7 @@
 import logoLightImg from '../app-assets/images/logo/logo-light.png';
 import portraitSmallAvatarS11Img from '../app-assets/images/portrait/small/avatar-s-11.jpg';
 import { Link } from 'react-router-dom';
+import { Modules } from '../modules';
 
 export function Header({methods, state}) {
     return(
@@ -119,8 +120,8 @@ export function Header({methods, state}) {
                             <li className="dropdown dropdown-user nav-item">
                                 <button className="dropdown-toggle nav-link link user-link" data-toggle="dropdown">
                                     <div className="user-nav d-lg-flex d-none">
-                                        <span className="user-name">John Doe</span>
-                                        <span className="user-status">Online</span>
+                                        <span className="user-name">{Modules.Auth.getUser().firstname}</span>
+                                        <span className="user-status">{Modules.Auth.getUser().lastname}</span>
                                     </div>
                                     <span>
                                         <img className="round" src={portraitSmallAvatarS11Img} alt="avatar" height="40" width="40" />

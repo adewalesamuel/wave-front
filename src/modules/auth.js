@@ -19,6 +19,7 @@ const setUser = user => {
 
 const removeSessionToken = () => {
     localStorage.removeItem('sessionToken');
+    localStorage.removeItem('user');
 }
 
 const redirectIfSessionExpired = (err, history) => {
