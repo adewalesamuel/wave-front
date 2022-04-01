@@ -32,6 +32,8 @@ const redirectIfSessionExpired = (err, history) => {
 }
 
 const getUser = () => {
+    if (!isLoggedIn()) return {isAdmin: () => false, hasPermission: permission => false};
+
     const roleSlug = JSON.parse(localStorage.getItem('user')).role.slug;
     const permissions = JSON.parse(JSON.parse(localStorage.getItem('user')).role.permissions);
 
