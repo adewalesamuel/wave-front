@@ -70,14 +70,7 @@ export class Indicator extends React.Component {
 
     componentDidMount() {
         this._isMounted = true;
-        this.getAllCountries()
-        .then(() => {
-            this.getAllCountryProjects();
-
-            if (this.getProjectId() === '') return;
-
-            this.getAllProjectIndicators();
-        });
+        this.getAllCountries();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -92,10 +85,6 @@ export class Indicator extends React.Component {
             return;
         }else {
             this.getAllCountryProjects();
-
-            if (this.getProjectId() === '') return;
-
-            this.getAllProjectIndicators();
         };
     }
 

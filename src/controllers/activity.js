@@ -86,18 +86,7 @@ export class Activity extends React.Component {
         this.setDefaultDates();
 
         this.getAllCountries()
-        .then(() => {
-            this.getAllCountryProjects();
-            this.getAllOutcomes();
-
-            if (this.getProjectId() === '') return;
-
-            this.getAllProjectMembers(this.getProjectId())
-            .then(() => {
-                this.getAllProjectActivities();
-                this.getAllProjectIndicators();
-            });
-        });
+        .then(() => this.getAllOutcomes());
     }
 
     componentDidUpdate(prevProps, prevState) {        
@@ -107,19 +96,15 @@ export class Activity extends React.Component {
             if (this.getProjectId() && this.getProjectId() === prevState.projectId) {
                 return;
             }else {
-                this.getAllProjectActivities();
-                this.getAllProjectMembers(this.getProjectId());
-                this.getAllProjectIndicators();
+                this.getAllProjectActivities()
+                .then(() => {
+                    this.getAllProjectMembers(this.getProjectId());
+                    this.getAllProjectIndicators();
+                });
             }
             return;
         }else {
             this.getAllCountryProjects();
-
-            if (this.getProjectId() === '') return;
-
-            this.getAllProjectActivities();
-            this.getAllProjectMembers(this.getProjectId());
-            this.getAllProjectIndicators();
         };
     }
 
