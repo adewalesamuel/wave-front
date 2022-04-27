@@ -1,5 +1,9 @@
 export function ProjectInfo(props) {
-    const budgetDiff = parseInt(props.projectInfo.amount_spent) - parseInt(props.projectInfo.budget);
+    let budgetDiff = 0;
+
+    if (props.projectInfo)
+        budgetDiff = parseInt(props.projectInfo.amount_spent) - parseInt(props.projectInfo.budget);
+
     return (
         <>
             { props.projectInfo ?
