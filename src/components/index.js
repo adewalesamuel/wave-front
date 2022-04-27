@@ -25,6 +25,7 @@ import { FilterForm } from './filter-form';
 import { Outcome } from './forms/outcome';
 import { ProjectInfo } from './project-info';
 import { ActivitySummary } from './forms/activity-summary';
+import { CountryProjectList } from './country-projects-list';
 import { Can } from './auth/can';
 
 export const Components = {
@@ -63,5 +64,6 @@ export const Components = {
     Table,
     Modal,
     FilterForm,
-    ProjectInfo
+    ProjectInfo,
+    CountryProjectList
 }

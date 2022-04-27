@@ -42,6 +42,20 @@ export function Activity(props) {
                 confirmModal={props.methods.handleActivitySubmit}
                 modalTitle="Create an activity">
                     <Components.Forms.Activity {...props} />
+                    <button className="btn btn-info w-100 mt-2" 
+                    onClick={props.methods.handleCountryProjectAddClick}>
+                        <span className="bx bx-plus" style={{transform: "translateY(+4px)"}}></span> 
+                        Add activity to projects
+                        </button>
+                <Components.Modal
+                    isHidden={props.state.isCountryProjectListModalHidden ?? true}
+                    closeModal={props.methods.handleCountryProjectListModalCloseClick}
+                    isDisabled={null}
+                    confirmModal={props.methods.handleCountryProjectListSubmit}
+                    modalTitle="Add activity to projects"
+                    modalSize="modal-sm">
+                    <Components.CountryProjectList {...props} />
+                </Components.Modal>
             </Components.Modal>
         </section>
     )

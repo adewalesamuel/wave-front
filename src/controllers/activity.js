@@ -15,6 +15,7 @@ export class Activity extends React.Component {
 
         this.methods = {
             handleCreateClick: this.handleCreateClick.bind(this),
+            handleCountryProjectAddClick: this.handleCountryProjectAddClick.bind(this),
             handleChange: this.handleChange.bind(this),
             handleModalCloseClick: this.handleModalCloseClick.bind(this),
             handleSelectMultipleChange: this.handleSelectMultipleChange.bind(this),
@@ -22,9 +23,12 @@ export class Activity extends React.Component {
             handleDeleteClick: this.handleDeleteClick.bind(this),
             handleInfoClick: this.handleInfoClick.bind(this),
             handleProjectChange:  this.handleProjectChange.bind(this),
+            handleProjectCheck: this.handleProjectCheck.bind(this),
             handleCountryChange: this.handleCountryChange.bind(this),
             handleAddPeriodClick: this.handleAddPeriodClick.bind(this),
-            handleDeletePeriodClick: this.handleDeletePeriodClick.bind(this)
+            handleDeletePeriodClick: this.handleDeletePeriodClick.bind(this),
+            handleCountryProjectListModalCloseClick: this.handleCountryProjectListModalCloseClick.bind(this),
+            handleCountryProjectListSubmit: this.handleCountryProjectListSubmit.bind(this)
         };
         this.state = {
             countryId: '',
@@ -40,6 +44,7 @@ export class Activity extends React.Component {
             activityData: [],
             outcomeData: [],
             countryData: [],
+            projectIds: [],
             indicatorData: [],
             userList: [],
             projectList: [],
@@ -76,6 +81,7 @@ export class Activity extends React.Component {
             activityErrorMessage: '',
             activitySuccessMessage: '',
             isActivityModalHidden: true,
+            isCountryProjectListModalHidden: true,
             activityFormDisabled: false,
         };
     }
@@ -123,9 +129,28 @@ export class Activity extends React.Component {
         this.appendPeriod()
     }
 
+    handleProjectCheck = (e, projectId) => {
+        const projectIdsCopy = [...this.state.projectIds];
+
+        if (projectIdsCopy.includes(projectId)) {
+            projectIdsCopy.splice(projectIdsCopy.indexOf(projectId), 1);
+        }else {
+            projectIdsCopy.push(projectId);
+        }
+
+        this.setState({projectIds: [...projectIdsCopy]});
+    }
+
     handleCreateClick(event) {
         event.preventDefault();
+        this.resetActivityForm();
+        this.resetProjectIds()
         this.setIsActivityModalHidden(false);
+    }
+
+    handleCountryProjectAddClick(event) {
+        event.preventDefault();
+        this.setIsCountryProjectListModalHidden(false);
     }
 
     handleChange(event) {
@@ -149,6 +174,16 @@ export class Activity extends React.Component {
         this.setIsActivityModalHidden(true);
         this.setActivityErrorMessage('');
     }
+
+    handleCountryProjectListModalCloseClick(event) {            
+        this.resetActivityForm();
+        this.resetProjectIds();
+        this.setIsCountryProjectListModalHidden(true);
+    }
+
+    handleCountryProjectListSubmit(event) {
+        this.setIsCountryProjectListModalHidden(true);
+    }
     
     handleActivitySubmit(event) {
         event.preventDefault();
@@ -163,7 +198,8 @@ export class Activity extends React.Component {
             this.setActivityFormDisabled(event, false);
             this.setIsActivityModalHidden(true);
             this.appendActivityData(res.data.activity);
-            this.resetActivityForm();
+
+            this.createActivityByProject();
         })
         .catch(response => {
             this.handleActivityError(response);
@@ -289,6 +325,36 @@ export class Activity extends React.Component {
             JSON.stringify(payload),
             this.abortController.signal
             );
+    }
+
+    createActivityByProject = () => {
+        if (!this.state.projectIds === 0) return;
+
+        this.state.projectIds.forEach(projectId => {
+            if (parseInt(projectId) === parseInt(this.getProjectId()))
+                return;
+            
+            let payload = {
+                name: this.state.name,
+                start_date: this.state.start_date,
+                end_date: this.state.end_date,
+                status: this.state.status,
+                budget: this.state.budget,
+                amount_spent: this.state.amount_spent,
+                activity_id: this.state.activity_id,
+                user_id: this.state.user_id,
+                project_id: projectId,
+                description: this.state.description,
+                outcome_id: this.state.outcome_id,
+                indicator_id: this.state.indicator_id,
+                periods: JSON.stringify(this.state.periods)
+            };
+
+            Services.Activity.create(
+                JSON.stringify(payload),
+                this.abortController.signal
+                );
+        })
     }
 
     deleteActivity = (self) => {
@@ -442,10 +508,15 @@ export class Activity extends React.Component {
             indicator_id: '',
             periods: [],
             periodQuarters: [],
-            periodYear: ''
+            periodYear: '',
+            projectIds: []
         });
         this.setDefaultDates();
         this.setStatus(this.state.statusData[0] ?? "open");
+    }
+
+    resetProjectIds = () => {
+        this.setState({projectIds: []});
     }
 
     getClickedActivityId = (event) => {
@@ -539,6 +610,10 @@ export class Activity extends React.Component {
 
     setIsActivityModalHidden = isActivityModalHidden => {
         this.setState({isActivityModalHidden});
+    }
+    
+    setIsCountryProjectListModalHidden = isCountryProjectListModalHidden => {
+        this.setState({isCountryProjectListModalHidden});
     }
 
     setActivityData = data => {
