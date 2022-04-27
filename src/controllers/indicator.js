@@ -31,6 +31,8 @@ export class Indicator extends React.Component {
             countryId: '',
             indicatorTableHead: [
                 'id', 
+                'outcome',
+                'activity',
                 'name',
                 'type',
                 'baseline',
@@ -39,6 +41,7 @@ export class Indicator extends React.Component {
             projectList: [],
             indicatorData: [],
             countryData: [],
+            outcomeData: [],
             indicatorTableData: [],
             indicatorTableActions: [
                 'info',
@@ -71,6 +74,7 @@ export class Indicator extends React.Component {
     componentDidMount() {
         this._isMounted = true;
         this.getAllCountries();
+        this.getAllOutcomes();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -229,6 +233,15 @@ export class Indicator extends React.Component {
 
             if (res.data.projects.length > 0)
                 this.setProjectId(res.data.projects[0].id);
+        })
+        .catch(err => console.log(err));
+    }
+
+    getAllOutcomes = () => {
+        return Services.Outcome.getAll(this.abortController.signal)
+        .then(res => {
+            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            this.setOutcomeData(res.data.outcomes);
         })
         .catch(err => console.log(err));
     }
@@ -449,10 +462,22 @@ export class Indicator extends React.Component {
         this.setState({projectList});
     }
 
+    setOutcomeData = outcomeData => {
+        this.setState({outcomeData});
+    }
+
     setIndicatorTableData = data => {
         const indicatorTableData = data.map(item => {
             const {id, name, type, direction, baseline, target, unit, description} = item;
-            return {id, name, type, direction, baseline, target, unit, description};
+            const activity = item.activity ? item.activity.name : "--";
+            let outcome = "--";
+
+            if (item.activity) {
+                outcome = this.state.outcomeData.find(outcome => parseInt(outcome.id) === parseInt(item.activity.outcome_id)) ? 
+                this.state.outcomeData.find(outcome => parseInt(outcome.id) === parseInt(item.activity.outcome_id)).name : "--";
+            }
+
+            return {id, outcome, activity, name, type, direction, baseline, target, unit, description};
             
         })
         this.setState({indicatorTableData});

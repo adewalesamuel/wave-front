@@ -1,4 +1,5 @@
 export function ProjectInfo(props) {
+    const budgetDiff = parseInt(props.projectInfo.amount_spent) - parseInt(props.projectInfo.budget);
     return (
         <>
             { props.projectInfo ?
@@ -24,7 +25,10 @@ export function ProjectInfo(props) {
                                         <i className="bx bx-dollar text-warning font-medium-5"></i>
                                     </div>
                                     <p className="text-muted mb-0 line-ellipsis">Amount Spent</p>
-                                    <h2 className="mb-0">{props.projectInfo.amount_spent ?? 0}</h2>
+                                    <h2 className={`mb-0 ${parseInt(props.projectInfo.amount_spent) > parseInt(props.projectInfo.budget) ? 'text-danger': ''}`}>
+                                            {props.projectInfo.amount_spent ?? 0}
+                                            {budgetDiff > 0 ? <sup style={{fontSize: '16px'}}> +{budgetDiff}</sup>:null}
+                                        </h2>   
                                 </div>
                             </div>
                         </div>

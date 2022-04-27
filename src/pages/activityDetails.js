@@ -21,6 +21,13 @@ export function ActivityDetails({state, match}) {
                                     <span className="align-middle">Edit</span>
                                 </NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" id="edit-tab" exact data-toggle="tab" 
+                                to={`/indicators/${state.indcator_id ?? 1}`} aria-controls="edit" role="tab">
+                                    <i className="bx bx-bar-chart align-middle"></i>
+                                    <span className="align-middle">Indicator</span>
+                                </NavLink>
+                            </li>
                             {/* <li className="nav-item">
                                 <NavLink className="nav-link" id="documents-tab" data-toggle="tab" 
                                 to={`/activities/${state.id ?? 1}/documents`} aria-controls="documents" role="tab">

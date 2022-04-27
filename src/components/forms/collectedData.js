@@ -20,8 +20,24 @@ export function CollectedData({state, methods}) {
                     <div className="col-6">
                         <div className="form-group">
                             <label htmlFor="collection_date">Collection date</label>
-                            <input disabled={state.projectFormDisabled} type="date" id="collection_date" lang="en"
+                            <input disabled={state.isCollectedDataFormDisabled} type="date" id="collection_date" lang="en"
                             className="form-control" name="collection_date" placeholder="Start date" value={state.collection_date}
+                            onChange={methods.handleChange}  />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="budget">Budget</label>
+                            <input disabled={state.isCollectedDataFormDisabled} type="number" id="budget"
+                            className="form-control" name="budget" placeholder="Budget" value={state.budget ?? ""}
+                            onChange={methods.handleChange}  />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="amount_spent">Amount spent</label>
+                            <input disabled={state.isCollectedDataFormDisabled} type="number" id="amount_spent"
+                            className="form-control" name="amount_spent" placeholder="Amount spent" value={state.amount_spent ?? ""}
                             onChange={methods.handleChange}  />
                         </div>
                     </div>

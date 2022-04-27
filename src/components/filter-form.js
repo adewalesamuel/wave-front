@@ -1,7 +1,3 @@
-import logoLightImg from '../app-assets/images/logo/logo-light.png';
-import portraitSmallAvatarS11Img from '../app-assets/images/portrait/small/avatar-s-11.jpg';
-import { Link } from 'react-router-dom';
-
 export function FilterForm({methods, state}) {
     return(
         <div className="col-12 col-sm-6 col-lg-6">       

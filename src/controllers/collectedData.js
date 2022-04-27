@@ -37,11 +37,14 @@ export class CollectedData extends React.Component {
             indicatorDisaggregationData: [],
             collectedDataTableData: [],
             collectedDataTableActions: [
+                'edit',
                 'delete'
             ],
             values: '',
             notes: '',
             collection_date: '',
+            budget: '',
+            amount_spent: '',
             file_name: '',
             collected_data_file: null,
             file_url: '',
@@ -72,8 +75,7 @@ export class CollectedData extends React.Component {
     } 
 
     handleModalCloseClick() {
-        if (this.state.isCollectedDataFormDisabled)
-            return; 
+        if (this.state.isCollectedDataFormDisabled) return; 
 
         this.resetCollectedDataForm()
         this.setIsCollectedDataModalHidden(true);
@@ -132,7 +134,7 @@ export class CollectedData extends React.Component {
             .then(res => {
                 this.setIsCollectedDataFormDisabled(false);
                 this.setIsCollectedDataModalHidden(true);
-                this.updateCollectedData(res.data.collected_data);
+                this.updateCollectedDataData(res.data.collected_data);
                 this.resetCollectedDataForm();
             })
             .catch(response => {
@@ -207,11 +209,13 @@ export class CollectedData extends React.Component {
 
         let formData = new FormData();
 
-        const {values, collection_date, file_name, collected_data_file, 
+        const {values, collection_date, budget, amount_spent, file_name, collected_data_file, 
             notes, indicatorId} = this.state;
 
         formData.append("values", values);
         formData.append("collection_date", collection_date);
+        formData.append("budget", budget);
+        formData.append("amount_spent", amount_spent);
         formData.append("file_name", file_name);
         formData.append("collected_data_file", collected_data_file);
         formData.append("disaggregation_values", JSON.stringify(disaggregation_values));
@@ -219,6 +223,33 @@ export class CollectedData extends React.Component {
         formData.append("indicator_id", indicatorId);
         
         return Services.CollectedData.create(
+            formData,
+            this.abortController.signal
+            );
+    }
+
+    updateCollectedData = () => {
+        let disaggregation_values = this.getDisaggregationValues();
+
+        this.setState({disaggregation_values});
+
+        let formData = new FormData();
+
+        const {values, collection_date, budget, amount_spent, file_name, collected_data_file, 
+            notes, indicatorId} = this.state;
+
+        formData.append("values", values);
+        formData.append("collection_date", collection_date);
+        formData.append("budget", budget);
+        formData.append("amount_spent", amount_spent);
+        formData.append("file_name", file_name);
+        formData.append("collected_data_file", collected_data_file);
+        formData.append("disaggregation_values", JSON.stringify(disaggregation_values));
+        formData.append("notes", notes);
+        formData.append("indicator_id", indicatorId);
+        
+        return Services.CollectedData.update(
+            this.state.id,
             formData,
             this.abortController.signal
             );
@@ -277,12 +308,12 @@ export class CollectedData extends React.Component {
         this.setState((state) => {
             return {
                 id: collectedData.id, 
-                firstname: collectedData.firstname, 
-                lastname: collectedData.lastname, 
-                email: collectedData.email, 
-                tel: collectedData.tel, 
-                role: collectedData.role_id, 
-                password: (collectedData.password === undefined) ? state.password : collectedData.password
+                values: collectedData.values ?? "", 
+                collection_date: collectedData.collection_date ?? "", 
+                budget: collectedData.budget ?? "", 
+                amount_spent: collectedData.amount_spent ?? "", 
+                file_name: collectedData.file_name ?? "", 
+                disaggregation_values: JSON.parse(collectedData.disaggregation_values), 
             }
         })
     }
@@ -301,6 +332,41 @@ export class CollectedData extends React.Component {
                 collectedData: [collected_data, ...state.collectedData]
             }
         });
+    }
+
+    updateCollectedDataData = collectedData => {
+        let collectedDataTableIndex;
+
+        this.state.collectedDataTableData.forEach((item, index) => {
+            if (collectedData.id === item['id']) collectedDataTableIndex = index;
+        });
+
+
+        let collectedDataTableDataCopy = [...this.state.collectedDataTableData];
+
+        collectedDataTableDataCopy[collectedDataTableIndex]['id'] = collectedData.id;
+        collectedDataTableDataCopy[collectedDataTableIndex]['values'] = collectedData.values;
+        collectedDataTableDataCopy[collectedDataTableIndex]['collection_date'] = collectedData.collection_date;
+        collectedDataTableDataCopy[collectedDataTableIndex]['file_name'] = collectedData.file_name;
+        collectedDataTableDataCopy[collectedDataTableIndex]['file_url'] = collectedData.file_url;
+
+        let collectedDataCopy = [...this.state.collectedData];
+
+        collectedDataCopy[collectedDataTableIndex]['id'] = collectedData.id;
+        collectedDataCopy[collectedDataTableIndex]['values'] = collectedData.values;
+        collectedDataCopy[collectedDataTableIndex]['notes'] = collectedData.notes;
+        collectedDataCopy[collectedDataTableIndex]['budget'] = collectedData.budget;
+        collectedDataCopy[collectedDataTableIndex]['amount_spent'] = collectedData.amount_spent;
+        collectedDataCopy[collectedDataTableIndex]['file_url'] = collectedData.file_url;
+        collectedDataCopy[collectedDataTableIndex]['disaggregation_values'] = collectedData.disaggregation_values;
+        collectedDataCopy[collectedDataTableIndex]['collection_date'] = collectedData.collection_date;
+        collectedDataCopy[collectedDataTableIndex]['file_name'] = collectedData.file_name;
+
+        this.setState({
+            collectedData: [...collectedDataCopy],
+            collectedDataTableData: [...collectedDataTableDataCopy]
+        })
+
     }
 
     removeCollectedData = collectedData => {
@@ -347,9 +413,12 @@ export class CollectedData extends React.Component {
     
     resetCollectedDataForm = () => {
         this.setState({
+            id:'',
             values: '',
             notes: '',
             file_name: '',
+            budget: '', 
+            amount_spent: '', 
             collected_data_file: null,
             file_url: '',
             disaggregation_values: [],
