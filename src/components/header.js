@@ -1,7 +1,8 @@
-import logoLightImg from '../app-assets/images/logo/logo-light.png';
-import portraitSmallAvatarS11Img from '../app-assets/images/portrait/small/avatar-s-11.jpg';
 import { Link } from 'react-router-dom';
 import { Modules } from '../modules';
+
+import logoLightImg from '../app-assets/images/logo/logo-light.png';
+import profileAvatar from '../app-assets/images/profile/avatar.png'
 
 export function Header({methods, state}) {
     return(
@@ -124,7 +125,7 @@ export function Header({methods, state}) {
                                         <span className="user-status">{Modules.Auth.getUser().lastname}</span>
                                     </div>
                                     <span>
-                                        <img className="round" src={portraitSmallAvatarS11Img} alt="avatar" height="40" width="40" />
+                                        <img className="round" src={profileAvatar} alt="avatar" height="40" width="40" />
                                     </span>
                                 </button>
                                 <div className="dropdown-menu dropdown-menu-right pb-0">

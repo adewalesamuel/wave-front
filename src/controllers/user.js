@@ -170,7 +170,6 @@ export class User extends React.Component {
             )
     }
             
-
     updateUser = () => {
         const payload = {
             firstname: this.state.firstname,

@@ -104,6 +104,7 @@ export class CollectedData extends React.Component {
 
     handleAddDisaggregationValuesClick(event) {
         event.preventDefault();
+        
         if (this.state.indicatorDisaggregationId ===  "") return;
 
         let disaggregation_values = this.getDisaggregationValues();

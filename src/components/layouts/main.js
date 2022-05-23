@@ -1,8 +1,11 @@
 import { Fragment } from "react";
 import { Components } from "..";
 import { Controllers } from "../../controllers";
+import { useHistory } from 'react-router-dom';
 
 export function Main(props) {
+    const history = useHistory();
+
     return (
         <Fragment>
             <Controllers.Header {...props} />
@@ -11,6 +14,12 @@ export function Main(props) {
                 <div className="content-overlay"></div>
                 <div className="content-wrapper">
                     <div className="content-header row"></div>
+                    {history.location.pathname.length > 1 ? 
+                        <div className="py-1">
+                            <button className="btn" onClick={e => history.goBack()}
+                            style={{backgroundColor: 'lightgrey', color: 'black'}}>Go back</button>
+                        </div>
+                    : null}
                     <div className="content-body">
                         {props.children}
                     </div>
@@ -21,12 +30,12 @@ export function Main(props) {
         
             <footer className="footer footer-static footer-light">
                 <p className="clearfix mb-0">
-                    <span className="float-left d-inline-block">2021 &copy; WAVE PLANTVILLAGE</span>
+                    <span className="float-left d-inline-block">2022 &copy; Wave APP Suivi et Évaluation</span>
                     <span className="float-right d-sm-inline-block d-none">
-                        Crafted with<i className="bx bxs-heart pink mx-50 font-small-3"></i>by
-                        <a className="text-uppercase" href="https://epistrophe.ci" target="_blank"
+                        Designed with<i className="bx bxs-heart pink mx-50 font-small-3"></i>by
+                        <a className="text-uppercase" href="@" target="_blank"
                         rel="noreferrer">
-                            Epistrophe
+                            Wave Team Project
                         </a>
                     </span>
                     <button className="btn btn-primary btn-icon scroll-top" type="button">

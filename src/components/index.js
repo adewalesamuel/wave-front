@@ -1,7 +1,7 @@
 import { Auth } from './layouts/auth';
 import { Main } from './layouts/main';
 import { Auth as AuthRoute } from './routes/auth';
-import {Main as MainRoute} from './routes/main';
+import { Main as MainRoute } from './routes/main';
 import { Login } from './forms/login';
 import { ErrorMessageText } from './error-message-text';
 import { SuccessMessageText } from './success-message-text';

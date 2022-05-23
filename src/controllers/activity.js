@@ -126,7 +126,7 @@ export class Activity extends React.Component {
     
     handleAddPeriodClick(event) {
         event.preventDefault();
-        this.appendPeriod()
+        this.appendPeriod();
     }
 
     handleProjectCheck = (e, projectId) => {
@@ -300,7 +300,6 @@ export class Activity extends React.Component {
         })
         .catch(err => console.log(err));
     }
-
 
     getProjectId = () => this.state.projectId;
     
