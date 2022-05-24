@@ -216,7 +216,7 @@ export class Indicator extends React.Component {
     getAllCountries = () => {
         return Services.Country.getAll(this.abortController.signal)
         .then(res => {
-            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setCountryData(res.data.countries);
 
             if (res.data.countries.length > 0)
