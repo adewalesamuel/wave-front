@@ -13,6 +13,7 @@ export class User extends React.Component {
         this.history = this.props.history;
 
         this.methods = {
+            handleEditRoleClick: this.handleEditRoleClick.bind(this),
             handleEditClick: this.handleEditClick.bind(this),
             handleDeleteClick: this.handleDeleteClick.bind(this),
             handleModalCloseClick: this.handleModalCloseClick.bind(this),
@@ -28,6 +29,7 @@ export class User extends React.Component {
         this.state = {
             countryId:'',
             userModalTitle: "Add a new user",
+            roleModalTitle: "Add a new role",
             userTableHead: [
                 'id', 
                 'firstname',
@@ -66,6 +68,7 @@ export class User extends React.Component {
             formDisabled: false,
             roleFormDisabled: false,
             isEditingUser: false,
+            isEditingRole: false,
         };
     }
 
@@ -188,6 +191,19 @@ export class User extends React.Component {
             )
     }
 
+    updateRole = () => {
+        const payload = {
+            name: this.state.roleName,
+            permissions: JSON.stringify(this.state.rolePermissions),
+        };
+           
+        return Services.Role.update(
+            this.state.role,
+            JSON.stringify(payload),
+            this.abortController.signal
+            );
+    }
+
     
     deleteUser = (self) => {
         return Services.User.destroy(
@@ -257,6 +273,11 @@ export class User extends React.Component {
 
     setUserModalTitle = (userModalTitle) => {
         this.setState({userModalTitle})
+        this.setState({userModalTitle})
+    }
+  
+    setRoleModalTitle = (roleModalTitle) => {
+        this.setState({roleModalTitle})
     }
 
     setIsUserModalHidden = isUserModalHidden => {
@@ -306,6 +327,10 @@ export class User extends React.Component {
     setIsEditingUser = (bool=true) => {
         this.setState({isEditingUser: bool})
     }
+    
+    setIsEditingRole = (bool=true) => {
+        this.setState({isEditingRole: bool})
+    }
 
     setId = id => {
         this.setState({id});
@@ -348,6 +373,15 @@ export class User extends React.Component {
                 password: (user.password === undefined) ? state.password : user.password
             }
         })
+    }
+
+    fillRoleForm =  (role) => {
+        this.setState((state) => {
+            return {
+                roleName: role.name, 
+                rolePermissions: JSON.parse(role.permissions),
+            };
+        });
     }
 
     appendUserData = user => {
@@ -412,6 +446,18 @@ export class User extends React.Component {
             userTableData: [...userTableDataCopy]
         })
         
+    }
+
+    updateRoleData = role => {
+        let roleIndex = this.state.roleData.findIndex(r => parseInt(r.id) === parseInt(role.id));
+        let roleDataCopy = [...this.state.roleData];
+
+        roleDataCopy[roleIndex]['name'] = role.name;
+        roleDataCopy[roleIndex]['permissions'] = role.permissions;
+
+        this.setState({
+            roleData: [...roleDataCopy]
+        });
     }
 
     removeUserData = user => {
@@ -544,7 +590,7 @@ export class User extends React.Component {
             })
             .catch(response => {
                 this.handleUserError(response);
-                this.setFormDisabled(event, false)
+                this.setFormDisabled(event, false);
             });
         }
     }
@@ -557,17 +603,33 @@ export class User extends React.Component {
         this.setRoleErrorMessage("");
         this.setRoleFormDisabled(event);
 
-        this.createRole()
-        .then(res => {
-            this.setRoleFormDisabled(event, false);
-            this.setIsRoleModalHidden(true);
-            this.appendRoleData(res.data.role);
-            this.resetRoleForm();
-        })
-        .catch(response => {
-            this.handleRoleError(response);
-            this.setRoleFormDisabled(event, false)
-        });
+        if (this.state.isEditingRole) {
+            this.updateRole()
+            .then(res => {
+                this.setRoleFormDisabled(event, false);
+                this.setIsRoleModalHidden(true);
+                this.updateRoleData(res.data.role);
+                this.resetRoleForm();
+            })
+            .catch(response => {
+                this.handleRoleError(response);
+                this.setRoleFormDisabled(event, false);
+            });
+
+        }else {
+            this.createRole()
+            .then(res => {
+                this.setRoleFormDisabled(event, false);
+                this.setIsRoleModalHidden(true);
+                this.appendRoleData(res.data.role);
+                this.resetRoleForm();
+            })
+            .catch(response => {
+                this.handleRoleError(response);
+                this.setRoleFormDisabled(event, false)
+            });
+        }
+
 
     }
 
@@ -590,6 +652,22 @@ export class User extends React.Component {
 
     handleCreateRoleClick(event) {
         event.preventDefault();
+
+        this.setRoleModalTitle("Add new role");
+        this.setIsEditingRole(false);
+        this.setIsRoleModalHidden(false);
+    }
+
+    handleEditRoleClick(event) {
+        event.preventDefault();
+        
+        if (!this.state.role) return;
+
+        const role = this.state.roleData.find(r => parseInt(r.id) === parseInt(this.state.role));
+
+        this.setRoleModalTitle("Edit role");
+        this.setIsEditingRole();
+        this.fillRoleForm(role);
         this.setIsRoleModalHidden(false);
     }
 

@@ -57,7 +57,7 @@ export function User(props) {
                     closeModal={props.methods.handleRoleModalCloseClick}
                     isDisabled={props.state.roleFormDisabled}
                     confirmModal={props.methods.handleRoleSubmit}
-                    modalTitle="Add a new role"
+                    modalTitle={props.state.roleModalTitle}
                     modalSize="modal-sm">
                     <Components.Forms.Role {...props} />
                 </Components.Modal>

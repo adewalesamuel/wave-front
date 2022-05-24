@@ -71,6 +71,9 @@ export function User({state, methods}) {
                                 Role <span onClick={methods.handleCreateRoleClick} role="button" 
                                 className="bx bxs-plus-circle" style={{transform: "translateY(3px)"}} 
                                 title="Add new role"></span> 
+                                <span onClick={methods.handleEditRoleClick} role="button" 
+                                className="bx bx-edit-alt" style={{transform: "translateY(3px) translateX(5px)"}} 
+                                title="Update role"></span> 
                             </label>
                             <fieldset className="form-group">
                                 <select className="select2 form-control" id="customSelect" value={state.role ?? ""}
