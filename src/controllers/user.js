@@ -102,7 +102,6 @@ export class User extends React.Component {
         .catch(err => console.log(err));
     }
 
-
     getAllCountryUsers = () => {
         return Services.Country.getAllUsers(this.state.countryId, this.abortController.signal)
         .then(res => {
@@ -116,7 +115,7 @@ export class User extends React.Component {
     getAllRoles = () => {
         return Services.Role.getAll(this.abortController.signal)
         .then(res => {
-            Modules.Auth.redirectIfSessionExpired(res, this.history)
+            Modules.Auth.redirectIfSessionExpired(res, this.history);
             this.setRoleData(res.data.roles);
             this.setRole(res.data.roles[0] ? res.data.roles[0].id : 1);
         })
@@ -158,19 +157,19 @@ export class User extends React.Component {
         return Services.User.create(
             JSON.stringify(payload),
             this.abortController.signal
-            )
+            );
     }
 
     createRole = () => {
         const payload = {
             name: this.state.roleName,
             permissions: JSON.stringify(this.state.rolePermissions),
-        }
+        };
         
         return Services.Role.create(
             JSON.stringify(payload),
             this.abortController.signal
-            )
+            );
     }
             
     updateUser = () => {
@@ -188,7 +187,7 @@ export class User extends React.Component {
             this.state.id,
             JSON.stringify(payload),
             this.abortController.signal
-            )
+            );
     }
 
     updateRole = () => {
@@ -209,7 +208,7 @@ export class User extends React.Component {
         return Services.User.destroy(
             self.state.id, 
             self.abortController.signal
-            )
+            );
     }
 
     setUserData = userData => {
@@ -236,7 +235,8 @@ export class User extends React.Component {
         const userTableData = data.map(item => {
             const {id, firstname, lastname, tel, email} = item;
             const role = item.role.name;
-            const created_at = item.created_at ? new Date(item.created_at).toLocaleDateString('en').replace(/\//g, '-') : null;
+            const created_at = item.created_at ? new Date(item.created_at)
+            .toLocaleDateString('en').replace(/\//g, '-') : null;
 
             return {id, firstname, lastname, tel, email, role, created_at};
         })
@@ -254,7 +254,7 @@ export class User extends React.Component {
     }
 
     setSelectMultupleValue = event => {
-        if (event.target.value === "") return 
+        if (event.target.value === "") return; 
 
         this.setState( state => {
             let prevState = [...state[event.target.name]]
@@ -263,29 +263,29 @@ export class User extends React.Component {
                 prevState.splice(prevState.indexOf(event.target.value),1)
                 return {
                     [event.target.name]: [...prevState]
-                }
-            }
+                };
+            };
+
             return {
                 [event.target.name]: [...state[event.target.name], event.target.value]
-            }
+            };
         });
     }
 
     setUserModalTitle = (userModalTitle) => {
-        this.setState({userModalTitle})
-        this.setState({userModalTitle})
+        this.setState({userModalTitle});
     }
   
     setRoleModalTitle = (roleModalTitle) => {
-        this.setState({roleModalTitle})
+        this.setState({roleModalTitle});
     }
 
     setIsUserModalHidden = isUserModalHidden => {
-        this.setState({isUserModalHidden})
+        this.setState({isUserModalHidden});
     }
 
     setIsRoleModalHidden = isRoleModalHidden => {
-        this.setState({isRoleModalHidden})
+        this.setState({isRoleModalHidden});
     }
 
     setUserErrorMessage =  userErrorMessage => {
@@ -302,12 +302,12 @@ export class User extends React.Component {
 
     setFormDisabled = (event, val=true) => {
         event.target.disabled = val;
-        this.setState({formDisabled: val})
+        this.setState({formDisabled: val});
     }
 
     setRoleFormDisabled = (event, val=true) => {
         event.target.disabled = val;
-        this.setState({roleFormDisabled: val})
+        this.setState({roleFormDisabled: val});
     }
 
     setPassword = (max=8) => {
@@ -319,17 +319,17 @@ export class User extends React.Component {
             let randIndex = Math.ceil(Math.random() * alphaNum.length - 1);
             password += alphaNum[randIndex];
             i++;
-        }
+        };
 
         this.setState({password});
     }
 
     setIsEditingUser = (bool=true) => {
-        this.setState({isEditingUser: bool})
+        this.setState({isEditingUser: bool});
     }
     
     setIsEditingRole = (bool=true) => {
-        this.setState({isEditingRole: bool})
+        this.setState({isEditingRole: bool});
     }
 
     setId = id => {
@@ -371,8 +371,8 @@ export class User extends React.Component {
                 role: user.role_id, 
                 country_id: user.country_id,
                 password: (user.password === undefined) ? state.password : user.password
-            }
-        })
+            };
+        });
     }
 
     fillRoleForm =  (role) => {
@@ -398,7 +398,7 @@ export class User extends React.Component {
             return {
                 userTableData: [payload, ...state.userTableData],
                 userData: [user, ...state.userData]
-            }
+            };
         });
     }
 
@@ -406,7 +406,7 @@ export class User extends React.Component {
         this.setState((state) => {
             return {
                 roleData: [role, ...state.roleData]
-            }
+            };
         });
     }
 
@@ -444,7 +444,7 @@ export class User extends React.Component {
         this.setState({
             userData: [...userDataCopy],
             userTableData: [...userTableDataCopy]
-        })
+        });
         
     }
 
@@ -476,7 +476,7 @@ export class User extends React.Component {
         this.setState({
             userTableData: [...userTableDataCopy],
             userData: [...userDataCopy],
-        })
+        });
     }
 
     handleUserError = async (error) => {

@@ -559,14 +559,17 @@ export class Activity extends React.Component {
  
     setUserList = data => {
         const userList = [];
+
         data.forEach(item => {
             if (!item.user) return;
+
             userList.push({
                 id: item.user.id,
                 firstname: item.user.firstname,
                 lastname: item.user.lastname
             });
-        })
+        });
+        
         this.setState({userList});
     }
 
