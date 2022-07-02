@@ -87,22 +87,6 @@ export function MainMenu(props) {
                             </NavLink>
                         </li> 
                     </Components.Auth.Can>
-                    <Components.Auth.Can permission="view-any-activities">    
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/activities">
-                            <i className="livicon-evo" data-options="
-                                name:thumbnails-small;
-                                style:filled;
-                                duration:0.85; 
-                                strokeWidth:1.3px;
-                                strokeColor:#93b69c;
-                                solidColor:#93b69c;
-                                fillColor:#d4f9e2;
-                                strokeColorAlt:#E67E22;
-                                "></i><span>Activities</span>
-                            </NavLink>
-                        </li> 
-                    </Components.Auth.Can>                        
                     <Components.Auth.Can permission="view-any-indicators">
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/indicators">
@@ -119,6 +103,22 @@ export function MainMenu(props) {
                             </NavLink>
                         </li>                 
                     </Components.Auth.Can>   
+                    <Components.Auth.Can permission="view-any-activities">    
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/activities">
+                            <i className="livicon-evo" data-options="
+                                name:thumbnails-small;
+                                style:filled;
+                                duration:0.85; 
+                                strokeWidth:1.3px;
+                                strokeColor:#93b69c;
+                                solidColor:#93b69c;
+                                fillColor:#d4f9e2;
+                                strokeColorAlt:#E67E22;
+                                "></i><span>Activities</span>
+                            </NavLink>
+                        </li> 
+                    </Components.Auth.Can>                        
                     <Components.Auth.Can permission="view-any-users">    
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/users">

@@ -1,4 +1,5 @@
-import { Components } from ".."
+import { Components } from "..";
+import { API_URL } from "../../services/api";
 
 export function CollectedData({state, methods}) {
     return (
@@ -25,22 +26,6 @@ export function CollectedData({state, methods}) {
                             onChange={methods.handleChange}  />
                         </div>
                     </div>
-                    <div className="col-6">
-                        <div className="form-group">
-                            <label htmlFor="budget">Budget</label>
-                            <input disabled={state.isCollectedDataFormDisabled} type="number" id="budget"
-                            className="form-control" name="budget" placeholder="Budget" value={state.budget ?? ""}
-                            onChange={methods.handleChange}  />
-                        </div>
-                    </div>
-                    <div className="col-6">
-                        <div className="form-group">
-                            <label htmlFor="amount_spent">Amount spent</label>
-                            <input disabled={state.isCollectedDataFormDisabled} type="number" id="amount_spent"
-                            className="form-control" name="amount_spent" placeholder="Amount spent" value={state.amount_spent ?? ""}
-                            onChange={methods.handleChange}  />
-                        </div>
-                    </div>
                     <div className="col-12">
                         <div className="form-group">
                             <label htmlFor="notes-info-vertical">Notes</label>
@@ -53,6 +38,17 @@ export function CollectedData({state, methods}) {
                         <div className="form-group">
                             <label htmlFor="tel-id-vertical">Proof of data</label> 
                         </div>
+                        <ul className="collected-data-file-list">
+                            {state.files_urls ? JSON.parse(state.files_urls).map((file_url, index) => {
+                                return (
+                                    <li className="file-item d-flex justify-content-between align-item-center" key={index}>
+                                        <span className="file-name">{file_url.split('/')[1]}</span>
+                                        <a className="bx bx-cloud-download" style={{fontSize: '24px'}} 
+                                        href={`${API_URL}/storage/${file_url}`} download={true} role="button"></a>
+                                    </li>)
+                                }) 
+                            : null} 
+                        </ul>
                     </div>
                     <div className="col-6">
                         <div className="form-group">
@@ -68,6 +64,12 @@ export function CollectedData({state, methods}) {
                             className="form-control" name="file_name" placeholder="File name" value={state.file_name}
                             onChange={methods.handleChange} /> 
                         </div>
+                        <div className="float-right" >
+                        <span className="btn btn-text primary p-0" role="button" style={{fontSize: "0.82rem", fontWeight: "bold"}}
+                        onClick={methods.handleFileUpload}>
+                            <span className="bx bx-plus" style={{transform: "translateY(+4px)"}}></span> Add file
+                        </span>
+                    </div>
                     </div>
                     <div className="col-12">
                         <div className="form-group">

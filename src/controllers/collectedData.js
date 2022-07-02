@@ -22,6 +22,7 @@ export class CollectedData extends React.Component {
             handleChange: this.handleChange.bind(this), 
             handleCreateClick: this.handleCreateClick.bind(this),
             handleSubmit: this.handleSubmit.bind(this),
+            handleFileUpload: this.handleFileUpload.bind(this)
         };
         this.state = {
             indicatorId: this.props.match.params.id,
@@ -31,7 +32,7 @@ export class CollectedData extends React.Component {
                 'id', 
                 'values',
                 'collection_date', 
-                'file_name',
+                'files_urls',
             ],
             collectedData: [],
             indicatorDisaggregationData: [],
@@ -48,6 +49,7 @@ export class CollectedData extends React.Component {
             file_name: '',
             collected_data_file: null,
             file_url: '',
+            files_urls: '',
             disaggregation_values: [],
             collectedDataErrorMessage: '',
             collectedDataSuccessMessage: '',
@@ -159,9 +161,39 @@ export class CollectedData extends React.Component {
 
     handleFileChange(self, event) {
         const file = event.target.files[0];
+
         self.setState({
-            file_name: file.name.substring(0, file.name.lastIndexOf('.')),
+            file_name: file.name,
             collected_data_file: file
+        });
+    }
+
+    handleFileUpload(event) {
+        event.preventDefault();
+
+        if (this.state.isCollectedDataFormDisabled) return;
+
+        this.setCollectedDataErrorMessage("");
+
+        const formData = new FormData();
+
+        formData.append('file', this.state.collected_data_file);
+        formData.append('file_name', this.state.file_name);
+
+        this.setIsCollectedDataFormDisabled();
+        Services.File.store(formData, this.abortController.signal)
+        .then(response => {
+            const files_urls = this.state.files_urls ? 
+            JSON.parse(this.state.files_urls) : [];
+
+            files_urls.unshift(response.file_url);
+
+            this.setFilesUrls(JSON.stringify(files_urls));
+            this.setIsCollectedDataFormDisabled(false);
+            this.setState({file_name: '', collected_data_file: ''});
+        }).catch(response => {
+            this.handleCollectedDataError(response);
+            this.setIsCollectedDataFormDisabled(false);
         });
     }
 
@@ -210,7 +242,7 @@ export class CollectedData extends React.Component {
 
         let formData = new FormData();
 
-        const {values, collection_date, budget, amount_spent, file_name, collected_data_file, 
+        const {values, collection_date, budget, amount_spent, file_name, files_urls, 
             notes, indicatorId} = this.state;
 
         formData.append("values", values);
@@ -218,7 +250,7 @@ export class CollectedData extends React.Component {
         formData.append("budget", budget);
         formData.append("amount_spent", amount_spent);
         formData.append("file_name", file_name);
-        formData.append("collected_data_file", collected_data_file);
+        formData.append("files_urls", files_urls);
         formData.append("disaggregation_values", JSON.stringify(disaggregation_values));
         formData.append("notes", notes);
         formData.append("indicator_id", indicatorId);
@@ -236,7 +268,7 @@ export class CollectedData extends React.Component {
 
         let formData = new FormData();
 
-        const {values, collection_date, budget, amount_spent, file_name, collected_data_file, 
+        const {values, collection_date, budget, amount_spent, file_name, files_urls, 
             notes, indicatorId} = this.state;
 
         formData.append("values", values);
@@ -244,7 +276,7 @@ export class CollectedData extends React.Component {
         formData.append("budget", budget);
         formData.append("amount_spent", amount_spent);
         formData.append("file_name", file_name);
-        formData.append("collected_data_file", collected_data_file);
+        formData.append("files_urls", files_urls);
         formData.append("disaggregation_values", JSON.stringify(disaggregation_values));
         formData.append("notes", notes);
         formData.append("indicator_id", indicatorId);
@@ -310,10 +342,11 @@ export class CollectedData extends React.Component {
             return {
                 id: collectedData.id, 
                 values: collectedData.values ?? "", 
+                notes: collectedData.notes ?? "", 
                 collection_date: collectedData.collection_date ?? "", 
                 budget: collectedData.budget ?? "", 
                 amount_spent: collectedData.amount_spent ?? "", 
-                file_name: collectedData.file_name ?? "", 
+                files_urls: collectedData.files_urls ?? "", 
                 disaggregation_values: JSON.parse(collectedData.disaggregation_values), 
             }
         })
@@ -325,7 +358,7 @@ export class CollectedData extends React.Component {
             values: collected_data.values,
             collection_date: new Date(collected_data.collection_date).toLocaleDateString('en').replace(/\//g, '-'),
             file_name: collected_data.file_name,
-            file_url: '/storage/' + collected_data.file_url
+            files_urls: collected_data.files_urls
         }
         this.setState((state) => {
             return {
@@ -349,7 +382,7 @@ export class CollectedData extends React.Component {
         collectedDataTableDataCopy[collectedDataTableIndex]['values'] = collectedData.values;
         collectedDataTableDataCopy[collectedDataTableIndex]['collection_date'] = collectedData.collection_date;
         collectedDataTableDataCopy[collectedDataTableIndex]['file_name'] = collectedData.file_name;
-        collectedDataTableDataCopy[collectedDataTableIndex]['file_url'] = collectedData.file_url;
+        collectedDataTableDataCopy[collectedDataTableIndex]['files_urls'] = collectedData.files_urls;
 
         let collectedDataCopy = [...this.state.collectedData];
 
@@ -358,7 +391,7 @@ export class CollectedData extends React.Component {
         collectedDataCopy[collectedDataTableIndex]['notes'] = collectedData.notes;
         collectedDataCopy[collectedDataTableIndex]['budget'] = collectedData.budget;
         collectedDataCopy[collectedDataTableIndex]['amount_spent'] = collectedData.amount_spent;
-        collectedDataCopy[collectedDataTableIndex]['file_url'] = collectedData.file_url;
+        collectedDataCopy[collectedDataTableIndex]['files_urls'] = collectedData.files_urls;
         collectedDataCopy[collectedDataTableIndex]['disaggregation_values'] = collectedData.disaggregation_values;
         collectedDataCopy[collectedDataTableIndex]['collection_date'] = collectedData.collection_date;
         collectedDataCopy[collectedDataTableIndex]['file_name'] = collectedData.file_name;
@@ -421,11 +454,15 @@ export class CollectedData extends React.Component {
             budget: '', 
             amount_spent: '', 
             collected_data_file: null,
-            file_url: '',
+            files_urls: '',
             disaggregation_values: [],
             indicatorDisaggregationId: ''
         });
         this.setDefaultCollectionDate()
+    }
+
+    setFilesUrls = (files_urls) => {
+        this.setState({files_urls});
     }
 
     setCollectedData = collectedData => {
@@ -446,12 +483,12 @@ export class CollectedData extends React.Component {
 
     setCollectedDataTableData = data => {
         const collectedDataTableData = data.map(item => {
-            const {id, values, collection_date, file_name, file_url} = item;
+            const {id, values, collection_date, file_name, files_urls} = item;
 
             return {id, values, 
                 collection_date: new Date(collection_date)
                 .toLocaleDateString('en').replace(/\//g, '-'), 
-                file_name, file_url: '/storage/' + file_url};
+                file_name, files_urls};
         })
 
         this.setState({collectedDataTableData});

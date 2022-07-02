@@ -2,7 +2,7 @@ import { Modules } from "../modules";
 
 const URL = 'http://127.0.0.1';
 const PORT = '8000';
-const API_URL = process.env.REACT_APP_API_URL ?? `${URL}:${PORT}`;
+export const API_URL = process.env.REACT_APP_API_URL ?? `${URL}:${PORT}`;
 const ROOT_PATH  = '/api' 
 const HEADERS = new Headers({
     'Content-type': 'application/json',

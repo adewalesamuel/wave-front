@@ -53,9 +53,9 @@ export function Indicator({state, methods}) {
                     </div>
                     <div className="col-6">
                         <div className="form-group">
-                            <label htmlFor="baseine">Baseline</label>
+                            <label htmlFor="baseine">Actual</label>
                             <input disabled={state.indicatorFormDisabled} type="number" id="baseline"
-                            className="form-control" name="baseline" placeholder="Baseline" value={state.baseline ?? ""}
+                            className="form-control" name="baseline" placeholder="Actual" value={state.baseline ?? ""}
                             onChange={methods.handleChange}  />
                         </div>
                     </div>

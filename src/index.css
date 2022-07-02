@@ -89,3 +89,15 @@ button.link .bx-small {
   background-color: rgba(0, 0, 0, 0.03);
 }
 
+.collected-data-file-list {
+  margin: 0;
+  padding: 0;
+}
+
+.collected-data-file-list li {
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  font-weight: bold;
+  box-shadow: 0 0 0 1px rgba(45, 41, 114, 0.4);
+}

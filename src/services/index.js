@@ -12,6 +12,7 @@ import { CollectedData } from "./collectedData";
 import { Graph } from "./graph";
 import { Country } from "./country";
 import { Outcome } from "./outcome";
+import { File } from "./file";
 
 export const Services = {
     Auth,
@@ -27,5 +28,6 @@ export const Services = {
     CollectedData,
     Graph,
     Country,
-    Outcome
+    Outcome,
+    File
 }
