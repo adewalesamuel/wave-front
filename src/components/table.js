@@ -10,11 +10,15 @@ export function Table(props) {
         if (props.tableActions) tableHead.push('actions');
 
         return tableHead.map((item,index) => {
-            return(
-                <th key={index * Math.random()}>
-                    {item.replace(/_/g, ' ')}
-                </th>
-            )
+            if (item !== 'id') {
+                return(
+                    <th key={index * Math.random()}>
+                        {item.replace(/_/g, ' ')}
+                    </th>
+                )
+            }
+
+            return null;
         })
     }
 
@@ -22,7 +26,7 @@ export function Table(props) {
         let tableCells = [];
 
         for (const key in data)  {
-            if (props.tableHead.includes(key)) {
+            if (props.tableHead.includes(key) && key !== 'id') {
                 if (props.cellDataAsLink && key in props.cellDataAsLink) {
                     if (props.cellDataAsLink[key] && 'tableData' in props.cellDataAsLink[key] 
                     && data[props.cellDataAsLink[key].tableData]) {

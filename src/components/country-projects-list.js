@@ -19,6 +19,7 @@ export function CountryProjectList({state, methods}) {
         <>
         <ul className="list-unstyled mb-0 mt-2">
             {state.countryData.map((country, i) => {
+                if (country.id === '' && !country.id) return null
                 return (
                     <li key={i}>
                         <p>{country.name ?? ""}</p>

@@ -24,13 +24,19 @@ export class Dashboard extends React.Component {
             handleProjectChange: this.handleProjectChange.bind(this),
             handleGraphSubmit: this.handleGraphSubmit.bind(this),
             handleActivitySummarySubmit: this.handleActivitySummarySubmit.bind(this),
-            handleCountryChange: this.handleCountryChange.bind(this)
+            handleCountryChange: this.handleCountryChange.bind(this),
+            handleMultipleProjectInfoSubmit: this.handleMultipleProjectInfoSubmit.bind(this),
+            handleSelectMultipleCountryClick: this.handleSelectMultipleCountryClick.bind(this),
+            handleCountryProjectListModalCloseClick: this.handleCountryProjectListModalCloseClick.bind(this),
+            handleProjectCheck: this.handleProjectCheck.bind(this)
         };
         this.state = {
             projectId: '',
             startYear: '',
             endYear: '',
             projectInfo:null,
+            countryInfoList: [],
+            countryInfo: {},
             graphData: [
                 // {
                 //     name: "Graph 1",
@@ -90,6 +96,7 @@ export class Dashboard extends React.Component {
                 {name:"Line", value:"graph"}
             ],
             projectList: [],
+            projectIds: [],
             yearList: [],
             countryData: [],
             indicatorList: [],
@@ -110,6 +117,8 @@ export class Dashboard extends React.Component {
             isGraphFormDisabled: false,
             isActivitySummaryFormDisabled: false,
             isEditingGraph: false,
+            isCountryProjectListModalHidden: true,
+            isMultipleProjectInfoDisabled: false,
         };
     }
 
@@ -125,7 +134,7 @@ export class Dashboard extends React.Component {
             }
             this.getAllGraphByProject(this.state.projectId)
             this.getAllProjectIndicators()
-        })
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -200,8 +209,18 @@ export class Dashboard extends React.Component {
     handleCountryChange(event) {
         event.preventDefault();
 
+        this.resetProjectIds();
         this.setProjectList([]);
         this.setCountryId(event.target.value);
+    }
+
+    handleSelectMultipleCountryClick(event) {
+        this.setIsCountryProjectListModalHidden(false);
+    }
+
+    handleCountryProjectListModalCloseClick(event) {            
+        this.resetProjectIds();
+        this.setIsCountryProjectListModalHidden(true);
     }
 
     handleGraphSubmit(event) {
@@ -246,6 +265,8 @@ export class Dashboard extends React.Component {
 
     handleProjectChange(event) {
         event.preventDefault();
+
+        this.resetProjectIds();
         this.setProjectId(event.target.value);
     }
 
@@ -254,6 +275,25 @@ export class Dashboard extends React.Component {
         this.setGraphErrorMessage(errorMessages ?? "An unexepecd error occurred");
     }
 
+    handleMultipleProjectInfoSubmit() {
+        if (this.state.isMultipleProjectInfoDisabled || this.state.projectIds.length < 1) return;
+        
+        this.resetProjectId();
+        this.aggregateCountryInfo();
+    }
+
+    handleProjectCheck = (e, projectId) => {
+        const projectIdsCopy = [...this.state.projectIds];
+
+        if (projectIdsCopy.includes(projectId)) {
+            projectIdsCopy.splice(projectIdsCopy.indexOf(projectId), 1);
+        }else {
+            projectIdsCopy.push(projectId);
+        }
+
+        this.setState({projectIds: [...projectIdsCopy]});
+    }
+    
     getAllProjectIndicators = () => {
         return Services.Project.getAllIndicators(this.state.projectId, this.abortController.signal)
         .then(res => {
@@ -288,7 +328,7 @@ export class Dashboard extends React.Component {
         .catch(err => console.log(err));
     }
 
-    getAllGraphByProject= (projectId) => {
+    getAllGraphByProject = (projectId) => {
         return Services.Graph.getAllByProject(projectId, this.abortController.signal)
         .then(res => {
             Modules.Auth.redirectIfSessionExpired(res, this.history);
@@ -392,14 +432,61 @@ export class Dashboard extends React.Component {
         });
     }
 
+    resetProjectId = () => {
+        this.setState({projectId: ""});
+    }
+
     appendCountryProjectInfoData = (projectInfo) => {
         this.setState(state => {
             return {countryProjectInfoData: [...state.countryProjectInfoData, projectInfo]}
         });
     }
 
+    aggregateCountryInfo() {
+        this.setProjectInfo({
+            budget:0, 
+            amount_spent:0, 
+            activities_all:0, 
+            activities_closed:0
+        });
+
+        this.setIsMultipleProjectInfoDisabled(true);
+        this.state.projectIds.forEach(projectId => {
+            Services.Graph.getAllByProject(projectId, this.abortController.signal)
+                .then(res => {
+                    let defaultCountryInfo = {
+                        budget:0, 
+                        amount_spent:0, 
+                        activities_all:0, 
+                        activities_closed:0
+                    };
+
+                    let projectInfoCopy = this.state.projectInfo ? {...this.state.projectInfo} : defaultCountryInfo;
+
+                    projectInfoCopy = {
+                        budget: projectInfoCopy.budget + parseInt(res.data.project_info.budget ?? 0),
+                        amount_spent: projectInfoCopy.amount_spent + parseInt(res.data.project_info.amount_spent ?? 0),
+                        activities_all: projectInfoCopy.activities_all + parseInt(res.data.project_info.activities_all),
+                        activities_closed: projectInfoCopy.activities_closed + parseInt(res.data.project_info.activities_closed),
+                    };
+
+                    this.setProjectInfo(projectInfoCopy);
+                    this.setIsMultipleProjectInfoDisabled(false);
+                    this.setIsCountryProjectListModalHidden(true);
+                });
+        });
+    }
+
     setCountryProjectInfoData = (countryProjectInfoData) => {
         this.setState({countryProjectInfoData});
+    }
+
+    setIsCountryProjectListModalHidden = isCountryProjectListModalHidden => {
+        this.setState({isCountryProjectListModalHidden});
+    }
+
+    setIsMultipleProjectInfoDisabled = isMultipleProjectInfoDisabled => {
+        this.setState({isMultipleProjectInfoDisabled});
     }
 
     setIsEditingGraph = (bool=true) => {
@@ -431,7 +518,11 @@ export class Dashboard extends React.Component {
 
     setCountryData = data => {
         const countryData = data.map(country => {
-            return {name: country.name, id: country.id, code: country.code};
+            return {
+                name: country.name, 
+                id: country.id, 
+                code: country.code, 
+                projects: country.projects ?? []};
         });
 
         if (Modules.Auth.getUser().isAdmin())
@@ -479,6 +570,10 @@ export class Dashboard extends React.Component {
 
     setProjectId = projectId => {
         this.setState({projectId});
+    }
+
+    resetProjectIds = () => {
+        this.setState({projectIds: []});
     }
 
     setIsGraphFormDisabled = (val=true) => {

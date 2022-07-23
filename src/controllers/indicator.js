@@ -35,7 +35,7 @@ export class Indicator extends React.Component {
                 'activity',
                 'name',
                 'type',
-                'baseline',
+                'actual',
                 'target',
             ],
             projectList: [],
@@ -162,7 +162,7 @@ export class Indicator extends React.Component {
     handleCreateClick(event) {
         event.preventDefault();
 
-        this.setIndicatorModalTitle("Add a new indicator")
+        this.setIndicatorModalTitle("Add a new indicator");
         this.setIsEditingIndicator(false);
         this.setIsIndicatorModalHidden(false);
     }
@@ -338,10 +338,12 @@ export class Indicator extends React.Component {
     appendIndicatorData = indicator => {
         const payload = {
             id: indicator.id,
+            outcome: "--",
+            activity: "--",
             name: indicator.name,
             type: indicator.type,
             target: indicator.target,
-            baseline: indicator.baseline,
+            actual: indicator.baseline,
         }
         this.setState((state) => {
             return {
@@ -477,7 +479,7 @@ export class Indicator extends React.Component {
                 this.state.outcomeData.find(outcome => parseInt(outcome.id) === parseInt(item.activity.outcome_id)).name : "--";
             }
 
-            return {id, outcome, activity, name, type, direction, baseline, target, unit, description};
+            return {id, outcome, activity, name, type, direction, actual: baseline, target, unit, description};
             
         })
         this.setState({indicatorTableData});

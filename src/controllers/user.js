@@ -203,7 +203,6 @@ export class User extends React.Component {
             );
     }
 
-    
     deleteUser = (self) => {
         return Services.User.destroy(
             self.state.id, 
@@ -629,8 +628,6 @@ export class User extends React.Component {
                 this.setRoleFormDisabled(event, false)
             });
         }
-
-
     }
 
     handleDeleteClick(event) {

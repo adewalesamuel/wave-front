@@ -42,9 +42,12 @@ export function CollectedData({state, methods}) {
                             {state.files_urls ? JSON.parse(state.files_urls).map((file_url, index) => {
                                 return (
                                     <li className="file-item d-flex justify-content-between align-item-center" key={index}>
-                                        <span className="file-name">{file_url.split('/')[1]}</span>
-                                        <a className="bx bx-cloud-download" style={{fontSize: '24px'}} 
-                                        href={`${API_URL}/storage/${file_url}`} download={true} role="button"></a>
+                                        <a href={`${API_URL}/storage/${file_url}`} download={true} role="button" target={'_blank'}
+                                        rel="noreferrer">
+                                            <span className="file-name">{file_url.split('/')[1]}</span>
+                                        </a>
+                                        <span className="bx bxs-trash text-danger bx-small" role="button"
+                                        onClick={event => methods.handleDeleteFileClick(event, file_url)}></span>
                                     </li>)
                                 }) 
                             : null} 

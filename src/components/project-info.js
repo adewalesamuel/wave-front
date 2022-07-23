@@ -12,7 +12,7 @@ export function ProjectInfo(props) {
                         <div className="card text-center">
                             <div className="card-content">
                                 <div className="card-body">
-                                    <div className="badge-circle badge-circle-lg badge-circle-light-primary pmx-auto my-1">
+                                    <div className="badge-circle badge-circle-lg badge-circle-light-primary mx-auto my-1">
                                         <i className="bx bx-money font-medium-5"></i>
                                     </div>
                                     <p className="text-muted mb-0 line-ellipsis">Budget</p>

@@ -22,7 +22,8 @@ export class CollectedData extends React.Component {
             handleChange: this.handleChange.bind(this), 
             handleCreateClick: this.handleCreateClick.bind(this),
             handleSubmit: this.handleSubmit.bind(this),
-            handleFileUpload: this.handleFileUpload.bind(this)
+            handleFileUpload: this.handleFileUpload.bind(this),
+            handleDeleteFileClick: this.handleDeleteFileClick.bind(this)
         };
         this.state = {
             indicatorId: this.props.match.params.id,
@@ -195,6 +196,11 @@ export class CollectedData extends React.Component {
             this.handleCollectedDataError(response);
             this.setIsCollectedDataFormDisabled(false);
         });
+    }
+
+    handleDeleteFileClick(event, file_url) {
+        event.preventDefault(); 
+        this.removeFile(file_url);
     }
 
     handleDeleteClick(event) {
@@ -421,6 +427,13 @@ export class CollectedData extends React.Component {
             collectedDataTableData: [...collectedDataTableDataCopy],
             collectedData: [...collectedDataCopy],
         })
+    }
+
+    removeFile = (file_url) => {
+        let fileUrls = JSON.parse(this.state.files_urls);
+        fileUrls = fileUrls.filter(fileUrl => fileUrl !== file_url);
+
+        this.setState({files_urls: JSON.stringify(fileUrls)});
     }
 
     handleCollectedDataError = async (error) => {

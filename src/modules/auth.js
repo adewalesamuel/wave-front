@@ -36,7 +36,6 @@ const getUser = () => {
 
     const userData = JSON.parse(localStorage.getItem('user')) ?? null;
     const userRole = userData ? userData.role : null;
-
     const roleSlug = userRole ? userRole.slug : '';
     const permissions = userRole ? userRole.permissions : [];
 
